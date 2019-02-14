@@ -1,3 +1,5 @@
-# ingenia2019
+# Welcome to Virtuagora 2.0 for Ingenia 2018
 
-Ingenia repo for ingenia implementation in 2019
+**WARNING: This repository is still under development for the version 2 of Virtuagora.**
+If you need information or support please contact us! 
+[@augusthur][2] & [@guillermocroppi][3]

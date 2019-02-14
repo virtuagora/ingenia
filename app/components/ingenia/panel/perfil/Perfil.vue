@@ -1,0 +1,59 @@
+<template>
+<router-view 
+:id="id" 
+:user-url="userUrl"
+:save-user-profile-url="saveUserProfileUrl"
+:save-user-dni-url="saveUserDniUrl"
+:save-pending-email="savePendingEmail" 
+:save-user-public-profile-url="saveUserPublicProfileUrl"
+:team-url="teamUrl"
+:save-team-url="saveTeamUrl"
+:edit-team-url="editTeamUrl"
+:send-invitation-url="sendInvitationUrl"
+:team-users-url="teamUsersUrl"
+:team-invitations-url="teamInvitationsUrl"
+:save-agreement-url="saveAgreementUrl"
+:project-url="projectUrl"
+:save-project-url="saveProjectUrl"
+:edit-project-url="editProjectUrl"
+:save-letter-url="saveLetterUrl"
+:get-group-members="getGroupMembers"
+:accept-group-invitation="acceptGroupInvitation"
+:accept-group-request="acceptGroupRequest"
+:remove-group-user="removeGroupUser"
+:remove-group-invitation="removeGroupInvitation"
+:assign-group-second="assignGroupSecond"
+:delete-group-second="deleteGroupSecond"
+></router-view>
+</template>
+
+<script>
+export default {
+  props: [
+    "id",
+	"userUrl",
+	"saveUserProfileUrl",
+	"saveUserDniUrl",
+  "savePendingEmail",
+	"saveUserPublicProfileUrl",
+	"teamUrl",
+	"saveTeamUrl",
+  "editTeamUrl",
+	"sendInvitationUrl",
+  "teamUsersUrl",
+  "teamInvitationsUrl",
+	"saveAgreementUrl",
+	"projectUrl",
+	"saveProjectUrl",
+  "editProjectUrl",
+	"saveLetterUrl",
+  "getGroupMembers",
+  "acceptGroupInvitation",
+  "acceptGroupRequest",
+  "removeGroupUser",
+  "removeGroupInvitation",
+  "assignGroupSecond",
+  "deleteGroupSecond"
+  ],
+}
+</script>

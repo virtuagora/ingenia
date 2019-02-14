@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% block title %}Inicio{% endblock %}
+      - Ingenia+Virtuágora - Gabinete Joven & Provincia de Santa Fe
+    </title>
+    {% block opengraph %}
+      <!-- Social Media Metatags! -->
+<meta property="fb:app_id" content="360875627728979"/>
+<meta property="og:type" content="article"/>
+<meta name="description" content="¡Toda idea nace en equipo! ¡Participá hoy con el tuyo! INGENIA es un programa provincial desarrollado por el Gabinete Joven y la Secretaría de Juventudes del Gobierno de la Provincia de Santa Fe cuyo objetivo principal es promover la participación juvenil de grupos, colectivos y organizaciones de jóvenes, a través del financiamiento de sus ideas, iniciativas y proyectos.">
+<meta property="og:title" content="¡Participá de la 9° edición de INGENIA!">
+<meta property="og:description" content="¡Toda idea nace en equipo! ¡Participá hoy con el tuyo! INGENIA es un programa provincial desarrollado por el Gabinete Joven y la Secretaría de Juventudes del Gobierno de la Provincia de Santa Fe cuyo objetivo principal es promover la participación juvenil de grupos, colectivos y organizaciones de jóvenes, a través del financiamiento de sus ideas, iniciativas y proyectos.">
+<meta property="og:image" content="/assets/img/img-sharer-01.png">
+<meta property="og:url" content="https://ingenia.virtuagora.org/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="¡Participá de la 9° edición de INGENIA!">
+<meta name="twitter:site" content="@virtuagora">
+<meta name="twitter:creator" content="@virtuagora">
+<meta name="twitter:description" content="¡Toda idea nace en equipo! ¡Participá hoy con el tuyo! INGENIA es un programa provincial desarrollado por el Gabinete Joven y la Secretaría de Juventudes del Gobierno de la Provincia de Santa Fe cuyo objetivo principal es promover la participación juvenil de grupos, colectivos y organizaciones de jóvenes, a través del financiamiento de sus ideas, iniciativas y proyectos.">
+<meta name="twitter:image" content="https://ingenia.virtuagora.org/assets/img/img-sharer-01.png">
+    {% endblock %}
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon-16x16.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('favicon-96x96.png')}}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/virtuagora.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!--[if lt IE 9]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-73061346-12"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-73061346-12');
+    </script>
+    <script>
+      var getUserDataUrl = function () {
+        return "{{subject.extra.user_id is defined ? path_for('getUser', {'usr':subject.extra.user_id}) : 'null' }}"
+      }
+
+      var getUserId = function () {
+        return {id: {{subject.extra.user_id is defined ? subject.extra.user_id : 'null' }}}
+      }
+    </script>
+    {% block scriptshead %}{% endblock %}
+
+  </head>
+  <body {% if body_class is defined %} class='{{ body_class }}' {% endif %}>
+    <div id="vue" class="content-master">
+      {% if show_navbar == true %}
+        {% include 'master/navbar.twig' %}
+      {% endif %}
+      {% block body %}{% endblock %}
+    </div>
+    {% if show_footer == true %}
+      {% include 'ingenia/index/footer.twig'%}
+    {% endif %}
+    <script type="text/javascript" src="{{asset('js/manifest.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/vendor.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/virtuagora.js')}}"></script>
+    {% block javascripts %}{% endblock %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+
+        // Get all "navbar-burger" elements
+        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach(function ($el) {
+            $el.addEventListener('click', function () {
+
+              // Get the target from the "data-target" attribute
+              var target = $el.dataset.target;
+              var $target = document.getElementById(target);
+
+              // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+              $el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+
+            });
+          });
+        }
+
+      });
+    </script>
+  </body>
+</html>

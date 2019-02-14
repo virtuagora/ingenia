@@ -1,0 +1,9 @@
+/vendor/
+/var/*
+/node_modules/*
+/.sass-cache/*
+composer.phar
+/node_modules/
+/.vscode/*
+app/settings.php
+# app/components/ingenia/admin
