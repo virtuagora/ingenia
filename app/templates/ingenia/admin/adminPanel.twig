@@ -6,7 +6,6 @@
 {% block scriptshead %}{% endblock %}
 {% block body %}
   <section class="section">
-    <div class="">
       <div id="loading" class="notification is-light has-text-centered">
         <span class="icon">
           <i class="fas fa-cog fa-spin"></i>
@@ -26,7 +25,6 @@ post-validate-dni="{{path_for('runUpdUserDniVer',{'usr': ':usr'})}}"
 post-role-user="{{path_for('runUpdUsrRol')}}"
 put-project-note="{{path_for('putProNot', {'pro': ':pro'})}}"
 team-url="{{path_for('getGroup',{'gro': ':gro'})}}"></router-view>
-    </div>
   </section>
 {% endblock %}
 {% block javascripts %}{% endblock %}

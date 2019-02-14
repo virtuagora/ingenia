@@ -383,7 +383,7 @@ class Installer
                 'autoload' => false,
             ], [
                 'key' => 'deadline',
-                'value' => '2018-6-8 23:59:59',
+                'value' => '2019-6-10 23:59:59',
                 'type' => 'date',
                 'group' => 'varios',
                 'autoload' => true,
