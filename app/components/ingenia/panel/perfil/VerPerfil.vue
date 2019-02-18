@@ -12,7 +12,7 @@
       <div class="media-content" v-if="user != {}">
         <h1 class="title is-1">{{user.names}} {{user.surnames}}</h1>
         <h1 class="subtitle is-4" v-show="user.groups[0] !== undefined">
-          <i class="em em-tada"></i> Participante de INGENIA 2018</h1>
+          <i class="em em-tada"></i> Participante de INGENIA 2019</h1>
         <div class="field">
         </div>
         <div class="field">

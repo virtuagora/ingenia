@@ -16,7 +16,7 @@
           </ul>
           <hr>
           <p class="menu-label">
-            INGENIA 2018
+            INGENIA 2019
           </p>
           <ul class="menu-list">
             <li v-if="user.groups[0] === undefined">

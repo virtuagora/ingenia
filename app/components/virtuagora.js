@@ -32,7 +32,7 @@ Vue.use(VueMasonryPlugin);
 // import Vote from './vote/Vote.vue'
 // import VoteResults from './vote/VoteResults.vue'
 
-// Ingenia 2018 Componentes
+// Ingenia 2019 Componentes
 import VueCarousel from 'vue-carousel';
 import Login from './ingenia/Login'
 import FBRegister from './ingenia/FBRegister'

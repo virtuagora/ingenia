@@ -108,6 +108,16 @@ class UserResource extends Resource
         $schema = [
             'type' => 'object',
             'properties' => [
+                'names' => [
+                    'type' => 'string',
+                    'minLength' => 1,
+                    'maxLength' => 300,
+                ],
+                'surnames' => [
+                    'type' => 'string',
+                    'minLength' => 1,
+                    'maxLength' => 300,
+                ],
                 'birthday' => [
                     'type' => 'string',
                     'pattern' => '^\d{4}-\d{2}-\d{2}$',
@@ -170,7 +180,7 @@ class UserResource extends Resource
                 ],
             ],
             'required' => [
-                'birthday', 'gender', 'address', 'telephone', 'neighbourhood',
+                'names,','surnames','birthday', 'gender', 'address', 'telephone', 'neighbourhood',
                 'locality_id', 'locality_other', 'referer', 'referer_other'
             ],
             'additionalProperties' => false,
@@ -178,6 +188,8 @@ class UserResource extends Resource
         $v = $this->validation->fromSchema($schema);
         $v->assert($data);
         $localidad = $this->db->query('App:Locality')->findOrFail($data['locality_id']);
+        $user->names = $data['names'];
+        $user->surnames = $data['surnames'];
         $user->birthday = $data['birthday'];
         $user->gender = $data['gender'];
         $user->address = $data['address'];
