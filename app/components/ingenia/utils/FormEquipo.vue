@@ -163,7 +163,7 @@ export default {
       this.deUnaOrganizacion = false;
     }
     this.showLocalityField = this.team.locality_id === null ? true : false;
-    for (let i = 2011; i <= 2017; i++) {
+    for (let i = 2011; i <= 2018; i++) {
       this.listPreviousEditions.push(i);
     }
   },

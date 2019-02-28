@@ -193,12 +193,13 @@ class Installer
             $table->text('budget');
             $table->text('schedule');
             $table->text('organization')->nullable();
-
             $table->boolean('public')->default(false);
             $table->boolean('selected')->default(false);
             $table->boolean('has_image')->default(false);
             $table->decimal('total_budget')->default(0);
             $table->decimal('granted_budget')->default(0);
+            $table->boolean('budget_sent')->default(false);
+            $table->boolean('budget_approved')->default(false);
             $table->integer('likes')->default(0);
             $table->string('trace')->nullable();
             $table->text('notes')->nullable(); //observaciones internas
