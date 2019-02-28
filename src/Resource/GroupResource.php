@@ -460,12 +460,10 @@ class GroupResource extends Resource
             throw new AppException('Tipo de documento inválido');
         }
         $group->uploaded_letter = true;
+        $group->letter_file = $group->id.'.'.$allowedMimes[$fileMime];
         $group->save();
         $fileStrm = $file->getStream()->detach();
-        $this->filesystem->putStream(
-            'avales/'.$group->id.'.'.$allowedMimes[$fileMime],
-            $fileStrm
-        );
+        $this->filesystem->putStream('avales/'.$group->letter_file, $fileStrm);
         if (is_resource($fileStrm)) {
             fclose($fileStrm);
         }
@@ -476,17 +474,8 @@ class GroupResource extends Resource
         if (!$group->uploaded_letter) {
             throw new AppException('No se cargó la carta aún', 404);
         }
-        if ($this->filesystem->has('avales/'.$group->id.'.pdf')) {
-            $path = 'avales/'.$group->id.'.pdf';
-        } elseif ($this->filesystem->has('avales/'.$group->id.'.jpg')) {
-            $path = 'avales/'.$group->id.'.jpg';
-        } elseif ($this->filesystem->has('avales/'.$group->id.'.png')) {
-            $path = 'avales/'.$group->id.'.png';
-        } elseif ($this->filesystem->has('avales/'.$group->id.'.doc')) {
-            $path = 'avales/'.$group->id.'.doc';
-        } elseif ($this->filesystem->has('avales/'.$group->id.'.docx')) {
-            $path = 'avales/'.$group->id.'.docx';
-        } else {
+        $path = 'avales/' . $group->letter_file;
+        if (!$this->filesystem->has($path)) {
             throw new AppException('El documento no se encuentra almacenado', 404);
         }
         $mime = $this->filesystem->getMimetype($path);
@@ -518,12 +507,10 @@ class GroupResource extends Resource
             throw new AppException('Tipo de documento inválido');
         }
         $group->uploaded_agreement = true;
+        $group->agreement_file = $group->id.'.'.$allowedMimes[$fileMime];
         $group->save();
         $fileStrm = $file->getStream()->detach();
-        $this->filesystem->putStream(
-            'acuerdos/'.$group->id.'.'.$allowedMimes[$fileMime],
-            $fileStrm
-        );
+        $this->filesystem->putStream('acuerdos/'.$group->agreement_file, $fileStrm);
         if (is_resource($fileStrm)) {
             fclose($fileStrm);
         }
@@ -534,17 +521,8 @@ class GroupResource extends Resource
         if (!$group->uploaded_agreement) {
             throw new AppException('No se cargó la carta aún', 404);
         }
-        if ($this->filesystem->has('acuerdos/'.$group->id.'.pdf')) {
-            $path = 'acuerdos/'.$group->id.'.pdf';
-        } elseif ($this->filesystem->has('acuerdos/'.$group->id.'.jpg')) {
-            $path = 'acuerdos/'.$group->id.'.jpg';
-        } elseif ($this->filesystem->has('acuerdos/'.$group->id.'.png')) {
-            $path = 'acuerdos/'.$group->id.'.png';
-        } elseif ($this->filesystem->has('acuerdos/'.$group->id.'.doc')) {
-            $path = 'acuerdos/'.$group->id.'.doc';
-        } elseif ($this->filesystem->has('acuerdos/'.$group->id.'.docx')) {
-            $path = 'acuerdos/'.$group->id.'.docx';
-        } else {
+        $path = 'acuerdos/'.$group->agreement_file;
+        if (!$this->filesystem->has($path)) {
             throw new AppException('El documento no se encuentra almacenado', 404);
         }
         $mime = $this->filesystem->getMimetype($path);

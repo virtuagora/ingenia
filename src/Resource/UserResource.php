@@ -488,9 +488,11 @@ class UserResource extends Resource
         if (in_array($user->dni, $dniBlacklist->value)) {
             $user->verified_dni = false;
         }
+        $fileName = $user->dni . $allowedMimes[$fileMime];
+        $user->dni_file = $fileName;
         $user->save();
         $fileStrm = $file->getStream()->detach();
-        $this->filesystem->putStream('dni/'.$user->id.'.'.$allowedMimes[$fileMime], $fileStrm);
+        $this->filesystem->putStream('dni/' . $fileName, $fileStrm);
         if (is_resource($fileStrm)) {
             fclose($fileStrm);
         }
@@ -498,17 +500,8 @@ class UserResource extends Resource
 
     public function getDniFile($user)
     {
-        if ($this->filesystem->has('dni/'.$user->id.'.pdf')) {
-            $path = 'dni/'.$user->id.'.pdf';
-        } elseif ($this->filesystem->has('dni/'.$user->id.'.jpg')) {
-            $path = 'dni/'.$user->id.'.jpg';
-        } elseif ($this->filesystem->has('dni/'.$user->id.'.png')) {
-            $path = 'dni/'.$user->id.'.png';
-        } elseif ($this->filesystem->has('dni/'.$user->id.'.doc')) {
-            $path = 'dni/'.$user->id.'.doc';
-        } elseif ($this->filesystem->has('dni/'.$user->id.'.docx')) {
-            $path = 'dni/'.$user->id.'.docx';
-        } else {
+        $path = 'dni/'. $user->dni_file;
+        if (!$this->filesystem->has($path)) {
             throw new AppException(
                 'El documento no se encuentra almacenado',
                 404

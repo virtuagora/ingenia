@@ -196,13 +196,18 @@ $app->get('/ping', function ($request, $response, $args) {
     return $response->withJSON(['message' => 'Login']);
 });
 
-// $app->get('/test', function ($request, $response, $args) {
-//     $options = $this->db->query('App:Option')->get()->toArray();
-//     return $this->view->render($response, 'test/simple.twig', [
-//         'text' => $options,
-//     ]);
-//     //return $res->withJSON($this->session->get('user'));
-// });
+$app->get('/test', function ($request, $response, $args) {
+    $mailSub = 'Registro en Ingenia';
+    $link = 'https://1.1.1.1';
+    $mailMsg = $this->view->fetch('emails/completeRegister.twig', [
+        'url' => $link,
+    ]);
+    $this->mailer->sendMail($mailSub, 'matuz9@gmail.com', $mailMsg, 'text/html');
+    return $this->view->render($response, 'test/simple.twig', [
+        'text' => 'mail enviado',
+    ]);
+    //return $res->withJSON($this->session->get('user'));
+});
 
 // views
 

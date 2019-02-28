@@ -92,6 +92,7 @@ class Installer
             $table->string('telephone')->nullable();
             $table->string('dni')->nullable();
             $table->boolean('verified_dni')->nullable();
+            $table->string('dni_file')->nullable(); // TODO adaptar
             $table->string('pending_email')->nullable();
             $table->text('bio')->nullable();
             $table->string('referer')->nullable(); //como se enteraron
@@ -138,7 +139,9 @@ class Installer
             $table->string('facebook')->nullable();
 
             $table->boolean('uploaded_agreement')->default(false);
+            $table->string('agreement_file')->nullable(); // TODO adaptar
             $table->boolean('uploaded_letter')->default(false);
+            $table->string('letter_file')->nullable(); // TODO adaptar
             $table->boolean('full_team')->default(false);
             $table->boolean('second_in_charge')->default(false);
             $table->boolean('verified_team')->default(false);
