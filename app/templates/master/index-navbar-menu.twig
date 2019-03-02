@@ -1,0 +1,74 @@
+<div class="navbar-brand">
+  <a class="navbar-item" href="{{base_url()}}">
+    {# <img src="{{asset('img/ingenia-logo5.svg')}}" alt="Ir al inicio" class="image"> #}
+      <img src="{{asset('img/santafelogo-grey.svg')}}" class="image is-32x32" style="margin-left:10px;" alt="">
+  </a>
+{% if subject.id %}
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showProfile',{'usr': subject.extra.user_id})}}">
+    <avatar :subject="{{subject.extra|json_encode}}" size="32"></avatar>&nbsp;&nbsp;{{subject.name|split(' ')[0]}}
+{% endif %}
+
+
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="navMenu">
+  <div class="navbar-start">
+  {# <span class="navbar-item">
+  <figure class="image is-32x32">
+<img src="{{asset('img/santafelogo.svg')}}" alt="">
+  </figure>
+  </span> #}
+  </div>
+  <div class="navbar-end">
+  <a class="navbar-item" href="{{base_url()}}">
+            Inicio
+        </a>
+  <a class="navbar-item" href="{{path_for('showCatalogo')}}">
+            Proyectos
+        </a>
+  <a class="navbar-item" href="{{path_for('showHistorias')}}">
+            Historias
+        </a>
+  <a class="navbar-item" href="{{path_for('showAcerca')}}">
+            ¿Que es Ingenia?
+        </a>
+  <a class="navbar-item" href="{{path_for('showComoParticipar')}}">
+           ¿Como participar?
+        </a>
+  <a class="navbar-item" href="{{path_for('showReglamento')}}">
+            Reglamento
+        </a>
+       <hr class="navbar-divider" style="display: block;">
+    {% if subject.id %}
+        <a class="navbar-item" href="{{path_for('showPanel')}}">
+            <i class="fas fa-compass"></i>&nbsp;Mi panel de control
+        </a>
+      {% if 'admin' in subject.roles or 'coordin' in subject.roles %}
+        <a class="navbar-item" href="{{path_for('showAdminPanel')}}">
+            <i class="fas fa-wrench"></i>&nbsp;Administración
+        </a>
+      {% endif %}
+        <a class="navbar-item" href="{{path_for('showProfile',{'usr': subject.extra.user_id})}}">
+           Mi perfil
+        </a>
+       <hr class="navbar-divider" style="display: block;">
+        <a class="navbar-item is-hidden-desktop-only" href="{{path_for('showLogout')}}">
+            <i class="fas fa-sign-out-alt"></i>&nbsp;Cerrar sesión
+        </a>
+      {# MOBILE MENU #}
+    {% else %}
+      <a class="navbar-item" href="{{path_for('showLogin')}}">
+          <i class="fas fa-sign-in-alt"></i>&nbsp;Entrar
+
+      </a>
+    {% endif %}
+       <hr class="navbar-divider" style="display: block;">
+  <a class="navbar-item" href="{{path_for('showPanel')}}">
+            Ayuda
+        </a>
+  </div>
+</div>

@@ -6,22 +6,22 @@
   {% include "ingenia/index/header.twig" %}
   {# <div class="hero is-light is-medium">
       <div class="hero-body">
-        <div class="container">
-          <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Conocé algunos proyectos</h1>
-          <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
-          <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
-            <div class="notification has-text-centered">
-              <i class="fas fa-cog fa-spin fa-lg"></i>
-              Cargando...
-            </div>
-          </project-carousel-small>
-          <br>
-          <p class="has-text-centered">
-            <a href="/proyectos" class=" button is-medium is-black">Visitá el catálogo</a>
-          </p>
-        </div>
+          <div class="container">
+              <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Conocé algunos proyectos</h1>
+              <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
+              <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
+                  <div class="notification has-text-centered">
+                      <i class="fas fa-cog fa-spin fa-lg"></i>
+                      Cargando...
+                  </div>
+              </project-carousel-small>
+              <br>
+              <p class="has-text-centered">
+                  <a href="/proyectos" class=" button is-medium is-black">Visitá el catálogo</a>
+              </p>
+          </div>
       </div>
-    </div> #}
+  </div> #}
   <section class="section">
     <div class="container">
       <div class="columns">
@@ -56,6 +56,7 @@
                         <br>
                         {% endif %}
                         {% if subject.id %}
+												<div class="box">
                           <h1 class="title is-3">
                             ¡Hola
                             {{subject.name}}!
@@ -63,8 +64,9 @@
                           <br>
                             <status></status>
                             <br>
-                              <a href="{{path_for('showPanel')}}" class="button is-inverted is-large is-primary is-fullwidth">
+                              <a href="{{path_for('showPanel')}}" class="button is-medium is-primary is-fullwidth">
                                 <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
+												</div>
                               {% else %}
                               <h1 class="is-size-1 is-900 has-text-black has-text-centered">
                                 ¡Bienvenidx!
@@ -113,7 +115,7 @@
                                             </a>
                                           </div>
                                         </div>
-                                        {% if subject.id %}
+                                        {% if subject.id and false %}
                                           <br>
                                             <div class="notification is-primary">
                                               <div class="content is-small">
@@ -121,7 +123,8 @@
                                               </div>
                                             </div>
                                           {% endif %}
-                                          <div class="notification is-primary has-text-centered">
+                                          <div class="message is-primary has-text-centered">
+																					<div class="message-body">
                                             <h1 class="is-3">Si tenes algun problema, o algo no esta funcionando, ¡Contactanos!<br>Podes hacer en
                                                 <a href="https://twitter.com/virtuagora">
                                                   <i class="fab fa-twitter fa-fw"></i>@Virtuagora</a>
@@ -131,6 +134,7 @@
                                                 para enterarte!
                                               </h1>
                                             </div>
+																					</div>
                                           </div>
                                           <div class="column is-3 is-offset-1">
                                             <countdown date="{{options()['deadline']}}" class="is-primary"></countdown>
@@ -155,10 +159,9 @@
                                               <img src="{{asset('img/slogan3-dark.svg')}}" class="image is-hidden-touch" style="height: 100px; margin: 0 auto;">
                                                 <img src="{{asset('img/slogan4-dark.svg')}}" class="image is-hidden-desktop" style="width: 250px; margin: 0 auto;">
                                                   <br>
-                                                    <br></div>
-                                                  </section>
-                                                {% endblock %}
-                                                {% block javascripts %}
-                                                  <script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
-                                                {% endblock %}
-                                              
+                                                    <br></section>
+                                                  {% endblock %}
+                                                  {% block javascripts %}
+                                                    <script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
+                                                  {% endblock %}
+                                                

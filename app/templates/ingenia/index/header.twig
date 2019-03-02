@@ -1,14 +1,17 @@
+<div class="is-hidden-desktop">
+{% include 'master/index-navbar.twig' %}
+</div>
 <div class="hero is-primary" id="main-hero" style="background-image: url('/assets/img/header-bg-01.jpg')">
   <img src="{{asset('img/santafelogo.svg')}}" class="image logo-sf-float is-48x48 is-hidden-touch" alt="">
   <div class="hero-body">
     <div class="container">
       <div class="columns">
-        <div class="column is-5">
+        <div class="column is-5 is-12-mobile has-text-centered-mobile">
         <a href="{{path_for('showHome')}}">
           <img src="./assets/img/ingenia2018.svg" class="logo-header image">
         </a>
         </div>
-        <div class="column">
+        <div class="column is-hidden-mobile">
           <div class="columns is-mobile is-multiline" style="justify-content: flex-end">
             <div class="column is-narrow">
               {% if subject.id %}
@@ -81,7 +84,7 @@
       </div>
     </div>
   </div>
-  <div class="hero-foot">
+  <div class="hero-foot is-hidden-touch">
     <nav class="tabs is-boxed">
       <div class="container">
         <ul>
@@ -109,12 +112,12 @@
           <li class="{{ headerActive == 'showAcerca' ? 'is-active' }}">
             <a href="{{path_for('showAcerca')}}">¿Que es INGENIA?</a>
           </li>
-          {# <li class="{{ headerActive == 'showComoParticipar' ? 'is-active' }}">
+          <li class="{{ headerActive == 'showComoParticipar' ? 'is-active' }}">
             <a href="{{path_for('showComoParticipar')}}">¿Como participar?</a>
           </li>
           <li class="{{ headerActive == 'showReglamento' ? 'is-active' }}">
             <a href="{{path_for('showReglamento')}}">Reglamento</a>
-          </li> #}
+          </li>
           <li class="{{ headerActive == 'showAyuda' ? 'is-active' }}">
             <a href="{{path_for('showAyuda')}}">
                 <i class="fas fa-question-circle fa-fw"></i>&nbsp; 

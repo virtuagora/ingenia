@@ -4,9 +4,7 @@
   </a>
 {% if subject.id %}
   <a class="navbar-item is-hidden-desktop" href="{{path_for('showProfile',{'usr': subject.extra.user_id})}}">
-    <avatar :subject="{{subject.extra|json_encode}}" size="32"></avatar>&nbsp;<span class="is-size-7">
-      <b>{{subject.name|split(' ')[0]}}</b>
-    </span>
+    <avatar :subject="{{subject.extra|json_encode}}" size="32"></avatar>&nbsp;&nbsp;{{subject.name|split(' ')[0]}}
   </a>
 {% endif %}
 
@@ -26,22 +24,40 @@
   </span> #}
   </div>
   <div class="navbar-end">
+    <a class="navbar-item is-hidden-desktop" href="{{base_url()}}">
+            Inicio
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showCatalogo')}}">
+            Proyectos
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showHistorias')}}">
+            Historias
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showAcerca')}}">
+            ¿Que es Ingenia?
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showComoParticipar')}}">
+           ¿Como participar?
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showReglamento')}}">
+            Reglamento
+        </a>
+  <a class="navbar-item is-hidden-desktop" href="{{path_for('showAyuda')}}">
+            Ayuda
+        </a>
+       <hr class="navbar-divider is-hidden-desktop" style="display: block;">
     {% if subject.id %}
       <b-tooltip label="Mi panel" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item" href="{{path_for('showPanel')}}">
-          <span class="icon">
-            <i class="fas fa-compass fa-lg"></i>
-          </span>
-          <span class="is-hidden-desktop">Mi panel</span>
+            <i class="fas fa-compass"></i>
+          <span class="is-hidden-desktop">&nbsp;&nbsp;Mi panel de control</span>
         </a>
       </b-tooltip>
       {% if 'admin' in subject.roles or 'coordin' in subject.roles %}
       <b-tooltip label="Administración" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item" href="{{path_for('showAdminPanel')}}">
-          <span class="icon">
-            <i class="fas fa-wrench fa-lg"></i>
-          </span>
-          <span class="is-hidden-desktop">Administración</span>
+            <i class="fas fa-wrench"></i>
+          <span class="is-hidden-desktop">&nbsp;&nbsp;Administración</span>
         </a>
       </b-tooltip>
       {% endif %}
@@ -53,26 +69,24 @@
       <b-tooltip label="Cerrar sesión" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item is-hidden-desktop-only" href="{{path_for('showLogout')}}">
           <span class="icon">
-            <i class="fas fa-sign-out-alt fa-lg"></i>
+            <i class="fas fa-sign-out-alt"></i>
           </span>
         </a>
       </b-tooltip>
       {# MOBILE MENU #}
+      {% if 'admin' in subject.roles or 'coordin' in subject.roles %}
+      <a class="navbar-item is-hidden-desktop" href="{{path_for('showAdminPanel')}}">
+        <i class="fas fa-wrench"></i>&nbsp;&nbsp;Administracion
+      </a>
+      {% endif %}
       <a class="navbar-item is-hidden-desktop" href="{{path_for('showPanel')}}">
-        <i class="fas fa-compass fa-lg"></i>&nbsp;&nbsp;Mi panel de control
+        <i class="fas fa-compass"></i>&nbsp;&nbsp;Mi panel de control
       </a>
       <a class="navbar-item is-hidden-desktop" href="{{path_for('showLogout')}}">
-        <span class="icon">
-          <i class="fas fa-sign-out-alt fa-lg"></i>
-        </span>&nbsp;&nbsp;Cerrar sesión
-        <span class="is-size-7 is-italic">(Nos vemos pronto!)</span>
-      </a>
+          <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Cerrar sesión</a>
     {% else %}
       <a class="navbar-item" href="{{path_for('showLogin')}}">
-        <span class="icon">
-          <i class="fas fa-sign-in-alt fa-lg"></i>
-        </span>
-        &nbsp;Entrar
+          <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Entrar
       </a>
     {% endif %}
   </div>

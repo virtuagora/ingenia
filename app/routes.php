@@ -109,7 +109,7 @@ $app->get('/', function ($request, $response, $args) {
 })->setName('showHome');
 
 $app->get('/reglamento', function ($request, $response, $args) {
-    return $response->withRedirect('/');
+    // return $response->withRedirect('/');
     return $this->view->render($response, 'ingenia/index/reglamento.twig', [
         'headerActive' => 'showReglamento',
     ]);
@@ -167,10 +167,10 @@ $app->get('/historias', function ($request, $response, $args) {
 })->setName('showHistorias');
 
 $app->get('/como-participar', function ($request, $response, $args) {
-    return $response->withRedirect('/');
-    // return $this->view->render($response, 'ingenia/index/comoParticipar.twig', [
-    // 'headerActive' => 'showComoParticipar'
-    // ]);
+    // return $response->withRedirect('/');
+    return $this->view->render($response, 'ingenia/index/comoParticipar.twig', [
+    'headerActive' => 'showComoParticipar'
+    ]);
 })->setName('showComoParticipar');
 
 $app->get('/install[/{extra}]', function ($request, $response, $args) {
