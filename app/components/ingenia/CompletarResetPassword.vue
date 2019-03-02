@@ -9,7 +9,7 @@
       <div class="field">
         <label class="label">Contraseña *</label>
         <div class="control">
-          <input type="password" v-model="password" name="password" v-validate="'required|min:6'" class="input has-text-centered is-medium" style="padding-left:0" placeholder="Ingresá tu contraseña">
+          <input type="password" v-model="password" name="password" v-validate="'required|min:6'" class="input has-text-centered is-medium" ref="password" style="padding-left:0" placeholder="Ingresá tu contraseña">
           <span class="help is-danger" v-show="errors.has('password')">
             <i class="fas fa-times-circle fa-fw"></i> Error. La contraseña no puede ser vacia, (Mínimo 6 caracteres)</span>
 
