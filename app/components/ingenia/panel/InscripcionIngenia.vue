@@ -34,7 +34,6 @@
       </div>
       <div class="notification is-warning" v-show="this.user.pending_tasks.includes('profile')">
         <div class="is-clearfix">
-          <a href="#" class="button is-dark is-pulled-right" style="margin-left:20px">Editar datos</a>
           <span class="is-600 is-size-4">
             <i class="fas fa-angle-double-right fa-lg fa-fw"></i> Completá tus datos personales</span>
         </div>
@@ -42,7 +41,6 @@
         <b>NOTA: </b>Los responsable o co-responsable de un proyecto, deben tener entre 18 y 29 años.
       </div>
       <div class="notification is-warning" v-show="this.user.pending_tasks.includes('dni')">
-        <a href="#" class="button is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Subir DNI</a>
         <span class="is-600 is-size-5">
           <i class="fas fa-angle-double-right fa-lg fa-fw"></i> Carga tu DNI</span>
         <br>Como requisito del reglamento, es fundamental que subas un archivo con tu DNI.
@@ -52,8 +50,8 @@
       <div class="notification is-success">
         <i class="fas fa-check fa-fw"></i> ¡Ya te encontras en condiciones para crear tu proyecto INGENIA!
       </div>
-      <button @click="showForm = true" v-if="!showForm && (new Date(deadline)) > (new Date())" class="button is-primary is-fullwidth is-large is-800">
-        <i class="fas fa-rocket fa-fw"></i> ¡Comenzar con el formulario!</button>
+      <button @click="showForm = true" v-if="!showForm && (new Date(deadline)) > (new Date())" class="button is-primary is-fullwidth is-large">
+        <i class="fas fa-rocket fa-fw"></i> ¡Comenzá creando tú equipo!</button>
     </div>
     </div>
     <section v-if="showForm && !response.replied">
