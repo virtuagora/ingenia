@@ -278,6 +278,7 @@ $app->post('/group/{gro}/letter', 'groupAction:postLetter')->setName('runUpdGroL
 $app->post('/group/{gro}/agreement', 'groupAction:postAgreement')->setName('runUpdGroAgr');
 $app->get('/group/{gro}/letter', 'groupAction:getLetterFile')->setName('getGroLet');
 $app->get('/group/{gro}/agreement', 'groupAction:getAgreementFile')->setName('getGroAgr');
+$app->put('/group/{gro}/leader/{usr}', 'groupAction:putLeader')->setName('runCreGroLea');
 $app->put('/group/{gro}/second/{usr}', 'groupAction:putSecond')->setName('runCreGroSec');
 $app->delete('/group/{gro}/user/{usr}', 'groupAction:deleteUser')->setName('runDelGroUsr');
 $app->delete('/group/{gro}/second/{usr}', 'groupAction:deleteSecond')->setName('runDelGroSec');

@@ -37,6 +37,7 @@ class ActionsLoader
             ['id' => 'updGroLetter', 'group' => 'project', 'allowed_roles' => '["admin","coordin"]', 'allowed_relations' => '["responsable","co-responsable"]', 'allowed_proxies' => '[]'],
             ['id' => 'updGroAgreement', 'group' => 'project', 'allowed_roles' => '["admin","coordin"]', 'allowed_relations' => '["responsable","co-responsable"]', 'allowed_proxies' => '[]'],
             ['id' => 'updGroSecond', 'group' => 'project', 'allowed_roles' => '["admin"]', 'allowed_relations' => '["responsable","co-responsable"]', 'allowed_proxies' => '[]'],
+            ['id' => 'updGroLeader', 'group' => 'project', 'allowed_roles' => '["admin"]', 'allowed_relations' => '["responsable"]', 'allowed_proxies' => '[]'],
             ['id' => 'creGroUsrInv', 'group' => 'invitation', 'allowed_roles' => '["admin"]', 'allowed_relations' => '["receiver"]', 'allowed_proxies' => '[]'],
             ['id' => 'creGroUsrReq', 'group' => 'invitation', 'allowed_roles' => '["admin"]', 'allowed_relations' => '["receiver"]', 'allowed_proxies' => '[]'],
             ['id' => 'updGro', 'group' => 'project', 'allowed_roles' => '["admin"]', 'allowed_relations' => '["responsable","co-responsable"]', 'allowed_proxies' => '[]'],

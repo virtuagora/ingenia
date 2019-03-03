@@ -178,6 +178,30 @@ class GroupAction
         'status' => 200,
         ]);
     }
+
+    public function putLeader($request, $response, $params)
+    {
+        $subject = $request->getAttribute('subject');
+        $group = $this->helper->getEntityFromId('App:Group', 'gro', $params);
+        $usrId = $this->helper->getSanitizedId('usr', $params);
+        if (!$this->authorization->checkPermission($subject, 'updGroLeader', $group)) {
+            throw new UnauthorizedException();
+        }
+        $oldLeader = $group->users()->wherePivot('relation', 'responsable')->firstOrFail();
+        $newLeader = $group->users()->where('user_id', $usrId)->firstOrFail();
+
+        $group->users()->updateExistingPivot(
+            $newLeader->id, ['relation' => 'responsable']
+        );
+        $group->users()->updateExistingPivot(
+            $oldLeader->id, ['relation' => $newLeader->pivot->relation]
+        );
+
+        return $this->representation->returnMessage($request, $response, [
+            'message' => 'Usuario designado como responsable',
+            'status' => 200,
+        ]);
+    }
     
     public function putSecond($request, $response, $params)
     {
