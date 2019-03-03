@@ -56,17 +56,17 @@
             <li>
               <router-link :to="{ name: 'userVerEquipo'}" exact-active-class="is-active">Ver mi equipo</router-link>
             </li>
-            <li v-if="user.groups[0].pivot.relation == 'responsable'">
+            <li v-if="allowResponsables">
               <router-link :to="{ name: 'userVerIntegrantes'}" exact-active-class="is-active">Ver integrantes e invitaciones
                 <span class="badge is-badge-danger is-badge-small" :class="{'is-hidden': cantSolicitudes == 0}" data-badge="">
                   <i class="fas fa-envelope fa-fw"></i>
                 </span>
               </router-link>
             </li>
-            <li v-if="user.groups[0].pivot.relation == 'responsable'">
+            <li v-if="allowResponsables">
               <router-link :to="{ name: 'userEnviarInvitaciones'}" exact-active-class="is-active">Invitar a alguien al equipo</router-link>
             </li>
-            <li v-if="user.groups[0].pivot.relation == 'responsable'">
+            <li v-if="allowResponsables">
               <router-link :to="{ name: 'userSubirConformidad'}" exact-active-class="is-active">
                 <i class="fas fa-fw" :class="{'fa-check has-text-success': user.groups[0].uploaded_agreement, 'fa-exclamation has-text-danger': !user.groups[0].uploaded_agreement }" :style="$route.name == 'userSubirConformidad' ? 'color: white !important;' : ''"></i>&nbsp;Subir carta de conformidad </router-link>
             </li>
@@ -75,37 +75,37 @@
             Mi proyecto Ingenia
           </p>
           <ul class="menu-list" v-if="user.groups[0] !== undefined ">
-            <li v-if="user.groups[0].project === null && user.groups[0].pivot.relation == 'responsable'">
+            <li v-if="user.groups[0].project === null && allowResponsables">
               <router-link :to="{ name: 'userEditarProyecto'}" exact-active-class="is-active">Cargar proyecto</router-link>
             </li>
             <li v-if="user.groups[0].project !== null">
               <router-link :to="{ name: 'userVerProyecto'}" exact-active-class="is-active">Ver mi proyecto</router-link>
             </li>
-            <li v-if="user.groups[0].pivot.relation == 'responsable' && user.groups[0].project !== null && user.groups[0].project.organization !== null">
+            <li v-if="allowResponsables && user.groups[0].project !== null && user.groups[0].project.organization !== null">
               <router-link :to="{ name: 'userSubirAvalOrganizacion'}" exact-active-class="is-active">
                 <i class="fas fa-fw" :class="{'fa-check has-text-success': user.groups[0].project.organization !== null && user.groups[0].uploaded_letter, 'fa-exclamation has-text-danger': user.groups[0].project.organization !== null && !user.groups[0].uploaded_letter }" :style="$route.name == 'userSubirAvalOrganizacion' ? 'color: white !important;' : ''"></i>&nbsp;Subir carta de aval</router-link>
             </li>
             <li v-if="user.groups[0].project !== null && user.groups[0].project.selected == true">
               <a :href="'/grupo/' + user.groups[0].id + '/historia/nuevo'"><i class="fas fa-camera-retro fa-lg fa-fw"></i>&nbsp;Subir una historia</a>
             </li>
-            <li v-if="user.groups[0].pivot.relation == 'responsable' && user.groups[0].project !== null && user.groups[0].project.selected == true">
+            <li v-if="allowResponsables && user.groups[0].project !== null && user.groups[0].project.selected == true">
               <router-link :to="{ name: 'userSubirRecibos'}" exact-active-class="is-active">
                 <i class="fas fa-archive fa-lg fa-fw"></i>&nbsp;Subir recibos</router-link>
             </li>
           </ul>
-          <!-- <p class="menu-label" v-if="user.groups[0] !== undefined && user.groups[0].pivot.relation == 'responsable'">
+          <p class="menu-label" v-if="user.groups[0] !== undefined && $store.getters.onlyResponsable">
             Avanzado
           </p>
-          <ul class="menu-list" v-if="user.groups[0] !== undefined && user.groups[0].pivot.relation == 'responsable'">
+          <ul class="menu-list" v-if="user.groups[0] !== undefined && $store.getters.onlyResponsable">
             <li>
               <router-link :to="{ name: 'userOtrasOpciones'}" exact-active-class="is-active">Otras opciones</router-link>
             </li>
-          </ul> -->
-          <!-- <ul class="menu-list" v-if="user.groups[0] !== undefined && user.groups[0].project !== null && user.groups[0].pivot.relation == 'responsable'">
-          <li v-if="user.groups[0].pivot.relation == 'responsable'">
+          </ul>
+          <ul class="menu-list" v-else-if="user.groups[0] !== undefined && user.groups[0].project !== null && $store.getters.onlyResponsable">
+          <li>
             <router-link :to="{ name: 'userOtrasOpciones'}" exact-active-class="is-active">Otras opciones</router-link>
           </li>
-        </ul> -->
+        </ul>
         </aside>
       </div>
       <div class="column is-7 is-offset-1">

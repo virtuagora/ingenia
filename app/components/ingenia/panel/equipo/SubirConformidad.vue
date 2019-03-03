@@ -10,7 +10,7 @@
       </div>
       <div class="notification is-success is-clearfix" v-show="user.groups[0].uploaded_agreement && !verifying">
         <i class="fas fa-check fa-fw"></i>La carta de conformidad ha sido enviada y guardada correctamente
-        <a :href="'/group/'+user.groups[0].id+'/agreement'" class="is-pulled-right button is-small is-white">
+        <a :href="'/group/'+user.groups[0].id+'/agreement'" target="_blank" class="is-pulled-right button is-small is-white">
           <i class="fas fa-download"></i>&nbsp;Descargar</a>
       </div>
       <div v-show="user.groups[0].uploaded_agreement && !verifying">
@@ -21,17 +21,17 @@
       </div>
       <form :action="saveAgreementUrl.replace(':gro',this.user.groups[0].id)" ref="formConformidad" method="post" enctype="multipart/form-data">
         <b-field class="file is-medium">
-          <b-upload v-model="files" name="archivo" v-validate="'required|size:3072|mimes:application/pdf,invalid/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/pjpeg'">
+          <b-upload v-model="file" :required="true" name="archivo">
             <a class="button is-link is-medium">
               <b-icon icon="upload"></b-icon>
               <span>Click para cargar</span>
             </a>
           </b-upload>
-          <span class="file-name" style="max-width: none;">
-            {{ files && files.length ? files[0].name : 'Seleccione un archivo para subir...' }}
+          <span class="file-name" style="max-width: none;" v-if="file">
+            {{ file.name }}
           </span>
         </b-field>
-        <p v-show="errors.has('archivo')" class="has-text-danger">Requerido. Debe ser un archivo .JPG, .JPEG, .PDF, .DOC o .DOCX de hasta 3MB como máximo.<br></p>
+        <p v-show="!isFileOk && file !== null" class="has-text-danger">Requerido. Debe ser un archivo .JPG, .JPEG, .PDF, .DOC o .DOCX de hasta 3MB como máximo.</p>
         <div class="field">
           <div class="control is-clearfix">
             <a @click="submit" type="submit" class="button is-primary is-medium is-pulled-right" :class="{'is-loading': isLoading}">
@@ -52,10 +52,12 @@ export default {
       pendiente: false,
       rechazado: false,
       verificado: false,
-      files: [],
+      file: null,
       isLoading: false,
       user: {},
-      verifying: true
+      verifying: true,
+      mimes: ['application/pdf','invalid/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','image/jpeg','image/pjpeg']
+
     };
   },
   created: function() {
@@ -101,11 +103,20 @@ export default {
         });
     }
   },
+  computed: {
+    isFileOk: function() {
+      if(this.file === null) return false
+      if(this.file.size > 3145728) return false
+      if(!this.mimes.includes(this.file.type)) return false
+      return true
+    }
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

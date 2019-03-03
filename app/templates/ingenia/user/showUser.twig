@@ -38,9 +38,9 @@
                 </p>
               </div>
             {% endif %}
-            {% if user.groups[0] is defined and user.groups[0].project is not null %}
+            {% if user.groups[0] is defined %}
               <div class="field">
-                <label class="label">Acerca proyecto INGENIA</label>
+                <label class="label">Acerca de mi proyecto INGENIA</label>
                 <p>Mi proyecto se llama
                   <a href="/proyecto/{{user.groups[0].project.id}}">{{user.groups[0].project.name}}</a>
                 </p>

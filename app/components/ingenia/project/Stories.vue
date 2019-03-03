@@ -44,7 +44,6 @@
       </div>
       <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
         <div class="box has-text-centered" v-if="stories.length == 0" style="margin-top:15px;" slot="no-results">
-          :(
           <h1 class="subtitle is-5 is-marginless">
             ¡No han publicado historias!
           </h1>
@@ -54,7 +53,6 @@
         </span>
       </infinite-loading>
     </div>
-    <hr>
   </section>
 </template>
 

@@ -61,7 +61,7 @@
 {% endblock %}
 {% block body %}
   <img src="{{asset('img/santafelogo.svg')}}" class="image logo-sf-float is-48x48 is-hidden-touch is-hidden-desktop-only" alt="">
-  <div class="hero is-dark {{project.has_image ? 'has-image-background'}}" style="background-image: url({{project.has_image ? path_for('getProPic',{'pro': project.id}) : '/assets/img/header-bg-01.jpg'}})">
+  <div class="hero is-dark {{project.has_image ? 'has-image-background'}}" style="background-image: url({{project.has_image ? path_for('getProPic',{'pro': project.id}) : '/assets/img/header-bg-01.jpg'}}); box-shadow: inset 0px -90px 39px -45px rgba(0, 0, 0, 0.75);">
     <div>
       {% include 'ingenia/project/heroNavbar.twig' %}
       <div class="hero-body">

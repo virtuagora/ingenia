@@ -12,6 +12,9 @@
               <li :class="{'is-active': $route.name == 'projectImplementation' }">
                 <router-link :to="{ name: 'projectImplementation'}">El proyecto</router-link>
               </li>
+              <li :class="{'is-active': $route.name == 'projectHistorias' }">
+                <router-link :to="{ name: 'projectHistorias'}"><i class="fas fa-camera-retro fa-lg fa-fw"></i> Historias</router-link>
+              </li>
               <li>
                 <a @click="scrollMeTo('comentarios')"><i class="fas fa-comments fa-lg"></i>&nbsp;Comentarios</a>
               </li>

@@ -1,5 +1,5 @@
 <template>
-  <section class="notification is-light is-clearfix" v-if="(new Date(date)) > (new Date())">
+  <section class="notification is-light is-clearfix" v-if="!isFormClosed(date)">
     <p class="is-size-4 is-500 is-pulled-left">Quedan
       <i class="fas fa-clock"></i> {{days}} días y {{hours}}:{{minutes}}:{{seconds}}</p>
     <p class="is-size-7 is-300 is-pulled-right has-text-right-desktop has-text-left-touch">Las inscripciones cierran <span class="is-hidden-touch"><br></span>{{Intl.DateTimeFormat('es-AR',options).format(dateDeadline)}}</p>

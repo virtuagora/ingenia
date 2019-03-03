@@ -3,8 +3,8 @@
             <div class="tabs">
   <ul>
     <li :class="{'is-active': $route.name == 'userVerProyecto'}" v-if="user.groups[0].project !== null"><router-link :to="{ name: 'userVerProyecto'}">Ver proyecto</router-link></li>
-    <!-- <li :class="{'is-active': $route.name == 'userEditarProyecto'}" v-if="user.groups[0].pivot.relation == 'responsable' && user.groups[0].project !== null"><router-link :to="{ name: 'userEditarProyecto'}">Editar proyecto</router-link></li> -->
-    <li :class="{'is-active': $route.name == 'userSubirImagen'}" v-if="user.groups[0].pivot.relation == 'responsable' && user.groups[0].project !== null"><router-link :to="{ name: 'userSubirImagen'}">Subir imagen del proyecto</router-link></li>
+    <li :class="{'is-active': $route.name == 'userEditarProyecto'}" v-if="allowResponsables && user.groups[0].project !== null"><router-link :to="{ name: 'userEditarProyecto'}">Editar proyecto</router-link></li>
+    <li :class="{'is-active': $route.name == 'userSubirImagen'}" v-if="allowResponsables && user.groups[0].project !== null"><router-link :to="{ name: 'userSubirImagen'}">Subir imagen del proyecto</router-link></li>
   </ul>
 </div>
     <h1 class="subtitle is-3">Subir imagen del proyecto</h1>
@@ -16,17 +16,17 @@
       </b-message>
       <form :action="formUrl" ref="formProImg" method="post" enctype="multipart/form-data">
         <b-field class="file is-medium">
-          <b-upload v-model="files" name="archivo" v-validate="'required|size:3072|mimes:image/jpeg,image/pjpeg,image/png'">
+          <b-upload v-model="file" :required="true" name="archivo">
             <a class="button is-link is-medium">
               <b-icon icon="upload"></b-icon>
               <span>Click para cargar</span>
             </a>
           </b-upload>
-          <span class="file-name" style="max-width: none;">
-            {{ files && files.length ? files[0].name : 'Seleccione un archivo para subir...' }}
+          <span class="file-name" style="max-width: none;" v-if="file">
+            {{ file.name }}
           </span>
         </b-field>
-        <p v-show="errors.has('archivo')" class="has-text-danger">Requerido. Debe ser un archivo .JPG, .JPEG, .PNG de hasta 3MB como máximo.</p>
+        <p v-show="!isFileOk && file !== null" class="has-text-danger">Requerido. Debe ser un archivo .JPG, .JPEG, .PNG de hasta 3MB como máximo.</p>
         <div class="field">
           <div class="control is-clearfix">
             <a @click="submit" type="submit" class="button is-primary is-medium is-pulled-right" :class="{'is-loading': isLoading}">
@@ -49,9 +49,10 @@ export default {
       pendiente: false,
       rechazado: false,
       verificado: false,
-      files: [],
+      file: null,
       isLoading: false,
-      user: {}
+      user: {},
+      mimes: ['image/jpeg','image/pjpeg','image/png']
     };
   },
   created: function() {
@@ -86,13 +87,20 @@ export default {
   computed:{
     formUrl: function(){
       return this.saveImageUrl.replace(':pro',this.user.groups[0].project.id)
+    },
+    isFileOk: function() {
+      if(this.file === null) return false
+      if(this.file.size > 3145728) return false
+      if(!this.mimes.includes(this.file.type)) return false
+      return true
     }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

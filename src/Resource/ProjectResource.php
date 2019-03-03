@@ -279,7 +279,7 @@ class ProjectResource extends Resource
     public function createOne($subject, $data)
     {
         $user = $this->helper->getUserFromSubject($subject);
-        $group = $user->groups()->with('project')->wherePivot('relation', 'responsable')->first();
+        $group = $user->groups()->with('project')->wherePivotIn('relation', ['responsable','co-responsable'])->first();
         if (is_null($group)) {
             throw new AppException('Debe cargar un equipo primero');
         }

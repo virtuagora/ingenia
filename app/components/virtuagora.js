@@ -76,6 +76,9 @@ Vue.prototype.$http = http
 
 Vue.mixin({
   methods: {
+    isFormClosed: function(deadline) {
+      return (new Date(deadline)) < (new Date())
+    },
     isOptional: function (value) {
       if (value === null || value === "") {
         return null;
@@ -128,6 +131,17 @@ Vue.mixin({
         console.log('State still fresh');        
       }
     }
+  },
+  computed: {
+    onlyResponsable: function(){
+      return store.getters.onlyResponsable
+    },
+    onlyCoresponsable: function(){
+      return store.getters.onlyCoresponsable
+    },
+    allowResponsables: function() {
+      return this.onlyResponsable || this.onlyCoresponsable;
+    },
   }
 })
 

@@ -21,7 +21,8 @@ export default {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

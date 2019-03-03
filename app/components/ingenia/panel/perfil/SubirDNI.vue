@@ -9,6 +9,8 @@
     </div>
     <div class="notification is-success" v-show="!this.user.pending_tasks.includes('dni') && !verifying">
       <i class="fas fa-check fa-fw"></i>Tu DNI ha sido enviado y guardado correctamente
+       <a :href="'/user/'+user.id+'/dni'" target="_blank" class="is-pulled-right button is-small is-white">
+          <i class="fas fa-download"></i>&nbsp;Descargar</a>
     </div>
     <div>
       <form :action="formUrl" ref="formDNI" method="post" enctype="multipart/form-data">
@@ -27,7 +29,7 @@
           A continuación, por favor, suba una foto o escaneo de la parte posterior y anterior de su DNI
           <br>Maximo: 3MB. Se aceptan .JPG, .JPEG, .PDF, .DOC o .DOCX
         </b-message>
-        <b-field class="file is-medium">
+       <b-field class="file is-medium">
           <b-upload v-model="file" :required="true" name="archivo">
             <a class="button is-link is-medium">
               <b-icon icon="upload"></b-icon>

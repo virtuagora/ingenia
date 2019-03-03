@@ -49,14 +49,14 @@
     {% if subject.id %}
       <b-tooltip label="Mi panel" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item" href="{{path_for('showPanel')}}">
-            <i class="fas fa-compass"></i>
+            <i class="fas fa-compass fa-lg"></i>
           <span class="is-hidden-desktop">&nbsp;&nbsp;Mi panel de control</span>
         </a>
       </b-tooltip>
       {% if 'admin' in subject.roles or 'coordin' in subject.roles %}
       <b-tooltip label="Administración" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item" href="{{path_for('showAdminPanel')}}">
-            <i class="fas fa-wrench"></i>
+            <i class="fas fa-wrench fa-lg"></i>
           <span class="is-hidden-desktop">&nbsp;&nbsp;Administración</span>
         </a>
       </b-tooltip>
@@ -68,9 +68,7 @@
       </b-tooltip>
       <b-tooltip label="Cerrar sesión" position="is-bottom" class="is-hidden-touch">
         <a class="navbar-item is-hidden-desktop-only" href="{{path_for('showLogout')}}">
-          <span class="icon">
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
+            <i class="fas fa-sign-out-alt fa-lg"></i>
         </a>
       </b-tooltip>
       {# MOBILE MENU #}

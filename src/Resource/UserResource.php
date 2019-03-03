@@ -190,6 +190,8 @@ class UserResource extends Resource
         $localidad = $this->db->query('App:Locality')->findOrFail($data['locality_id']);
         $user->names = $data['names'];
         $user->surnames = $data['surnames'];
+        $fullname = $data['names'] . ' ' . $data['surnames'];
+        $user->trace = $this->helper->generateTrace($fullname);
         $user->birthday = $data['birthday'];
         $user->gender = $data['gender'];
         $user->address = $data['address'];

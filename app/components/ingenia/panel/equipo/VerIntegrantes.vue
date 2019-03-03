@@ -2,9 +2,9 @@
   <div>
      <div class="tabs">
   <ul>
-    <li :class="{'is-active': $route.name == 'userVerEquipo'}"><router-link :to="{ name: 'userVerEquipo'}">Ver equipo</router-link></li>
-    <!-- <li :class="{'is-active': $route.name == 'userEditarEquipo'}"  v-if="user.groups[0].pivot.relation == 'responsable'"><router-link :to="{ name: 'userEditarEquipo'}">Editar datos</router-link></li> -->
-    <li :class="{'is-active': $route.name == 'userVerIntegrantes'}"  v-if="user.groups[0].pivot.relation == 'responsable'"><router-link :to="{ name: 'userVerIntegrantes'}">Ver los integrantes</router-link></li>
+     <li :class="{'is-active': $route.name == 'userVerEquipo'}"><router-link :to="{ name: 'userVerEquipo'}">Ver equipo</router-link></li>
+    <li :class="{'is-active': $route.name == 'userEditarEquipo'}"  v-if=" allowResponsables && !isFormClosed(deadline)"><router-link :to="{ name: 'userEditarEquipo'}">Editar datos</router-link></li>
+    <li :class="{'is-active': $route.name == 'userVerIntegrantes'}"  v-if="allowResponsables"><router-link :to="{ name: 'userVerIntegrantes'}">Ver los integrantes</router-link></li>
   </ul>
 </div>
     <h1 class="subtitle is-3">Integrantes del equipo</h1>
@@ -19,25 +19,24 @@
       <tbody>
         <tr v-for="(member,index) in members" :key="index">
           <td>
-            <Avatar :user="member" class="inline-image" size="24" /> {{member.names}} {{member.surnames}}
+            <Avatar :user="member" class="inline-image" size="24" />&nbsp;&nbsp;{{member.names}} {{member.surnames}}
             <span class="tag is-warning is-pulled-right" v-if="member.pivot.relation === 'responsable'"><i class="fas fa-star"></i>&nbsp;Responsable</span>
             <div class="tags has-addons is-pulled-right" v-if="member.pivot.relation === 'co-responsable'">
               <span class="tag is-link"><i class="fas fa-shield-alt"></i>&nbsp;Co-responsable</span>
               <b-tooltip label="Quitar co-responsable" type="is-dark">
-              <a @click="removeSecondInCharge(member.id)" class="tag is-delete"></a>
+              <a @click="removeSecondInCharge(member.id)" v-if="user.groups[0].pivot.relation === 'responsable'" class="tag is-delete"></a>
               </b-tooltip>
             </div>
+            <nav class="breadcrumb is-small" v-if="onlyResponsable" style="margin-top:10px;">
+  <ul>
+    <li v-if="!group.second_in_charge && member.pivot.relation !== 'responsable' && user.groups[0].pivot.relation === 'responsable'"><a @click="assignSecondInCharge(member.id)"><i class="fas fa-plus fa-fw"></i><i class="fas fa-shield-alt"></i>&nbsp;Asignar co-responsable</a></li>
+    <li v-if="member.pivot.relation !== 'responsable' && member.pivot.relation !== 'co-responsable' && user.groups[0].pivot.relation === 'responsable'"><a href="#"><i class="fas fa-arrow-right fa-fw"></i><i class="fas fa-star fa-fw"></i>&nbsp;Transferir rol responsable</a></li>
+  </ul>
+</nav>
           </td>
           <td>
             <div class="field is-grouped">
-              <div class="control is-expanded has-text-centered" v-if="!group.second_in_charge && member.pivot.relation !== 'responsable'">
-                <b-tooltip label="Asignar co-responsable" type="is-dark">
-                  <button @click="assignSecondInCharge(member.id)" class="button is-fullwidth is-outlined is-small is-link">
-                    <i class="fas fa-shield-alt"></i>
-                  </button>
-                </b-tooltip>
-              </div>
-              <div class="control is-expanded has-text-centered" v-if="member.pivot.relation !== 'responsable'">
+              <div class="control is-expanded has-text-centered" v-if="member.pivot.relation !== 'responsable' && member.pivot.relation !== 'co-responsable'">
                 <b-tooltip label="Quitar del equipo" type="is-dark">
                   <button @click="openRemoveUser(member.id, member.names + ' ' + member.surnames)" class="button is-fullwidth is-outlined is-small is-danger">
                     <i class="far fa-trash-alt"></i>
@@ -50,7 +49,7 @@
       </tbody>
     </table>
     <hr>
-    <h1 class="title is-5">Invitaciones pendientes</h1>
+    <h1 class="title is-5">Invitaciones</h1>
     <table class="table is-bordered is-fullwidth text-middle">
       <thead>
         <tr>
@@ -59,10 +58,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="cantInvitaciones == 0">
+        <tr v-if=" group.invitations.length === 0">
           <td colspan="2">No hay invitaciones para listar</td>
         </tr>
-        <tr v-for="(invitation, index) in group.invitations" v-if="invitation.state == 'pending'" :key="index">
+        <tr v-for="(invitation, index) in invitaciones" :key="index">
           <td>{{invitation.email}}<br>
             <p class="is-size-7 nl2br">
               <i>{{invitation.comment}}</i>
@@ -79,7 +78,7 @@
         </tr>
       </tbody>
     </table>
-    <h1 class="title is-5">Solicitudes pendientes</h1>
+    <h1 class="title is-5">Solicitudes para entrar</h1>
     <table class="table is-bordered is-fullwidth text-middle">
       <thead>
         <tr>
@@ -90,7 +89,7 @@
         </tr>
       </thead>
       <tbody v-if="cantSolicitudes > 0">
-        <tr v-for="(invitation, index) in group.invitations" v-if="invitation.state == 'requested'" :key="index">
+        <tr v-for="(invitation, index) in solicitudes" :key="index">
           <td>
             <get-usuario :id="invitation.user_id" />
             <p class="is-size-7 nl2br">
@@ -142,7 +141,7 @@
         <article class="media">
           <figure class="media-left">
             <span class="icon is-medium">
-              <i class="fas fa-trash-alt fa-2x"></i>
+              <i class="fas fa-question fa-2x"></i>
             </span>
           </figure>
           <div class="media-content">
@@ -164,7 +163,7 @@
         </article>
       </div>
     </b-modal>
-    <!-- <b-modal ref="modalRemoveInvitation" :active.sync="showRemoveInvitationModal" :width="640" scroll="keep">
+    <b-modal ref="modalRemoveInvitation" :active.sync="showRemoveInvitationModal" :width="640" scroll="keep">
       <div class="notification is-danger">
         <article class="media">
           <figure class="media-left">
@@ -185,7 +184,7 @@
           </div>
         </article>
       </div>
-    </b-modal> -->
+    </b-modal>
     <b-loading :active.sync="isLoading"></b-loading>
   </div>
 </template>
@@ -197,6 +196,7 @@ import Avatar from "../../utils/Avatar";
 export default {
   props: [
     "teamUrl",
+    "deadline",
     "getGroupMembers",
     "assignGroupSecond",
     "deleteGroupSecond",
@@ -217,9 +217,9 @@ export default {
       showRemoveModal: false,
       deleteUser: null,
       deleteUserName: null,
-      // showRemoveInvitationModal: false,
-      // deleteInvitation: null,
-      // deleteInvitationEmail: null,
+      showRemoveInvitationModal: false,
+      deleteInvitation: null,
+      deleteInvitationEmail: null,
       showAcceptRequestModal: false,
       acceptRequestId: null,
       acceptRequestComment: null,
@@ -262,11 +262,11 @@ export default {
       this.deleteUserName = name;
       this.showRemoveModal = true;
     },
-    // openRemoveInvitation: function(id, email) {
-    //   this.deleteInvitation = id;
-    //   this.deleteInvitationEmail = email;
-    //   this.showRemoveInvitationModal = true;
-    // },
+    openRemoveInvitation: function(id, email) {
+      this.deleteInvitation = id;
+      this.deleteInvitationEmail = email;
+      this.showRemoveInvitationModal = true;
+    },
     openAcceptRequest: function(id, comment) {
       this.acceptRequestId = id;
       this.acceptRequestComment = comment;
@@ -299,33 +299,33 @@ export default {
           return false;
         });
     },
-    // submitRemoveInvitation: function() {
-    //   this.showRemoveModal = false;
-    //   console.log("Sending form!");
-    //   this.isLoading = true;
-    //   this.$http
-    //     .post(this.saveTeamUrl, this.deleteUser)
-    //     .then(response => {
-    //       this.$snackbar.open({
-    //         message: "Los datos del equipo han sido actualizados",
-    //         type: "is-success",
-    //         actionText: "OK"
-    //       });
-    //       this.isLoading = false;
-    //       this.response.ok = true;
-    //       this.getEquipo(this.user.groups[0].id);
-    //     })
-    //     .catch(error => {
-    //       console.error(error.message);
-    //       this.isLoading = false;
-    //       this.$snackbar.open({
-    //         message: "Error inesperado. Recarge la pagina.",
-    //         type: "is-danger",
-    //         actionText: "Cerrar"
-    //       });
-    //       return false;
-    //     });
-    // },
+    submitRemoveInvitation: function() {
+      this.showRemoveModal = false;
+      console.log("Sending form!");
+      this.isLoading = true;
+      this.$http
+        .post(this.saveTeamUrl, this.deleteUser)
+        .then(response => {
+          this.$snackbar.open({
+            message: "Los datos del equipo han sido actualizados",
+            type: "is-success",
+            actionText: "OK"
+          });
+          this.isLoading = false;
+          this.response.ok = true;
+          this.getEquipo(this.user.groups[0].id);
+        })
+        .catch(error => {
+          console.error(error.message);
+          this.isLoading = false;
+          this.$snackbar.open({
+            message: "Error inesperado. Recarge la pagina.",
+            type: "is-danger",
+            actionText: "Cerrar"
+          });
+          return false;
+        });
+    },
     submitAcceptRequest: function() {
       this.showAcceptRequestModal = false;
       console.log("Sending form!");
@@ -423,13 +423,30 @@ export default {
       return this.group.invitations.filter(x => {
         return x.state == "requested";
       }).length;
+    },
+    onlyResponsable: function(){
+      return this.$store.getters.onlyResponsable
+    },
+    onlyCoresponsable: function(){
+      return this.$store.getters.onlyCoresponsable
+    },
+    solicitudes: function(){
+      return this.group.invitations.filter(x => {
+        return x.state == "requested";
+      })
+    },
+    invitaciones: function(){
+      return this.group.invitations.filter(x => {
+        return (x.state == "pending" || x.state == "accepted");
+      })
     }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

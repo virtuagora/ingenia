@@ -52,12 +52,12 @@ const routes = [
         name: 'userInscripcionIngenia',
         props: true
       },
-      // {
-      //   path: 'otras-opciones',
-      //   component: OtrasOpciones,
-      //   name: 'userOtrasOpciones',
-      //   props: true
-      // },
+      {
+        path: 'otras-opciones',
+        component: OtrasOpciones,
+        name: 'userOtrasOpciones',
+        props: true
+      },
       {
         path: 'perfil',
         component: Perfil,

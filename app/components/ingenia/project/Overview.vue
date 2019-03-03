@@ -2,19 +2,27 @@
   <section>
     <section class="section">
       <div class="container">
-        <div class="columns">
-          <div class="column is-8">
-            <div class="media" v-if="project.selected">
+         <div class="media" v-if="project.selected">
               <div class="media-left is-hidden-touch">
-                <img src="/assets/img/trophy.svg" class="logo-header image is-centered" style="width:85px">
+                <img
+                  src="/assets/img/trophy.svg"
+                  class="logo-header image is-centered"
+                  style="width:75px"
+                >
               </div>
               <div class="media-content has-text-centered-touch" style="overflow: visible">
-                <img src="/assets/img/trophy.svg" class="logo-header image is-centered is-hidden-desktop" style="width:85px; margin-bottom:25px;">
+                <img
+                  src="/assets/img/trophy.svg"
+                  class="logo-header image is-centered is-hidden-desktop"
+                  style="width:85px; margin-bottom:25px;"
+                >
                 <h1 class="title is-size-2-desktop is-size-3-touch is-600">¡Proyecto seleccionado!</h1>
-                <h1 class="subtitle is-5 is-size-6-touch">Este proyecto ha sido selecciondo como beneficiario del la 9na edición del programa Ingenia, ¡Felicidades equipo!</h1>
+                <h1
+                  class="subtitle is-5 is-size-6-touch"
+                >Este proyecto ha sido selecciondo como beneficiario del la 9na edición del programa Ingenia, ¡Felicidades equipo!</h1>
               </div>
             </div>
-            <div class="media" v-else>
+             <!-- <div class="media" v-else>
               <div class="media-left is-hidden-touch">
                 <img src="/assets/img/friendship.svg" class="logo-header image is-centered" style="width:85px">
               </div>
@@ -23,11 +31,51 @@
                 <h1 class="title is-size-2-desktop is-size-3-touch is-600">Proyecto participante</h1>
                 <h1 class="subtitle is-5 is-size-6-touch">Gracias por participar de la convocatoria de la 9na edición de Ingenia. ¡Nos vemos en la próxima!</h1>
               </div>
+            </div>-->
+            <hr v-if="project.selected">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Presupuesto</p>
+              <p class="title">${{montoTotal}}</p>
             </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Objetivos</p>
+              <p class="title">{{project.goals.length}}</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Actividades</p>
+              <p class="title">{{project.schedule.length}}</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Historias</p>
+              <p class="title">456K</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered" v-if="project.selected">
+            <div>
+              <p class="heading">Seleccionado</p>
+              <p class="title has-text-primary"><i class="fa fa-trophy"></i> SI</p>
+            </div>
+          </div>
+        </nav>
+        <hr>
+        <div class="columns">
+          <div class="column is-10 is-offset-1">
             <br v-if="project.selected && user">
             <article class="message" v-if="isAdmin || isCoordinator">
               <div class="message-body">
-                <a @click="showEditObservation = true" v-show="!showEditObservation" class="has-text-link is-pulled-right">
+                <a
+                  @click="showEditObservation = true"
+                  v-show="!showEditObservation"
+                  class="has-text-link is-pulled-right"
+                >
                   <i class="fas fa-edit fa-lg"></i>
                 </a>
                 <h3 class="is-size-5" :class="{'has-text-danger': errors.has('noteInput')}">
@@ -38,11 +86,22 @@
                   <p class="nl2br" v-else>- Sin notas -</p>
                 </div>
                 <div class="field" v-else>
-                  <div class="control ">
-                    <b-input v-model="noteInput" size="is-small" data-vv-name="noteInput" data-vv-as="'Observaciones'" v-validate="'max:1000'" type="textarea" maxlength="1000" rows="2" placeholder="Observaciones">
-                    </b-input>
+                  <div class="control">
+                    <b-input
+                      v-model="noteInput"
+                      size="is-small"
+                      data-vv-name="noteInput"
+                      data-vv-as="'Observaciones'"
+                      v-validate="'max:1000'"
+                      type="textarea"
+                      maxlength="1000"
+                      rows="2"
+                      placeholder="Observaciones"
+                    ></b-input>
                     <span v-show="errors.has('noteInput')" class="help is-danger">
-                      <i class="fas fa-times-circle fa-fw"></i>&nbsp;{{errors.first('noteInput')}}</span>
+                      <i class="fas fa-times-circle fa-fw"></i>
+                      &nbsp;{{errors.first('noteInput')}}
+                    </span>
                   </div>
                   <div class="buttons" v-if="sent == false">
                     <button @click="saveObs()" class="button is-link is-600">Guardar</button>
@@ -54,136 +113,126 @@
                 </div>
               </div>
             </article>
-            <hr>
-            <stories v-if="project.selected" :isAdmin="isAdmin" :isCoordinator="isCoordinator" :project-id="project.id"></stories>
-            <div v-if="project.selected">
-              <router-link :to="{ name: 'projectImplementation'}" class="button is-black is-outlined is-medium is-fullwidth">¿Queres saber de que se trata? Hacé clic acá</router-link>
+            <hr v-if="project.selected && user && (isAdmin || isCoordinator)">
+             <div class="box is-paddingless is-pulled-right is-hidden-touch" style="margin: 0 0 10px 10px; width: 35%">
+              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt>
             </div>
-            <div v-else>
-              <h3 class="is-size-3">
-                <b>Descripción del proyecto</b>
-              </h3>
-              <p class="nl2br">{{project.abstract}}</p>
-              <br>
-              <h3 class="is-size-3">
-                <b>Fundamentación del proyecto</b>
-              </h3>
-              <p class="nl2br">{{project.foundation}}</p>
-              <br>
-              <div class="notification is-primary">
-                <div class="columns">
-                  <div class="column is-hidden-mobile">
-                    <h3 class="is-size-3">
-                      <b>¡Compartilo!</b>
-                    </h3>
-                  </div>
-                  <div class="column is-narrow has-text-centered-mobile">
-                    <p class="">
-                      <a href="javascript:shareOnFacebook()">
-                        <i class="fab fa-facebook fa-3x fa-fw"></i>
-                      </a>
-                      <a :href="'https://twitter.com/intent/tweet?text=¡Este gran proyecto está participando de INGENIA y necesita tú apoyo! ¡Ingresá y bancalo con tú voto!&url=' + getLocation + '&hashtags=INGENIA,hayEquipo!'">
-                        <i class="fab fa-twitter fa-3x fa-fw"></i>
-                      </a>
-                      <a :href="'whatsapp://send?text=¡Este gran proyecto está participando de INGENIA y necesita tú apoyo! ¡Ingresá y bancalo con tú voto! Visitalo entrando a ' + getLocation">
-                        <i class="fab fa-whatsapp fa-3x fa-fw"></i>
-                      </a>
-                    </p>
-                  </div>
-                </div>
+             <div class="box is-paddingless is-hidden-desktop">
+              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt>
+            </div>
+            <h3 class="is-size-3">
+              <b>Descripción del proyecto</b>
+            </h3>
+            <p class="nl2br">{{project.abstract}}</p>
+            <br>
+            <div class="buttons">
+              <router-link
+              :to="{ name: 'projectImplementation'}"
+              class="button is-primary is-outlined is-medium"
+            >Conocé más del proyecto</router-link>
+            <router-link
+              :to="{ name: 'projectTeam'}"
+              class="button is-primary is-outlined is-medium"
+            >Conocé al equipo</router-link>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <h5 class="is-size-4">
+                  <b>Donde se implementará</b>
+                </h5>
+                <Localidad
+                  :locality-id="project.locality_id"
+                  :locality-other="project.locality_other"
+                ></Localidad>
               </div>
+              <div class="column">
+                <h5 class="is-size-4">
+                  <b>Barrios en que se implementara</b>
+                </h5>
+                <p>{{project.neighbourhoods.join(', ')}}</p>
+              </div>
+            </div>
+            <br>
+            <div class="notification is-primary">
               <div class="columns">
-                <div class="column">
-                  <h5 class="is-size-4">
-                    <b>Donde se implementará</b>
-                  </h5>
-                  <Localidad :locality-id="project.locality_id" :locality-other="project.locality_other"></Localidad>
+                <div class="column is-hidden-mobile">
+                  <h3 class="is-size-3">
+                    <b>¡Compartilo!</b>
+                  </h3>
                 </div>
-                <div class="column">
-                  <h5 class="is-size-4">
-                    <b>Barrios en que se implementara</b>
-                  </h5>
-                  <p>{{project.neighbourhoods.join(', ')}}</p>
+                <div class="column is-narrow has-text-centered-mobile">
+                  <p class>
+                    <a href="javascript:shareOnFacebook()">
+                      <i class="fab fa-facebook fa-3x fa-fw"></i>
+                    </a>
+                    <a
+                      :href="'https://twitter.com/intent/tweet?text=¡Este gran proyecto está participando de INGENIA y necesita tú apoyo! ¡Ingresá y bancalo con tú voto!&url=' + getLocation + '&hashtags=INGENIA,hayEquipo!'"
+                    >
+                      <i class="fab fa-twitter fa-3x fa-fw"></i>
+                    </a>
+                    <a
+                      :href="'whatsapp://send?text=¡Este gran proyecto está participando de INGENIA y necesita tú apoyo! ¡Ingresá y bancalo con tú voto! Visitalo entrando a ' + getLocation"
+                    >
+                      <i class="fab fa-whatsapp fa-3x fa-fw"></i>
+                    </a>
+                  </p>
                 </div>
               </div>
-              <h5 class="is-size-4">
-                <b>Trabajo previo</b>
-              </h5>
-              <p v-if="project.previous_work">{{project.previous_work}}</p>
-              <p v-else>
-                <i>No presenta trabajo previo</i>
-              </p>
             </div>
-          </div>
-          <div class="column is-4 has-text-centered">
-            <div class="box is-paddingless">
-              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px;" alt="">
-            </div>
-            <h5 class="is-size-4">
-              <b>Categoría</b>
-            </h5>
-            <span class="tag is-primary is-large">
-              {{project.category.name}}
-            </span>
-            <br>
-            <br>
-            <h5 class="is-size-4">
-              <b>Presupuesto solicitado</b>
-            </h5>
-            <h5 class="is-size-2 has-text-info is-800">
-              ${{montoTotal}}
-            </h5>
-            <br>
-            <h5 class="is-size-4">
-              <b>
-                <i class="fas fa-flag-checkered fa-fw"></i>&nbsp;Declaran {{project.goals.length}} objetivo{{project.goals.length > 1 ?'s':null}}</b>
-            </h5>
-            <br>
-            <h5 class="is-size-4">
-              <b>
-                <i class="far fa-calendar-check fa-fw"></i>&nbsp;Con {{project.schedule.length}} actividad{{project.schedule.length > 1 ?'es':null}}</b>
-            </h5>
-            <br>
-            <router-link :to="{ name: 'projectImplementation'}" class="button is-black is-outlined is-medium is-fullwidth">Conocé más del proyecto</router-link>
-            <br>
-            <router-link :to="{ name: 'projectTeam'}" class="button is-black is-outlined is-medium is-fullwidth">Conocé al equipo</router-link>
-
+            <latest-stories :isAdmin="isAdmin" :isCoordinator="isCoordinator" :project-id="project.id"></latest-stories>
           </div>
         </div>
       </div>
     </section>
-    <!-- <div class="hero is-dark  has-image-background" v-if="(user !== null && user.groups[0] == undefined) || user === null " :style="imageUrlHeroInvite()">
+    <div
+      class="hero is-dark has-image-background"
+      v-if="(user !== null && user.groups[0] == undefined) || user === null "
+      :style="imageUrlHeroInvite()"
+    >
       <div class="hero-body has-text-centered">
         <div class="columns">
           <div class="column is-6 is-offset-3" v-if="user !== null && user.groups[0] == undefined">
             <div class="has-text-centered">
               <h3 class="is-size-3 is-600">
-                <span v-if="user !== null">¡{{user.names}}!</span> ¿Querés colaborar con el equipo?</h3>
+                <span v-if="user !== null">¡{{user.names}}!</span> ¿Querés colaborar con el equipo?
+              </h3>
               <p>¡Enviales una solicitud para ser parte!</p>
               <br>
               <div v-if="user !== null && user.pending_tasks.length > 0">
                 <div class="notification is-warning">
                   <p>
                     <i class="fa fa-exclamation-circle fa-fw"></i>
-                    <b>IMPORTANTE:</b> Antes debes completar todos tus datos personales para ser parte de un equipo INGENIA. Seguí los pasos indicados en tu panel de usuario.</p>
+                    <b>IMPORTANTE:</b> Antes debes completar todos tus datos personales para ser parte de un equipo INGENIA. Seguí los pasos indicados en tu panel de usuario.
+                  </p>
                   <br>
                   <a href="/panel" class="button is-dark is-outlined is-medium">Ir al panel</a>
                 </div>
               </div>
-              <button v-if="user !== null && user.pending_tasks.length == 0" @click="wannaColaborate = true" v-show="!wannaColaborate" class="button is-warning is-medium">¡Si! ¡Quiero colaborar!</button>
+              <button
+                v-if="user !== null && user.pending_tasks.length == 0"
+                @click="wannaColaborate = true"
+                v-show="!wannaColaborate"
+                class="button is-warning is-medium"
+              >¡Si! ¡Quiero colaborar!</button>
               <div v-if="wannaColaborate">
                 <div class="box has-text-left" v-if="!response.ok">
                   <div class="field">
                     <label class="label">
-                      <i class="fas fa-angle-double-right"></i> Escribí un mensaje al responsable del equipo</label>
+                      <i class="fas fa-angle-double-right"></i> Escribí un mensaje al equipo
+                    </label>
                     <div class="control">
                       <b-input maxlength="200" v-model="message" type="textarea" rows="2"></b-input>
                     </div>
                   </div>
                   <div class="field">
                     <div class="control">
-                      <button @click="submitInvitacion" class="button is-primary is-fullwidth" :class="{'is-loading': isLoading}">
-                        <i class="fa fa-paper-plane fa-fw"></i>&nbsp;Enviar</button>
+                      <button
+                        @click="submitInvitacion"
+                        class="button is-primary is-fullwidth"
+                        :class="{'is-loading': isLoading}"
+                      >
+                        <i class="fa fa-paper-plane fa-fw"></i>&nbsp;Enviar
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -192,29 +241,30 @@
                 </div>
               </div>
               <a v-if="user === null" href="/login" class="button is-warning is-outlined is-medium">
-                <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Inicia sesión para solicitar</a>
+                <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Inicia sesión para solicitar
+              </a>
               <b-loading :active.sync="isLoading"></b-loading>
             </div>
           </div>
           <div class="column is-6 is-offset-3" v-if="user === null">
             <div class="has-text-centered">
-              <h3 class="is-size-3 is-600">
-                Entrá en Ingenia+Virtuágora para poder participar</h3>
+              <h3 class="is-size-3 is-600">Entrá en Ingenia+Virtuágora para poder participar</h3>
               <p>Vas a poder bancar los proyectos y dejar comentarios, hasta podrias llegar a ser parte de un equipo!</p>
               <br>
               <a href="/panel" class="button is-warning is-medium">
-                <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Iniciar sesión</a>
+                <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Iniciar sesión
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </section>
 </template>
 
 <script>
 import Localidad from "../utils/GetLocalidad";
-import Stories from "./Stories";
+import LatestStories from "./LatestStories";
 export default {
   props: [
     "project",
@@ -228,7 +278,7 @@ export default {
   ],
   components: {
     Localidad,
-    Stories
+    LatestStories
   },
   data() {
     return {

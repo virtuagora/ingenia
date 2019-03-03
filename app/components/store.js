@@ -70,7 +70,15 @@ const store = new Vuex.Store({
       return state.user.groups[0]
       }
       return null;
-    }
+    },
+    onlyResponsable: (state) => {
+      if(state.user && state.user.groups[0]) return state.user.groups[0].pivot.relation == 'responsable';
+      else return false
+    },
+    onlyCoresponsable: (state) => {
+      if(state.user && state.user.groups[0])  return state.user.groups[0].pivot.relation == 'co-responsable';
+      else return false
+    },
   },
   plugins: [createPersistedState({
     key: 'virtuagora-v2',

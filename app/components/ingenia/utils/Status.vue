@@ -241,18 +241,18 @@ export default {
       2000
     );
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (
-        vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
-      ) {
-        console.log("Authorized");
-      } else {
-        console.log("Unauthorized - Kicking to dashboard!");
-        next({ name: "panelOverview" });
-      }
-    });
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     if (
+  //       vm.user.groups[0] !== undefined &&
+  //       vm.user.groups[0].pivot.relation === "responsable"
+  //     ) {
+  //       console.log("Authorized");
+  //     } else {
+  //       console.log("Unauthorized - Kicking to dashboard!");
+  //       next({ name: "panelOverview" });
+  //     }
+  //   });
+  // }
 };
 </script>

@@ -25761,6 +25761,7 @@ nav.navbar {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#d60c3c9b", endColorstr="#7d4f1489", GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
+  box-shadow: inset 0px -90px 39px -45px rgba(0, 23, 69, 0.75);
 }
 
 @media screen and (max-width: 768px) {

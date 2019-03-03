@@ -389,11 +389,11 @@ class ProjectAction
             throw new UnauthorizedException();
         }
         if (is_null($group->project)) {
-            throw new AppException('El grupo no puede acceder al recurso');
+            throw new AppException('¿Acaso existe el proyecto?');
         }
-        if ($group->project->selected == false) {
-            throw new AppException('El proyecto no puede subir historias');
-        }
+        // if ($group->project->selected == false) {
+        //     throw new AppException('El proyecto no puede subir historias');
+        // }
         // BODY
         $data = $request->getParsedBody();
         // IMAGE

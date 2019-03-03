@@ -2,6 +2,7 @@
 <router-view 
 :id="id" 
 :user-url="userUrl"
+:deadline="deadline"
 :save-user-profile-url="saveUserProfileUrl"
 :save-user-dni-url="saveUserDniUrl" 
 :save-user-public-profile-url="saveUserPublicProfileUrl"
@@ -31,6 +32,7 @@ export default {
   props: [
     "id",
 	"userUrl",
+  "deadline",
 	"saveUserProfileUrl",
 	"saveUserDniUrl",
 	"saveUserPublicProfileUrl",

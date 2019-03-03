@@ -233,7 +233,8 @@ class UserAction
         $usuario = $this->helper->getEntityFromId(
             'App:User', 'usr', $params
         );
-        if (!$this->authorization->checkPermission($subject, 'coordin', $usuario)) {
+        if (!$this->authorization->checkPermission($subject, 'coordin', $usuario) 
+        && !$this->authorization->checkPermission($subject, 'updUsrDni', $usuario)) {
             throw new UnauthorizedException();
         }
         $fileData = $this->userResource->getDniFile($usuario);

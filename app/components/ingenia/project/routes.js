@@ -8,6 +8,7 @@ import Overview from './Overview'
 import Budget from './Budget'
 import Team from './Team'
 import Implementation from './Implementation'
+import Historias from './Historias'
 
 
 const basePath = '/proyecto/:id'
@@ -34,6 +35,12 @@ const routes = [
         path: 'implementacion',
         component: Implementation,
         name: 'projectImplementation',
+        props: true
+      },
+      {
+        path: 'historias',
+        component: Historias,
+        name: 'projectHistorias',
         props: true
       }
     ],

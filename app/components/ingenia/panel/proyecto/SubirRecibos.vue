@@ -39,18 +39,18 @@
           <b>Foto/Archivo del comprobante</b>
           <p>Requerido. Debe ser un archivo .JPG, .JPEG, .PDF, .DOC o .DOCX de hasta 3MB como máximo.</p>
           <br>
-          <b-field class="file">
-            <b-upload v-model="files" name="archivo" v-validate="'required|size:3072|mimes:application/pdf,invalid/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/pjpeg'">
-              <a class="button is-link">
-                <b-icon icon="upload"></b-icon>
-                <span>Click para cargar</span>
-              </a>
-            </b-upload>
-            <span class="file-name" style="max-width: none;">
-              {{ files && files.length ? files[0].name : 'Seleccione un archivo para subir...' }}
-            </span>
-          </b-field>
-          <p v-show="errors.has('archivo')" class="has-text-danger is-size-7">Por favor, comproba que el archivo cumpla con las condiciones; Es requerido. Debe ser un archivo .JPG, .JPEG, .PDF, .DOC o .DOCX de hasta 3MB como máximo.</p>
+          <b-field class="file is-medium">
+          <b-upload v-model="file" :required="true" name="archivo">
+            <a class="button is-link is-medium">
+              <b-icon icon="upload"></b-icon>
+              <span>Click para cargar</span>
+            </a>
+          </b-upload>
+          <span class="file-name" style="max-width: none;" v-if="file">
+            {{ file.name }}
+          </span>
+        </b-field>
+        <p v-show="!isFileOk && file !== null" class="has-text-danger">Requerido. Debe ser un archivo .JPG, .JPEG, .PDF, .DOC o .DOCX de hasta 3MB como máximo.</p>
           <hr>
           <div class="field">
             <div class="control is-clearfix">
@@ -117,9 +117,10 @@ export default {
       fechaFinal: '',
       recibos: [],
       isLoading: false,
-      files: [],
+      file: null,
       formUrl:
-        "/project/" + this.$store.state.user.groups[0].project.id + "/receipts"
+        "/project/" + this.$store.state.user.groups[0].project.id + "/receipts",
+      mimes: ['application/pdf','invalid/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document','image/jpeg','image/pjpeg']
       // user: {},
       // verifying: true
     };
@@ -244,6 +245,12 @@ export default {
     },
     project: function(){
       return this.$store.state.user.groups[0].project
+    },
+    isFileOk: function() {
+      if(this.file === null) return false
+      if(this.file.size > 3145728) return false
+      if(!this.mimes.includes(this.file.type)) return false
+      return true
     }
   },
   watch: {
@@ -255,7 +262,8 @@ export default {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

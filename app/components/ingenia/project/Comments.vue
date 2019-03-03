@@ -47,7 +47,7 @@
           <i class="em em-smiley"></i>
         </div>
         <span slot="no-more">
-          <i class="fas fa-info-circle"></i> ¡Fín de los comentarios!
+          <br><i class="fas fa-info-circle"></i> ¡Fín de los comentarios!
         </span>
       </infinite-loading>
     </div>

@@ -1,61 +1,72 @@
 <template>
-  <div>
+  <div v-if="!isFormClosed(deadline)">
     <section>
       <div class="tabs">
-  <ul>
-    <li :class="{'is-active': $route.name == 'userVerEquipo'}"><router-link :to="{ name: 'userVerEquipo'}">Ver equipo</router-link></li>
-    <!-- <li :class="{'is-active': $route.name == 'userEditarEquipo'}"  v-if="user.groups[0].pivot.relation == 'responsable'"><router-link :to="{ name: 'userEditarEquipo'}">Editar datos</router-link></li> -->
-    <li :class="{'is-active': $route.name == 'userVerIntegrantes'}"  v-if="user.groups[0].pivot.relation == 'responsable'"><router-link :to="{ name: 'userVerIntegrantes'}">Ver los integrantes</router-link></li>
-  </ul>
-</div>
+        <ul>
+           <li :class="{'is-active': $route.name == 'userVerEquipo'}"><router-link :to="{ name: 'userVerEquipo'}">Ver equipo</router-link></li>
+    <li :class="{'is-active': $route.name == 'userEditarEquipo'}"  v-if=" allowResponsables && !isFormClosed(deadline)"><router-link :to="{ name: 'userEditarEquipo'}">Editar datos</router-link></li>
+    <li :class="{'is-active': $route.name == 'userVerIntegrantes'}"  v-if="allowResponsables"><router-link :to="{ name: 'userVerIntegrantes'}">Ver los integrantes</router-link></li>
+        </ul>
+      </div>
       <div class="has-text-centered">
         <img src="/assets/img/ingenia-logo.svg" class="image is-centered" style="max-width: 250px;">
       </div>
       <br>
-      <b-message class="has-text-centered">
-        Acá podes editar los datos de tu equipo. Podes cambiar todos los datos hasta el cierre de la convocatoria.
-      </b-message>
+      <b-message
+        class="has-text-centered"
+      >Acá podes editar los datos de tu equipo. Podes cambiar todos los datos hasta el cierre de la convocatoria.</b-message>
       <section v-if="fetchResponse.replied && fetchResponse.ok">
-      <div class="notification is-link">
-        <h1 class="title is-1 is-700">
-          <i class="far fa-edit fa-fw"></i> Sobre el
-          <u>EQUIPO</u>
-        </h1>
-      </div>
-      <form-equipo ref="formEquipo" :team.sync="team"></form-equipo>
-      <br>
-      <div class="notification is-success" v-show="response.ok">
-        <i class="fas fa-check fa-fw"></i> Datos enviados y guardados con éxito
-      </div>
-      <button @click="submit" v-show="!response.ok" class="button is-large is-primary is-fullwidth" :class="{'is-loading': isLoading}">
-        <i class="fas fa-save"></i>&nbsp;&nbsp;Guardar</button>
+        <div class="notification is-link">
+          <h1 class="title is-1 is-700">
+            <i class="far fa-edit fa-fw"></i> Sobre el
+            <u>EQUIPO</u>
+          </h1>
+        </div>
+        <form-equipo ref="formEquipo" :team.sync="team"></form-equipo>
+        <br>
+        <div class="notification is-success" v-show="response.ok">
+          <i class="fas fa-check fa-fw"></i> Datos enviados y guardados con éxito
+        </div>
+        <button
+          @click="submit"
+          v-show="!response.ok"
+          class="button is-large is-primary is-fullwidth"
+          :class="{'is-loading': isLoading}"
+        >
+          <i class="fas fa-save"></i>&nbsp;&nbsp;Guardar
+        </button>
       </section>
       <section v-if="fetchResponse.replied && !fetchResponse.ok">
         <div class="notification is-danger">
-        <i class="fas fa-times fa-fw"></i> Error al conseguir los datos del equipo. Vuelva a cargar la página
-      </div>
+          <i class="fas fa-times fa-fw"></i> Error al conseguir los datos del equipo. Vuelva a cargar la página
+        </div>
       </section>
       <b-loading :active.sync="isLoading"></b-loading>
     </section>
   </div>
+  <div v-else>
+    <b-message class="has-text-centered" type="is-warning" v-if="isFormClosed(deadline)">
+      La convocatoria ha cerrado, la opcion de editar equipo no se encuentra más disponible
+    </b-message>
+  </div>
 </template>
 
 <script>
-import FormEquipo from '../../utils/FormEquipo'
+import FormEquipo from "../../utils/FormEquipo";
 
 export default {
-  props: ["teamUrl","editTeamUrl"],
-  components:{
+  props: ["deadline", "teamUrl", "editTeamUrl"],
+  components: {
     FormEquipo
   },
-  data(){
+  data() {
     return {
       isLoading: true,
-      fetchResponse:{
+      fetchResponse: {
         replied: false,
         ok: false
       },
-      response:{
+      response: {
         replied: false,
         ok: false
       },
@@ -72,40 +83,44 @@ export default {
         facebook: null,
         telephone: null,
         email: null
-      },
-    }
+      }
+    };
   },
-   created: function() {
+  created: function() {
     this.user = this.$store.state.user;
   },
-  mounted: function(){
-    this.$http.get(this.fetchTeamUrl)
-    .then(response => {
-      this.team.name = response.data.name
-      this.team.description = response.data.description
-      this.team.year = response.data.year
-      this.team.previous_editions = response.data.previous_editions
-      this.team.locality_id = response.data.locality_id
-      this.team.locality_other = response.data.locality_other
-      this.team.parent_organization = response.data.parent_organization ? response.data.parent_organization : false
-      this.team.web = response.data.web
-      this.team.facebook = response.data.facebook
-      this.team.telephone = response.data.telephone
-      this.team.email = response.data.email
-      this.fetchResponse.replied = true;
-      this.fetchResponse.ok = true;
-      this.isLoading = false
-    }).catch(error => {
-          console.error(error.message);
-          this.isLoading = false;
-          this.fetchResponse.replied = true;
-          this.$snackbar.open({
-            message: "Error inesperado. Recarge la pagina.",
-            type: "is-danger",
-            actionText: "Cerrar"
-          });
-          return false;
+  mounted: function() {
+    this.$http
+      .get(this.fetchTeamUrl)
+      .then(response => {
+        this.team.name = response.data.name;
+        this.team.description = response.data.description;
+        this.team.year = response.data.year;
+        this.team.previous_editions = response.data.previous_editions;
+        this.team.locality_id = response.data.locality_id;
+        this.team.locality_other = response.data.locality_other;
+        this.team.parent_organization = response.data.parent_organization
+          ? response.data.parent_organization
+          : false;
+        this.team.web = response.data.web;
+        this.team.facebook = response.data.facebook;
+        this.team.telephone = response.data.telephone;
+        this.team.email = response.data.email;
+        this.fetchResponse.replied = true;
+        this.fetchResponse.ok = true;
+        this.isLoading = false;
+      })
+      .catch(error => {
+        console.error(error.message);
+        this.isLoading = false;
+        this.fetchResponse.replied = true;
+        this.$snackbar.open({
+          message: "Error inesperado. Recarge la pagina.",
+          type: "is-danger",
+          actionText: "Cerrar"
         });
+        return false;
+      });
   },
   methods: {
     submit: function() {
@@ -133,7 +148,7 @@ export default {
                 });
                 this.isLoading = false;
                 this.response.ok = true;
-                this.forceUpdateState('userPanel')
+                this.forceUpdateState("userPanel");
               })
               .catch(error => {
                 console.error(error.message);
@@ -163,12 +178,12 @@ export default {
         });
     }
   },
-  computed:{
-    fetchTeamUrl: function(){
-      return this.teamUrl.replace(':gro',this.user.groups[0].id)
+  computed: {
+    fetchTeamUrl: function() {
+      return this.teamUrl.replace(":gro", this.user.groups[0].id);
     },
-    postEditTeamUrl: function(){
-      return this.editTeamUrl.replace(':gro',this.user.groups[0].id)
+    postEditTeamUrl: function() {
+      return this.editTeamUrl.replace(":gro", this.user.groups[0].id);
     },
     payload: function() {
       let load = {
@@ -209,7 +224,8 @@ export default {
     next(vm => {
       if (
         vm.user.groups[0] !== undefined &&
-        vm.user.groups[0].pivot.relation === "responsable"
+        (vm.user.groups[0].pivot.relation === "responsable" ||
+        vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {
@@ -218,6 +234,6 @@ export default {
       }
     });
   }
-}
+};
 </script>
 
