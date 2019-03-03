@@ -327,7 +327,7 @@ export default {
   computed: {
     urlGet: function() {
       let query = [];
-      query.push("sel=true");
+      // query.push("sel=true");
       if (this.nameToSearch !== "") {
         query.push("s=" + this.nameToSearch);
       }
