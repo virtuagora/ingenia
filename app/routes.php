@@ -234,8 +234,10 @@ $app->get('/complete-sign-up', function ($request, $response, $args) {
         ->where('token', $token)
         ->first();
     if (is_null($pending)) {
-        return $response->withRedirect('/');
+        throw new App\Util\Exception\AppException('¡Ya registraste tu usuario con esta invitación!');
+        // return $response->withRedirect('/');
     }
+    $this->session->signOut();
     return $this->view->render($response, 'base/completar-registro.twig', [
         'activation_key' => $token,
     ]);

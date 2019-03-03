@@ -41,27 +41,27 @@ class User extends Model
         return $this->hasMany('App\Model\Project');
     }
 
-    public function setNamesAttribute($value)
-    {
-        $this->attributes['names'] = $value;
-        if (isset($this->attributes['surnames'])) {
-            $fullname = $this->attributes['names'] . ' ' . $this->attributes['surnames'];
-            $this->attributes['trace'] = mb_strtolower(trim($fullname));
-        } else {
-            $this->attributes['trace'] = mb_strtolower(trim($value));
-        }
-    }
+    // public function setNamesAttribute($value)
+    // {
+    //     $this->attributes['names'] = $value;
+    //     if (isset($this->attributes['surnames'])) {
+    //         $fullname = $this->attributes['names'] . ' ' . $this->attributes['surnames'];
+    //         $this->attributes['trace'] = mb_strtolower(trim($fullname));
+    //     } else {
+    //         $this->attributes['trace'] = mb_strtolower(trim($value));
+    //     }
+    // }
 
-    public function setSurnamesAttribute($value)
-    {
-        $this->attributes['surnames'] = $value;
-        if (isset($this->attributes['names'])) {
-            $fullname = $this->attributes['names'] . ' ' . $this->attributes['surnames'];
-            $this->attributes['trace'] = mb_strtolower(trim($fullname));
-        } else {
-            $this->attributes['trace'] = mb_strtolower(trim($value));
-        }
-    }
+    // public function setSurnamesAttribute($value)
+    // {
+    //     $this->attributes['surnames'] = $value;
+    //     if (isset($this->attributes['names'])) {
+    //         $fullname = $this->attributes['names'] . ' ' . $this->attributes['surnames'];
+    //         $this->attributes['trace'] = mb_strtolower(trim($fullname));
+    //     } else {
+    //         $this->attributes['trace'] = mb_strtolower(trim($value));
+    //     }
+    // }
 
     public function setPasswordAttribute($value)
     {

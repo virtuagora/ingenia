@@ -366,6 +366,7 @@ class GroupResource extends Resource
             $mailMsg = $this->view->fetch('emails/sendInvitation.twig', [
                 'url' => $link,
                 'comment' => isset($data['comment'])? $data['comment']: '',
+                'team' => $group->name,
             ]);
             $this->logger->info($link);
             $this->mailer->sendMail($mailSub, $pending->identifier, $mailMsg, 'text/html');

@@ -63,6 +63,12 @@ class UserResource extends Resource
                 $qry->whereIn('role_id', $roles);
             });
         }
+        if (isset($options['equipo'])) {
+            $equipo = $this->helper->generateTrace($options['equipo']);
+            $query->whereHas('groups', function ($qry) use ($equipo) {
+                $qry->where('trace', 'LIKE', "%$equipo%");
+            });
+        }
         if (isset($options['s'])) {
             $filter = $this->helper->generateTrace($options['s']);
             $query->where('trace', 'LIKE', "%$filter%");

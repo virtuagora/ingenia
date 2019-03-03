@@ -328,6 +328,8 @@ class Installer
 
     public function down()
     {
+        $this->db->schema()->dropIfExists('stories');
+        $this->db->schema()->dropIfExists('receipts');
         $this->db->schema()->dropIfExists('notifications');
         $this->db->schema()->dropIfExists('logs');
         $this->db->schema()->dropIfExists('pages');

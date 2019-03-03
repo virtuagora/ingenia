@@ -40,6 +40,9 @@ class UserAction
             'roles' => [
                 'type' => 'string',
             ],
+            'equipo' => [
+                'type' => 'string',
+            ],
             's' => [
                 'type' => 'string',
             ],

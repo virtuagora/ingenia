@@ -318,7 +318,7 @@ class ProjectResource extends Resource
         }
 
         $project->name = $data['name'];
-        $project->trace = $this->helper->generateTrace($data['name']);
+        $project->trace = $this->helper->generateTrace($data['name'] . $group->name);
         $project->abstract = $data['abstract'];
         $project->foundation = $data['foundation'];
         $project->previous_work = $data['previous_work'];
