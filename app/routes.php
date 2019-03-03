@@ -267,6 +267,7 @@ $app->post('/user/{usr}/public-profile', 'userAction:postPublicProfile')->setNam
 $app->post('/user/{usr}/dni', 'userAction:postDni')->setName('runUpdUserDni');
 $app->get('/user/{usr}/dni', 'userAction:getDniFile')->setName('getUsrDni');
 $app->post('/user/{usr}/pending-email', 'userAction:postPendingEmail')->setName('runUpdUserPem');
+$app->post('/user/{usr}/password', 'userAction:postPassword')->setName('runUpdUserPas');
 
 $app->get('/group/{gro}', 'groupAction:getOne')->setName('getGroup');
 $app->get('/group/{gro}/user', 'groupAction:getUsuarios')->setName('getGroUsr');

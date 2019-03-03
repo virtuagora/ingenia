@@ -415,7 +415,7 @@ class UserResource extends Resource
         $user->save();
     }
 
-    public function updatePassword($user, $data)
+    public function updatePassword($user, $data, $isAdmin)
     {
         $schema = [
             'type' => 'object',
@@ -436,16 +436,19 @@ class UserResource extends Resource
                     'maxLength' => 250,
                 ],
             ],
-            'required' => ['current', 'new', 'repear'],
+            'required' => ['current', 'new', 'repeat'],
             'additionalProperties' => false,
         ];
+        if ($isAdmin) {
+            $schema['required'] = ['new', 'repeat'];
+        }
         $v = $this->validation->fromSchema($schema);
         $v->assert($data);
         if ($data['new'] !== $data['repeat']) {
             throw new AppException(
                 'Clave nueva no coincide con su campo de control'
             );
-        } elseif (!password_verify($data['current'], $user->password)) {
+        } elseif (!$isAdmin && !password_verify($data['current'], $user->password)) {
             throw new AppException(
                 'Clave incorrecta'
             );

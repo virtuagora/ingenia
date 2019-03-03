@@ -175,7 +175,7 @@ class UserAction
         ]);
     }
 
-    public function putClave($request, $response, $params)
+    public function postPassword($request, $response, $params)
     {
         $subject = $request->getAttribute('subject');
         $user = $this->helper->getEntityFromId(
@@ -184,7 +184,8 @@ class UserAction
         if (!$this->authorization->checkPermission($subject, 'updUsrPas', $user)) {
             throw new UnauthorizedException();
         }
-        $this->userResource->updateEmail($user, $request->getParsedBody());
+        $admin = $this->authorization->checkPermission($subject, 'coordin');
+        $this->userResource->updatePassword($user, $request->getParsedBody(), $admin);
         return $this->representation->returnMessage($request, $response, [
             'message' => 'Clave actualizada',
             'status' => 200,
