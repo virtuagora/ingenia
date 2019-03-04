@@ -199,6 +199,14 @@
           </span>
         </li>
       </ul>
+      <div class="notification is-info is-clearfix" v-if="invitacionesPendientes.length > 0">
+          <a href="/panel/perfil/invitaciones" class="button is-dark is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Ver invitaciones y solicitudes</a>
+          <span class="is-600 is-size-5">
+            <i class="fas fa-angle-double-right fa-lg fa-fw"></i> ¡Tenes invitaciones pendientes!</span>
+          <p> 
+            ¡Te han invitado a ser parte de un equipo ingenia, no pierdas la chance!
+          </p>
+        </div>
       <div class="notification is-success" v-if="!user.pending_tasks.includes('email') && !user.pending_tasks.includes('profile') && !user.pending_tasks.includes('dni')">
         <i class="fas fa-check fa-fw"></i> ¡Ya te encontrás en condiciones para participar en un equipo INGENIA o presentando un proyecto!
       </div>
@@ -241,6 +249,13 @@ export default {
       2000
     );
   },
+  computed: {
+    invitacionesPendientes: function(){
+      return this.user.invitations.filter(x => {
+        return x.state == "pending";
+      })
+    }
+  }
   // beforeRouteEnter(to, from, next) {
   //   next(vm => {
   //     if (

@@ -52,6 +52,7 @@ import Status from "./ingenia/utils/Status";
 import Countdown from "./ingenia/utils/Countdown";
 
 import VerProyectoButtonHeroIndex from "./ingenia/utils/VerProyectoButtonHeroIndex";
+import VerInvitacionesButtonHeroIndex from "./ingenia/utils/VerInvitacionesButtonHeroIndex";
 import VerProyectoTabIndex from "./ingenia/utils/VerProyectoTabIndex";
 
 // vue-textarea-autosize
@@ -178,6 +179,7 @@ window.vm = new Vue({ // eslint-disable-line no-new
     Countdown,
     'fb-register': FBRegister,
     VerProyectoButtonHeroIndex,
+    VerInvitacionesButtonHeroIndex,
     VerProyectoTabIndex,
     PrintProject,
     ProjectCarouselSmall

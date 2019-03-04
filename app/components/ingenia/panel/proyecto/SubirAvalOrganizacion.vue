@@ -14,7 +14,7 @@
       </div>
       <div class="notification is-success" v-show="user.groups[0].uploaded_letter && !verifying">
         <i class="fas fa-check fa-fw"></i>La carta de aval ha sido enviada y guardada correctamente
-        <a :href="'/group/'+user.groups[0].id+'/letter'" class="is-pulled-right button is-small is-white">
+        <a :href="'/group/'+user.groups[0].id+'/letter'" target="_blank" class="is-pulled-right button is-small is-white">
           <i class="fas fa-download"></i>&nbsp;Descargar</a>
       </div>
       <div v-show="user.groups[0].uploaded_letter && !verifying">
@@ -56,7 +56,7 @@ export default {
       pendiente: false,
       rechazado: false,
       verificado: false,
-      files: null,
+      file: null,
       isLoading: false,
       user: {},
       verifying: true,

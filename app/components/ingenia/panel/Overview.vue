@@ -13,18 +13,10 @@
     <br>
     <status></status>
     <br>
-    <countdown :date="deadline" class="is-dark"></countdown>
+    <countdown :date="deadline" class="is-dark"></countdown>      
     <div class="notification is-info" v-if="user.groups[0] !== undefined && user.groups[0].project !== null">
         <i class="fas fa-eye fa-fw"></i> Tu proyecto está publico en la web, podes ingresar haciendo <b><a :href="'/proyecto/' + user.groups[0].project.id">Clic aquí</a></b>
       </div>
-        <div class="notification is-light is-clearfix" v-if="invitacionesPendientes.length > 0">
-          <router-link :to="{ name: 'userVerInvitaciones'}" class="button is-dark is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Ver invitaciones y solicitudes</router-link>
-          <span class="is-600 is-size-5">
-            <i class="fas fa-angle-double-right fa-lg fa-fw"></i> ¡Tenes invitaciones pendientes!</span>
-          <p>
-            ¡Te han invitado a ser parte de un equipo ingenia, no pierdas la chance!
-          </p>
-        </div>      
   </article>
 </template>
 

@@ -164,8 +164,8 @@
           <p class="is-size-7" v-if="props.row.group.quota != null"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Puntaje: {{ props.row.group.quota}}</p>
           <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota != null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no seleccionado</p>
           <p class="is-size-7" v-if="props.row.selected == true && props.row.group.quota != null"><i class="fas fa-trophy"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
-          <p class="is-size-7" v-if="props.row.group.upload_agreement"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
-          <p class="is-size-7" v-if="props.row.group.parent_organization != null && props.row.group.upload_letter == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.upload_agreement == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta la carta de conformidad</p>
+          <p class="is-size-7" v-if="props.row.organization != null && props.row.group.upload_letter == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta la carta de aval</p>
           <p class="is-size-7" v-if="props.row.group.full_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Aun no cumple el cupo mínimo</p>
           <p class="is-size-7" v-if="props.row.group.second_in_charge == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar co-responsable</p>
           <p class="is-size-7" v-if="props.row.group.verified_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Faltan DNIs por verificar</p>
@@ -179,6 +179,18 @@
           <p class="is-size-7"><a
                 @click="cardEvaluar(props.row)"
               ><i class="fas fa-file-signature"></i>&nbsp;Evaluar</a></p>
+          <p class="is-size-7" v-if="(props.row.organization != null) && props.row.group.uploaded_letter"><a
+                :href="letterUrl(props.row.group)"
+                class="has-text-link"
+                target="_blank"
+              >
+                <i class="fas fa-download"></i>&nbsp;Descargar carta aval</a></p>
+          <p class="is-size-7" v-if="props.row.group.uploaded_agreement"><a
+                :href="agreementUrl(props.row.group)"
+                class="has-text-link"
+                target="_blank"
+              >
+                <i class="fas fa-download"></i>&nbsp;Descargar carta conformidad</a></p>
         </b-table-column>
       </template>
 
