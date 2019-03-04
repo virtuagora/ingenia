@@ -2,6 +2,8 @@
   <section>
     <h1 class="subtitle is-3">Listado de proyectos</h1>
     <!-- Main container -->
+    <div class="box">
+
     <nav class="level projects-filter">
       <!-- Left side -->
       <div class="level-left">
@@ -12,7 +14,7 @@
                 v-model="nameToSearch"
                 class="input"
                 type="text"
-                placeholder="Nombre del proyecto"
+                placeholder="Proyecto y/o equipo"
               >
               <span class="icon is-left">
                 <i class="fas fa-chevron-right fa-lg"></i>
@@ -24,7 +26,7 @@
           </div>
         </div>
         <div class="level-item">
-          <a @click="onlySelected = !onlySelected" class="button is-white">
+          <a @click="onlySelected = !onlySelected" class="button is-white" :class="{'is-warning': onlySelected}">
             <i class="fas fa-trophy fa-fw"></i>
           </a>
         </div>
@@ -120,6 +122,7 @@
         </div>
       </div>
     </nav>
+    </div>
     <!-- <b-table
       :data="projects"
       ref="table"

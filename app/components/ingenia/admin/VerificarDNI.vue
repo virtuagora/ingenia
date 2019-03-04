@@ -1,23 +1,37 @@
 <template>
   <section>
     <h1 class="subtitle is-3">Verificar DNIs</h1>
+    <div class="box">
+
     <nav class="level projects-filter">
       <!-- Left side -->
       <div class="level-left">
         <div class="level-item">
           <div class="field has-addons" style="flex-grow: 1">
             <p class="control is-expanded has-icons-left">
-              <input v-model="nameToSearch" class="input" type="text" placeholder="Buscar por nombre">
+              <input v-model="nameToSearch" class="input" type="text" placeholder="Nombre y/o Apellido">
               <span class="icon is-left">
                 <i class="fas fa-chevron-right fa-lg"></i>
               </span>
             </p>
-            <p class="control">
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="field has-addons" style="flex-grow: 1">
+            <p class="control is-expanded has-icons-left">
+              <input v-model="nameEquipoToSearch" class="input" type="text" placeholder="Nombre equipo">
+              <span class="icon is-left">
+                <i class="fas fa-chevron-right fa-lg"></i>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="level-item">
+          <p class="control">
               <button @click="search()" class="button is-white is-600">
                 Buscar
               </button>
             </p>
-          </div>
         </div>
       </div>
       <!-- Right side -->
@@ -39,6 +53,7 @@
         </div>
       </div>
     </nav>
+    </div>
     <div class="content">
       <table class="table is-fullwidth">
         <thead>
@@ -139,6 +154,7 @@ export default {
       // departamentos: [],
       // localidades: [],
       nameToSearch: "",
+      nameEquipoToSearch: "",
       blacklist: "",
       filters: false
     };
@@ -213,6 +229,7 @@ export default {
       // this.departamentos = [];
       // this.localidades = [];
       this.nameToSearch = "";
+      this.nameEquipoToSearch = "";
       this.users = [];
       this.paginator.current_page = null;
       this.paginator.last_page = null;
@@ -416,6 +433,9 @@ export default {
       query.push("size=100");
       if (this.nameToSearch !== "") {
         query.push("s=" + this.nameToSearch);
+      }
+      if (this.nameEquipoToSearch !== "") {
+        query.push("equipo=" + this.nameEquipoToSearch);
       }
       if (this.verifiedToggle) {
         query.push("dni_state=3");

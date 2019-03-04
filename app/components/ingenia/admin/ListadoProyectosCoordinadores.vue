@@ -6,13 +6,15 @@
       Ingresá al <a href="/proyectos">catálogo</a>, busáa tu proyecto y asignatelo.
     </b-message>
     <!-- Main container -->
+    <div class="box">
+
     <nav class="level projects-filter">
       <!-- Left side -->
       <div class="level-left">
         <div class="level-item">
           <div class="field has-addons" style="flex-grow: 1">
             <p class="control is-expanded has-icons-left">
-              <input v-model="nameToSearch" class="input" type="text" placeholder="Nombre del proyecto">
+              <input v-model="nameToSearch" class="input" type="text" placeholder="Proyecto y/o equipo">
               <span class="icon is-left">
                 <i class="fas fa-chevron-right fa-lg"></i>
               </span>
@@ -81,6 +83,7 @@
         </div>
       </div>
     </nav>
+    </div>
     <b-table
       :data="projects"
       ref="table"

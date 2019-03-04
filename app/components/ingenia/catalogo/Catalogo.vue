@@ -7,7 +7,7 @@
         <div class="level-item">
           <div class="field has-addons" style="flex-grow: 1">
             <p class="control is-expanded has-icons-left">
-              <input v-model="nameToSearch" class="input is-medium" type="text" placeholder="Nombre del proyecto">
+              <input v-model="nameToSearch" class="input is-medium" type="text" placeholder="Proyecto y/o equipo">
               <span class="icon is-medium is-left">
                 <i class="fas fa-chevron-right fa-lg"></i>
               </span>
