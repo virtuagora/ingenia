@@ -51,6 +51,9 @@
             <th width="90" class="has-text-centered">
               <i class="fas fa-download"></i>
             </th>
+            <th width="90" class="has-text-centered">
+              <i class="fas fa-edit"></i>
+            </th>
             <th v-if="!verifiedToggle" width="90" class="has-text-centered">
               <i class="fas fa-check"></i>
             </th>
@@ -61,13 +64,17 @@
             <!-- <td class="has-text-centered">{{user.id}}</td> -->
             <td>{{user.dni}}</td>
             <td>
-              <a :href="'/usuario/'+user.id">{{user.surnames}}, {{user.names}}</a>&nbsp;&nbsp;
+              <a :href="'/usuario/'+user.id">{{user.surnames.toUpperCase()}}, {{user.names}}</a>&nbsp;&nbsp;
               <span class="tag is-danger" v-show="inBlacklist(user)">
                 <i class="fas fa-exclamation-triangle"></i>&nbsp;En lista negra</span>
             </td>
             <td class="has-text-centered">
               <a :href="getUserDNIUrl(user)" target="_blank" class="button is-small">
                 <i class="fas fa-eye"></i>&nbsp;Ver</a>
+            </td>
+            <td class="has-text-centered">
+              <a @click="openEditNombre(user)" class="button is-small">
+                <i class="fas fa-edit"></i>&nbsp;Editar</a>
             </td>
             <td class="has-text-centered" v-if="!verifiedToggle">
                  <span v-if="user.verificado === true" class="tag is-success is-outlined is-small">
@@ -79,7 +86,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <th colspan="4">
+            <th colspan="5">
               <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
                 <span slot="no-results">
                   <i class="fas fa-info-circle"></i> Fin de los resultados
@@ -100,6 +107,7 @@
 <script>
 import InfiniteLoading from "vue-infinite-loading";
 import Localidad from "../utils/GetLocalidad";
+import ModalEditNombre from "./ModalEditNombre"
 
 export default {
   props: ["getUsers", "postValidateDni", "getUserDni"],
@@ -111,7 +119,6 @@ export default {
     return {
       isLoading: false,
       users: [],
-
       paginator: {
         current_page: null,
         last_page: null,
@@ -281,6 +288,17 @@ export default {
         $state.complete();
       }
     },
+    openEditNombre: function(user) {
+      this.$modal.open({
+        parent: this,
+        component: ModalEditNombre,
+        hasModalCard: true,
+        props: { user: user },
+        events: {
+          update: () => {this.resetEverything()}
+        }
+      });
+    },
     // statusTeam: function(pro) {
     //   return {
     //     "has-text-success": pro.group.full_team,
@@ -298,11 +316,11 @@ export default {
     //   };
     // },
     // statusLetter: function(pro) {
-    //   return {
-    //     "has-text-success":
-    //       (pro.organization != null) & pro.group.uploaded_letter,
-    //     "fa-check": (pro.organization != null) & pro.group.uploaded_letter,
-    //     "fa-times": (pro.organization != null) & !pro.group.uploaded_letter,
+    //   return {Evaluación
+    //     "has-textEvaluación-success":
+    //       (pro.orEvaluaciónganization != null) & pro.group.uploaded_letter,
+    //     "fa-checkEvaluación": (pro.organization != null) & pro.group.uploaded_letter,
+    //     "fa-timesEvaluación": (pro.organization != null) & !pro.group.uploaded_letter,
     //     "fa-minus": pro.organization == null
     //   };
     // },
@@ -365,7 +383,7 @@ export default {
     //   }
     // },
     // departamentoSelected: function(newVal, oldVal) {
-    //   if (newVal != null) {
+    //   if (newVal Evaluación!= null) {
     //     this.localidadSelected = null;
     //     this.localidadLoading = true;
     //     this.$http

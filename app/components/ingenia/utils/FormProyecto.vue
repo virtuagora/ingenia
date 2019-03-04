@@ -648,9 +648,9 @@ export default {
         .then(result => {
           if (result) {
             if (!this.disableAddItem) {
-              if (parseFloat(this.inputItemMonto) + this.montoTotal > 22000) {
+              if (parseFloat(this.inputItemMonto) + this.montoTotal > 25000) {
                 this.$snackbar.open(
-                  "El item excede el total permitido ($22000)"
+                  "El item excede el total permitido ($25000)"
                 );
                 return;
               }

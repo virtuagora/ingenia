@@ -209,6 +209,23 @@ class UserAction
         ]);
     }
 
+    public function postUpdateName($request, $response, $params)
+    {
+        $subject = $request->getAttribute('subject');
+        $user = $this->helper->getEntityFromId(
+            'App:User', 'usr', $params
+        );
+        if (!$this->authorization->checkPermission($subject, 'updUsrProfile', $user)) {
+            throw new UnauthorizedException();
+        }
+        $user = $this->userResource->updateNames($subject, $user, $request->getParsedBody());
+        return $this->representation->returnMessage($request, $response, [
+            'message' => 'Profile updated succefully',
+            'status' => 200,
+            'user' => $user->toArray(),
+        ]);
+    }
+
     public function postDni($request, $response, $params)
     {
         $subject = $request->getAttribute('subject');

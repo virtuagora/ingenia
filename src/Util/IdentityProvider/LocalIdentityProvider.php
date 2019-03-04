@@ -7,10 +7,11 @@ class LocalIdentityProvider
     protected $db;
     protected $validation;
 
-    public function __construct($db, $validation)
+    public function __construct($db, $validation, $helper)
     {
         $this->db = $db;
         $this->validation = $validation;
+        $this->helper = $helper;
     }
 
     public function makeIdentifiers($options)
@@ -90,6 +91,7 @@ class LocalIdentityProvider
         $user->password = $data['password'];
         $user->names = $data['names'];
         $user->surnames = $data['surnames'];
+        $user->trace = $this->helper->generateTrace($data['names'] . ' ' . $data['surnames']);
         $user->subject()->associate($subj);
         $user->save();
         $pending->delete();

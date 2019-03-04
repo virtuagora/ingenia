@@ -8,20 +8,23 @@
         <div class="level-item">
           <div class="field has-addons" style="flex-grow: 1">
             <p class="control is-expanded has-icons-left">
-              <input v-model="nameToSearch" class="input" type="text" placeholder="Nombre del proyecto">
+              <input
+                v-model="nameToSearch"
+                class="input"
+                type="text"
+                placeholder="Nombre del proyecto"
+              >
               <span class="icon is-left">
                 <i class="fas fa-chevron-right fa-lg"></i>
               </span>
             </p>
             <p class="control">
-              <button @click="search()" class="button is-white is-600">
-                Buscar
-              </button>
+              <button @click="search()" class="button is-white is-600">Buscar</button>
             </p>
           </div>
         </div>
         <div class="level-item">
-           <a @click="onlySelected = !onlySelected" class="button is-white">
+          <a @click="onlySelected = !onlySelected" class="button is-white">
             <i class="fas fa-trophy fa-fw"></i>
           </a>
         </div>
@@ -37,30 +40,65 @@
       <div class="level-right" v-else>
         <div class="level-item">
           <b-field expanded style="flex-grow: 1">
-            <b-select v-model="categoriaSelected" :loading="categoriasLoading" placeholder="Categoria" expanded>
+            <b-select
+              v-model="categoriaSelected"
+              :loading="categoriasLoading"
+              placeholder="Categoria"
+              expanded
+            >
               <option :value="null">Todas</option>
-              <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">{{categoria.name}}</option>
+              <option
+                v-for="categoria in categorias"
+                :key="categoria.id"
+                :value="categoria.id"
+              >{{categoria.name}}</option>
             </b-select>
           </b-field>
         </div>
         <div class="level-item">
           <b-field expanded style="flex-grow: 1">
-            <b-select v-model="regionSelected" placeholder="Región" :disabled="regiones.length == 0" :loading="regionLoading" expanded>
+            <b-select
+              v-model="regionSelected"
+              placeholder="Región"
+              :disabled="regiones.length == 0"
+              :loading="regionLoading"
+              expanded
+            >
               <option v-for="region in regiones" :key="region.id" :value="region">{{region.name}}</option>
             </b-select>
           </b-field>
         </div>
         <div class="level-item" v-if="regionSelected !== null">
           <b-field expanded style="flex-grow: 1">
-            <b-select v-model="departamentoSelected" placeholder="Departamento" :disabled="departamentos.length == 0" :loading="departamentoLoading" expanded>
-              <option v-for="departamento in departamentos" :key="departamento.id" :value="departamento">{{departamento.name}}</option>
+            <b-select
+              v-model="departamentoSelected"
+              placeholder="Departamento"
+              :disabled="departamentos.length == 0"
+              :loading="departamentoLoading"
+              expanded
+            >
+              <option
+                v-for="departamento in departamentos"
+                :key="departamento.id"
+                :value="departamento"
+              >{{departamento.name}}</option>
             </b-select>
           </b-field>
         </div>
         <div class="level-item" v-if="departamentoSelected !== null">
           <b-field expanded style="flex-grow: 1">
-            <b-select v-model="localidadSelected" placeholder="Localidad" :disabled="localidades.length == 0" :loading="localidadLoading" expanded>
-              <option v-for="localidad in localidades" :key="localidad.id" :value="localidad">{{localidad.name}}</option>
+            <b-select
+              v-model="localidadSelected"
+              placeholder="Localidad"
+              :disabled="localidades.length == 0"
+              :loading="localidadLoading"
+              expanded
+            >
+              <option
+                v-for="localidad in localidades"
+                :key="localidad.id"
+                :value="localidad"
+              >{{localidad.name}}</option>
             </b-select>
           </b-field>
         </div>
@@ -82,17 +120,122 @@
         </div>
       </div>
     </nav>
-    <div class="content is-small">
-            <table class="table is-fullwidth">
+    <!-- <b-table
+      :data="projects"
+      ref="table"
+      paginated
+      per-page="100"
+      detailed
+      detail-key="id"
+      :show-detail-icon="true"
+    > -->
+    <b-table
+      :data="projects"
+      ref="table"
+      paginated
+      per-page="100"
+    >
+      <template slot-scope="props">
+        <b-table-column field="id" label="#" width="40" numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="name" label="Proyecto">
+          <p class="is-size-5"><b><a @click="cardProyecto(props.row)">{{props.row.name}}</a></b></p>
+          <p class="is-size-6"><a @click="cardEquipo(props.row.group)">{{props.row.group.name}}</a></p>
+          <p class="is-size-7" v-if="props.row.notes != null">
+            <i
+                class="fas fa-exclamation-circle"
+              ></i>&nbsp;&nbsp;Hay observaciones
+            </p>
+            </b-table-column>
+        <b-table-column label="Acerca">
+          <span class="tag">{{getCategory(props.row.category_id)}}</span>
+          <p class="is-size-7">{{props.row.likes}} me gusta</p>
+          <p class="is-size-7" v-if="props.row.group.quota != null"><b>Puntaje:</b>&nbsp;&nbsp;&nbsp;{{props.row.group.quota}}</p>
+        </b-table-column>
+        <b-table-column field="granted_budget" label="Monto" width="100">
+          <p class="is-size-7"><b>Solicitado</b><br>AR$ {{getTotalBudget(props.row)}}</p>
+          <p class="is-size-7"><b>Otorgado</b><br>AR$ {{props.row.granted_budget}}</p>
+        </b-table-column>
+        <b-table-column field="granted_budget" label="Info">
+          <p class="is-size-7" v-if="props.row.coordin_id == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar coordinador</p>
+          <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no evaluado</p>
+          <p class="is-size-7" v-if="props.row.group.quota != null"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Puntaje: {{ props.row.group.quota}}</p>
+          <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota != null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no seleccionado</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.group.quota != null"><i class="fas fa-trophy"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.upload_agreement"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.parent_organization != null && props.row.group.upload_letter == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.full_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Aun no cumple el cupo mínimo</p>
+          <p class="is-size-7" v-if="props.row.group.second_in_charge == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar co-responsable</p>
+          <p class="is-size-7" v-if="props.row.group.verified_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Faltan DNIs por verificar</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta hacer la rendición</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 1 && props.row.budget_approved == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta aprobar la rendición</p>
+        </b-table-column>
+        <b-table-column label="Acciones">
+          <p class="is-size-7"><a :href="'/project/'+props.row.id+'/print'" target="_blank">
+                <i class="fas fa-print"></i>&nbsp;Imprimir
+              </a></p>
+          <p class="is-size-7"><a
+                @click="cardEvaluar(props.row)"
+              ><i class="fas fa-file-signature"></i>&nbsp;Evaluar</a></p>
+        </b-table-column>
+      </template>
+
+      <!-- <template slot="detail" slot-scope="props">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Cupo mínimo</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusTeam(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Co-responsable</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusSecond(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">DNIs verificados</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusVerifiedTeam(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Carta Conform.</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusAgreement(props.row)"></i>
+                <a
+                  :href="agreementUrl(props.row.group)"
+                  class="has-text-link"
+                  target="_blank"
+                  v-if="props.row.group.uploaded_agreement"
+                >
+                  <i class="fas fa-download"></i>
+                </a>
+              </p>
+            </div>
+          </div>
+        </nav>
+      </template> -->
+    </b-table>
+
+    <!-- <div class="content is-small">
+      <table class="table is-fullwidth">
         <thead>
           <tr>
             <th class="has-text-centered">
               <i class="fa fa-hashtag"></i>
             </th>
-             <th class="has-text-centered">
+            <th class="has-text-centered">
               <i class="fa fa-sticky-note"></i>
             </th>
-             <th class="has-text-centered">
+            <th class="has-text-centered">
               <i class="fa fa-trophy"></i>
             </th>
             <th>Nombre</th>
@@ -100,67 +243,70 @@
             <th>Categoria</th>
             <th class="has-text-centered">
               <b-tooltip label="Puntaje" type="is-dark" position="is-top">
-              <i class="fas fa-check-square"></i>
+                <i class="fas fa-check-square"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
               <b-tooltip label="Monto otorgado" type="is-dark" position="is-top">
-              <i class="fas fa-dollar-sign"></i>
+                <i class="fas fa-dollar-sign"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
               <b-tooltip label="Cuantos bancan el proyecto?" type="is-dark" position="is-top">
-              <i class="em em-muscle"></i>
+                <i class="em em-muscle"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
-              <b-tooltip label="Cupo minimo" type="is-dark" position="is-top">              
-              <i class="fas fa-users fa-lg fa-fw"></i>
-              </b-tooltip>              
-            </th>
-            <th class="has-text-centered">
-              <b-tooltip label="Asignado Co-responsable" type="is-dark" position="is-top"> 
-              <i class="fas fa-shield-alt fa-lg fa-fw"></i>
+              <b-tooltip label="Cupo minimo" type="is-dark" position="is-top">
+                <i class="fas fa-users fa-lg fa-fw"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
-              <b-tooltip label="DNIs del equipo verificado" type="is-dark" position="is-top">              
-              <i class="fas fa-check fa-fw"></i><i class="fas fa-address-card fa-lg"></i>
-              </b-tooltip>              
-            </th>
-            <th class="has-text-centered">
-              <b-tooltip label="Carta conformidad" type="is-dark" position="is-top"> 
-              <i class="far fa-address-book fa-lg fa-fw"></i>
+              <b-tooltip label="Asignado Co-responsable" type="is-dark" position="is-top">
+                <i class="fas fa-shield-alt fa-lg fa-fw"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
-              <b-tooltip label="Carta aval" type="is-dark" position="is-top"> 
-              <i class="fas fa-file-pdf fa-lg fa-fw"></i>
-              </b-tooltip>
-            </th>
-             <th class="has-text-centered">
-              <b-tooltip label="Rendición enviado" type="is-dark" position="is-top"> 
-              <i class="fas fa-dollar-sign fa-lg"></i>&nbsp;<i class="fas fa-paper-plane"></i>
-              </b-tooltip>
-            </th>
-             <th class="has-text-centered">
-              <b-tooltip label="Rendición aprobado" type="is-dark" position="is-top"> 
-              <i class="fas fa-dollar-sign fa-lg"></i>&nbsp;<i class="fas fa-check"></i>
-              </b-tooltip>
-            </th>
-             <th class="has-text-centered">
-              <b-tooltip label="Recibos" type="is-dark" position="is-top"> 
-              <i class="fas fa-archive fa-lg fa-fw"></i>
+              <b-tooltip label="DNIs del equipo verificado" type="is-dark" position="is-top">
+                <i class="fas fa-check fa-fw"></i>
+                <i class="fas fa-address-card fa-lg"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
-              <b-tooltip label="Imprimir" type="is-dark" position="is-top"> 
-              <i class="fas fa-print fa-lg fa-fw"></i>
+              <b-tooltip label="Carta conformidad" type="is-dark" position="is-top">
+                <i class="far fa-address-book fa-lg fa-fw"></i>
               </b-tooltip>
             </th>
             <th class="has-text-centered">
-              <b-tooltip label="Evaluar" type="is-dark" position="is-top"> 
-              <i class="fas fa-arrow-down fa-lg fa-fw"></i>
+              <b-tooltip label="Carta aval" type="is-dark" position="is-top">
+                <i class="fas fa-file-pdf fa-lg fa-fw"></i>
+              </b-tooltip>
+            </th>
+            <th class="has-text-centered">
+              <b-tooltip label="Rendición enviado" type="is-dark" position="is-top">
+                <i class="fas fa-dollar-sign fa-lg"></i>&nbsp;
+                <i class="fas fa-paper-plane"></i>
+              </b-tooltip>
+            </th>
+            <th class="has-text-centered">
+              <b-tooltip label="Rendición aprobado" type="is-dark" position="is-top">
+                <i class="fas fa-dollar-sign fa-lg"></i>&nbsp;
+                <i class="fas fa-check"></i>
+              </b-tooltip>
+            </th>
+            <th class="has-text-centered">
+              <b-tooltip label="Recibos" type="is-dark" position="is-top">
+                <i class="fas fa-archive fa-lg fa-fw"></i>
+              </b-tooltip>
+            </th>
+            <th class="has-text-centered">
+              <b-tooltip label="Imprimir" type="is-dark" position="is-top">
+                <i class="fas fa-print fa-lg fa-fw"></i>
+              </b-tooltip>
+            </th>
+            <th class="has-text-centered">
+              <b-tooltip label="Evaluar" type="is-dark" position="is-top">
+                <i class="fas fa-arrow-down fa-lg fa-fw"></i>
               </b-tooltip>
             </th>
           </tr>
@@ -168,8 +314,18 @@
         <tbody>
           <tr v-for="project in projects" :key="project.id">
             <td class="has-text-centered">{{project.id}}</td>
-            <td class="has-text-centered"><i class="fas fa-fw" :class="{'fa-sticky-note has-text-link': project.notes != null, 'fa-minus': project.notes == null}"></i></td>
-            <td class="has-text-centered"><i class="fas fa-fw" :class="{'fa-trophy has-text-warning': project.selected, 'fa-minus': !project.selected}"></i></td>
+            <td class="has-text-centered">
+              <i
+                class="fas fa-fw"
+                :class="{'fa-sticky-note has-text-link': project.notes != null, 'fa-minus': project.notes == null}"
+              ></i>
+            </td>
+            <td class="has-text-centered">
+              <i
+                class="fas fa-fw"
+                :class="{'fa-trophy has-text-warning': project.selected, 'fa-minus': !project.selected}"
+              ></i>
+            </td>
             <td>
               <a @click="cardProyecto(project)">{{project.name}}</a>
             </td>
@@ -193,11 +349,25 @@
             </td>
             <td class="has-text-centered">
               <i class="fas fa-fw" :class="statusAgreement(project)"></i>
-              <a :href="agreementUrl(project.group)" class="has-text-link" target="_blank" v-if="project.group.uploaded_agreement"><i class="fas fa-download"></i></a>
+              <a
+                :href="agreementUrl(project.group)"
+                class="has-text-link"
+                target="_blank"
+                v-if="project.group.uploaded_agreement"
+              >
+                <i class="fas fa-download"></i>
+              </a>
             </td>
             <td class="has-text-centered">
               <i class="fas fa-fw" :class="statusLetter(project)"></i>
-              <a :href="letterUrl(project.group)" class="has-text-link" target="_blank" v-if="(project.organization != null) && project.group.uploaded_letter"><i class="fas fa-download"></i></a>
+              <a
+                :href="letterUrl(project.group)"
+                class="has-text-link"
+                target="_blank"
+                v-if="(project.organization != null) && project.group.uploaded_letter"
+              >
+                <i class="fas fa-download"></i>
+              </a>
             </td>
             <td class="has-text-centered">
               <i v-if="project.budget_sent" class="fas fa-check has-text-success"></i>
@@ -207,8 +377,12 @@
               <i v-if="project.budget_approved" class="fas fa-check has-text-success"></i>
               <i v-else class="fas fa-question-circle has-text-dark"></i>
             </td>
-                        <td class="has-text-centered">
-              <a :href="'/admin/project/'+project.id+'/receipts'" target="_blank" class="has-text-link">
+            <td class="has-text-centered">
+              <a
+                :href="'/admin/project/'+project.id+'/receipts'"
+                target="_blank"
+                class="has-text-link"
+              >
                 <i class="fas fa-reply fa-fw"></i>
               </a>
             </td>
@@ -217,10 +391,11 @@
                 <i class="fas fa-print fa-fw"></i>
               </a>
             </td>
-           <td class="has-text-centered">
-              <a @click="cardEvaluar(project)" class=" button is-small is-outlined is-400 is-link">
-                Evaluar
-              </a>
+            <td class="has-text-centered">
+              <a
+                @click="cardEvaluar(project)"
+                class="button is-small is-outlined is-400 is-link"
+              >Evaluar</a>
             </td>
           </tr>
         </tbody>
@@ -239,7 +414,15 @@
           </tr>
         </tfoot>
       </table>
-    </div>
+    </div> -->
+    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
+      <span slot="no-results">
+        <i class="fas fa-info-circle"></i> Fin de los resultados
+      </span>
+      <span slot="no-more">
+        <i class="fas fa-info-circle"></i> ¡Fín de la lista!
+      </span>
+    </infinite-loading>
     <b-loading :active.sync="isLoading"></b-loading>
   </section>
 </template>
@@ -248,10 +431,18 @@
 import ModalProyecto from "./ModalProyecto";
 import ModalEquipo from "./ModalEquipo";
 import InfiniteLoading from "vue-infinite-loading";
-import ModalReview from '../utils/ModalReview'
+import ModalReview from "../utils/ModalReview";
 
 export default {
-  props: ["getProjects",'roles', "getGroupMembers","getLetter","getAgreement",'putProjectNote','updateReview'],
+  props: [
+    "getProjects",
+    "roles",
+    "getGroupMembers",
+    "getLetter",
+    "getAgreement",
+    "putProjectNote",
+    "updateReview"
+  ],
   components: {
     InfiniteLoading
   },
@@ -279,7 +470,7 @@ export default {
       localidades: [],
       nameToSearch: "",
       filters: false,
-      onlySelected: false,
+      onlySelected: false
     };
   },
   mounted: function() {
@@ -306,11 +497,11 @@ export default {
       });
   },
   methods: {
-    letterUrl: function(gro){
-      return this.getLetter.replace(':gro', gro.id)
+    letterUrl: function(gro) {
+      return this.getLetter.replace(":gro", gro.id);
     },
-    agreementUrl: function(gro){
-      return this.getAgreement.replace(':gro', gro.id)
+    agreementUrl: function(gro) {
+      return this.getAgreement.replace(":gro", gro.id);
     },
     getCategory(id) {
       let caty = this.categorias.find(x => {
@@ -436,7 +627,8 @@ export default {
         "fa-check": (pro.organization != null) & pro.group.uploaded_letter,
         "is-hidden": (pro.organization != null) & pro.group.uploaded_letter,
         "fa-times": (pro.organization != null) & !pro.group.uploaded_letter,
-        "has-text-danger": (pro.organization != null) & !pro.group.uploaded_letter,
+        "has-text-danger":
+          (pro.organization != null) & !pro.group.uploaded_letter,
         "fa-minus": pro.organization == null
       };
     },
@@ -454,7 +646,11 @@ export default {
         parent: this,
         component: ModalProyecto,
         hasModalCard: true,
-        props: { project: pro, categorias: this.categorias, putnote: this.putProjectNote }
+        props: {
+          project: pro,
+          categorias: this.categorias,
+          putnote: this.putProjectNote
+        }
       });
     },
     cardEquipo: function(gro) {
@@ -473,13 +669,23 @@ export default {
         parent: this,
         component: ModalReview,
         hasModalCard: true,
-        props: { project: pro, budget: (pro.granted_budget ? pro.granted_budget : null), selected: pro.selected, quota: pro.group.quota, url: this.updateReview.replace(':pro',pro.id) }
+        props: {
+          project: pro,
+          budget: pro.granted_budget ? pro.granted_budget : null,
+          selected: pro.selected,
+          quota: pro.group.quota,
+          url: this.updateReview.replace(":pro", pro.id)
+        }
       });
+    },
+    getTotalBudget: function(pro){
+      let reducer = (accumulator, item) => accumulator + item.amount
+      return pro.budget.reduce(reducer,0)
     },
   },
   watch: {
-    onlySelected: function(){
-      this.resetEverything()
+    onlySelected: function() {
+      this.resetEverything();
     },
     regionSelected: function(newVal, oldVal) {
       if (newVal != null) {
@@ -567,5 +773,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -7,16 +7,16 @@
                 <router-link :to="{ name: 'projectOverview'}">Acerca</router-link>
               </li>
               <li :class="{'is-active': $route.name == 'projectTeam' }">
-                <router-link :to="{ name: 'projectTeam'}">El equipo</router-link>
+                <router-link :to="{ name: 'projectTeam'}">&nbsp;<i class="fas fa-users fa-lg"></i>&nbsp;<span class="is-hidden-touch">&nbsp;Equipo</span></router-link>
               </li>
               <li :class="{'is-active': $route.name == 'projectImplementation' }">
-                <router-link :to="{ name: 'projectImplementation'}">El proyecto</router-link>
+                <router-link :to="{ name: 'projectImplementation'}">&nbsp;<i class="fas fa-file fa-lg"></i>&nbsp;<span class="is-hidden-touch">&nbsp;Proyecto</span></router-link>
               </li>
               <li :class="{'is-active': $route.name == 'projectHistorias' }">
-                <router-link :to="{ name: 'projectHistorias'}"><i class="fas fa-camera-retro fa-lg fa-fw"></i> Historias</router-link>
+                <router-link :to="{ name: 'projectHistorias'}">&nbsp;<i class="fas fa-camera-retro fa-lg"></i>&nbsp;<span class="is-hidden-touch">&nbsp;Historias</span></router-link>
               </li>
               <li>
-                <a @click="scrollMeTo('comentarios')"><i class="fas fa-comments fa-lg"></i>&nbsp;Comentarios</a>
+                <a @click="scrollMeTo('comentarios')"><i class="fas fa-comments fa-lg"></i><span class="is-hidden-touch">&nbsp;&nbsp;Comentarios</span></a>
               </li>
               <li><a href="/"><span class="icon"><i class="fas fa-home fa-lg"></i></span></a></li>
             </ul>

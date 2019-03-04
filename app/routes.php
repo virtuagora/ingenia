@@ -263,6 +263,7 @@ $app->get('/admin/matriz/{opt}', 'adminAction:getMatriz')->setName('getMat');
 $app->get('/user/{usr}', 'userAction:getOne')->setName('getUser');
 $app->get('/user', 'userAction:get')->setName('getUsrs');
 $app->post('/user/{usr}/profile', 'userAction:postProfile')->setName('runUpdUserPro');
+$app->post('/user/{usr}/update-names', 'userAction:postUpdateName')->setName('runUpdUserNames');
 $app->post('/user/{usr}/public-profile', 'userAction:postPublicProfile')->setName('runUpdUserPub');
 $app->post('/user/{usr}/dni', 'userAction:postDni')->setName('runUpdUserDni');
 $app->get('/user/{usr}/dni', 'userAction:getDniFile')->setName('getUsrDni');

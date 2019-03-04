@@ -1,6 +1,10 @@
 <template>
   <section>
     <h1 class="subtitle is-3">Mis proyectos asignados</h1>
+    <b-message>
+      Estos son tus proyectos asignados. ¿Faltan proyectos en la lista?<br>
+      Ingresá al <a href="/proyectos">catálogo</a>, busáa tu proyecto y asignatelo.
+    </b-message>
     <!-- Main container -->
     <nav class="level projects-filter">
       <!-- Left side -->
@@ -77,7 +81,102 @@
         </div>
       </div>
     </nav>
-    <div class="content is-small">
+    <b-table
+      :data="projects"
+      ref="table"
+      paginated
+      per-page="100"
+    >
+      <template slot-scope="props">
+        <b-table-column field="id" label="#" width="40" numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="name" label="Proyecto">
+          <p class="is-size-5"><b><a @click="cardProyecto(props.row)">{{props.row.name}}</a></b></p>
+          <p class="is-size-6"><a @click="cardEquipo(props.row.group)">{{props.row.group.name}}</a></p>
+          <p class="is-size-7" v-if="props.row.notes != null">
+            <i
+                class="fas fa-exclamation-circle"
+              ></i>&nbsp;&nbsp;Hay observaciones
+            </p>
+            </b-table-column>
+        <b-table-column label="Acerca">
+          <span class="tag">{{getCategory(props.row.category_id)}}</span>
+          <p class="is-size-7">{{props.row.likes}} me gusta</p>
+          <p class="is-size-7" v-if="props.row.group.quota != null"><b>Puntaje:</b>&nbsp;&nbsp;&nbsp;{{props.row.group.quota}}</p>
+        </b-table-column>
+        <b-table-column field="granted_budget" label="Monto" width="100">
+          <p class="is-size-7"><b>Solicitado</b><br>AR$ {{getTotalBudget(props.row)}}</p>
+          <p class="is-size-7"><b>Otorgado</b><br>AR$ {{props.row.granted_budget}}</p>
+        </b-table-column>
+        <b-table-column field="granted_budget" label="Info">
+          <p class="is-size-7" v-if="props.row.coordin_id == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar coordinador</p>
+          <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no evaluado</p>
+          <p class="is-size-7" v-if="props.row.group.quota != null"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Puntaje: {{ props.row.group.quota}}</p>
+          <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota != null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no seleccionado</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.group.quota != null"><i class="fas fa-trophy"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.upload_agreement"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.parent_organization != null && props.row.group.upload_letter == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto seleccionado</p>
+          <p class="is-size-7" v-if="props.row.group.full_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Aun no cumple el cupo mínimo</p>
+          <p class="is-size-7" v-if="props.row.group.second_in_charge == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar co-responsable</p>
+          <p class="is-size-7" v-if="props.row.group.verified_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Faltan DNIs por verificar</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta hacer la rendición</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 1 && props.row.budget_approved == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta aprobar la rendición</p>
+        </b-table-column>
+        <b-table-column label="Acciones">
+          <p class="is-size-7"><a :href="'/project/'+props.row.id+'/print'" target="_blank">
+                <i class="fas fa-print"></i>&nbsp;Imprimir
+              </a></p>
+          <p class="is-size-7"><a
+                @click="cardEvaluar(props.row)"
+              ><i class="fas fa-file-signature"></i>&nbsp;Evaluar</a></p>
+        </b-table-column>
+      </template>
+
+      <!-- <template slot="detail" slot-scope="props">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Cupo mínimo</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusTeam(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Co-responsable</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusSecond(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">DNIs verificados</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusVerifiedTeam(props.row)"></i>
+              </p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Carta Conform.</p>
+              <p class="title">
+                <i class="fas fa-fw" :class="statusAgreement(props.row)"></i>
+                <a
+                  :href="agreementUrl(props.row.group)"
+                  class="has-text-link"
+                  target="_blank"
+                  v-if="props.row.group.uploaded_agreement"
+                >
+                  <i class="fas fa-download"></i>
+                </a>
+              </p>
+            </div>
+          </div>
+        </nav>
+      </template> -->
+    </b-table>
+    <!-- <div class="content is-small">
       <table class="table is-fullwidth">
         <thead>
           <tr>
@@ -234,7 +333,15 @@
           </tr>
         </tfoot>
       </table>
-    </div>
+    </div> -->
+              <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
+                <span slot="no-results">
+                  <i class="fas fa-info-circle"></i> Fin de los resultados
+                </span>
+                <span slot="no-more">
+                  <i class="fas fa-info-circle"></i> ¡Fín de la lista!
+                </span>
+              </infinite-loading>
     <b-loading :active.sync="isLoading"></b-loading>
   </section>
 </template>
@@ -473,6 +580,10 @@ export default {
         hasModalCard: true,
         props: { project: pro, budget: (pro.granted_budget ? pro.granted_budget : null), selected: pro.selected, quota: pro.group.quota, url: this.updateReview.replace(':pro',pro.id) }
       });
+    },
+    getTotalBudget: function(pro){
+      let reducer = (accumulator, item) => accumulator + item.amount
+      return pro.budget.reduce(reducer,0)
     },
   },
   watch: {

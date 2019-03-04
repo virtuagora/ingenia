@@ -5,7 +5,7 @@
     <div class="columns">
       <div class="column">
         <h1 class="subtitle is-4">Coordinadores
-          <i class="fab fa-user-shield"></i>
+          <i class="fas fa-user-shield"></i>
         </h1>
         <hr>
         <div class="field is-grouped">

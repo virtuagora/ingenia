@@ -240,6 +240,38 @@ class UserResource extends Resource
         return $user;
     }
 
+    public function updateNames($subject, $user, $data)
+    {
+        $schema = [
+            'type' => 'object',
+            'properties' => [
+                'names' => [
+                    'type' => 'string',
+                    'minLength' => 1,
+                    'maxLength' => 300,
+                ],
+                'surnames' => [
+                    'type' => 'string',
+                    'minLength' => 1,
+                    'maxLength' => 300,
+                ],
+               
+            ],
+            'required' => [
+                'names,','surnames'
+            ],
+            'additionalProperties' => false,
+        ];
+        $v = $this->validation->fromSchema($schema);
+        $v->assert($data);
+        $user->names = $data['names'];
+        $user->surnames = $data['surnames'];
+        $fullname = $data['names'] . ' ' . $data['surnames'];
+        $user->trace = $this->helper->generateTrace($fullname);;
+        $user->save();
+        return $user;
+    }
+
     public function updateRoles($subject, $data)
     {
         $schema = [

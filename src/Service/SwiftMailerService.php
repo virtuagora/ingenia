@@ -6,10 +6,15 @@ class SwiftMailerService
 {
     protected $mailer;
     protected $sender;
-    
+    protected $forcedTo;
+
     public function __construct($transport, $options)
     {
         $this->sender = ['test@test.com' => 'Testing'];
+        if (isset($options['dev_address'])) {
+            $this->forcedTo = $options['dev_address'];
+        }
+
         if ($transport == 'null') {
             $transport = new \Swift_NullTransport();
         } elseif ($transport == 'smtp') {
@@ -38,7 +43,12 @@ class SwiftMailerService
     public function sendMail($subject, $to, $body, $mime = 'text/plain')
     {
         $message = new \Swift_Message($subject);
-        $message->setTo($to);
+        if (isset($this->forcedTo)) {
+            $message->setTo($this->forcedTo);
+        } else {
+            $message->setTo($to);
+        }
+
         if (is_array($body)) {
             $first = true;
             foreach ($body as $part) {
@@ -55,7 +65,7 @@ class SwiftMailerService
         $message->setFrom($this->sender);
         return $this->send($message);
     }
-    
+
     public function getMailer()
     {
         return $this->mailer;

@@ -32,7 +32,7 @@
               <h1 class="is-size-1 is-600">{{review.quota ? review.quota : '-'}}</h1>
             </div>
             <div class="column is-3" v-if=" review.grantedBudget != null">
-               <h1 class="is-size-5 is-300">Presupuesto</h1>
+               <h1 class="is-size-5 is-300">Monto otorgado</h1>
                <h1 class="is-size-1 is-600">$ {{review.grantedBudget}}</h1>
             </div>
           </div>

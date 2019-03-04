@@ -19,7 +19,7 @@
                 <h1 class="title is-size-2-desktop is-size-3-touch is-600">¡Proyecto seleccionado!</h1>
                 <h1
                   class="subtitle is-5 is-size-6-touch"
-                >Este proyecto ha sido selecciondo como beneficiario del la 9na edición del programa Ingenia, ¡Felicidades equipo!</h1>
+                >Este proyecto ha sido selecciondo como beneficiario del programa Ingenia, ¡Felicidades equipo!</h1>
               </div>
             </div>
              <!-- <div class="media" v-else>

@@ -52,7 +52,7 @@ $container['session'] = function ($c) {
 };
 $container['identity'] = function ($c) {
     return new App\Service\IdentityService([
-        'local' => new App\Util\IdentityProvider\LocalIdentityProvider($c['db'], $c['validation']),
+        'local' => new App\Util\IdentityProvider\LocalIdentityProvider($c['db'], $c['validation'], $c['helper']),
         'facebook' => new App\Util\IdentityProvider\FacebookIdentityProvider($c['db'], $c['facebook']),
     ], $c['db']);
 };
