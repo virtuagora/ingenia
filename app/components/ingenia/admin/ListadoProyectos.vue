@@ -159,7 +159,7 @@
           <p class="is-size-7"><b>Otorgado</b><br>AR$ {{props.row.granted_budget}}</p>
         </b-table-column>
         <b-table-column field="granted_budget" label="Info">
-          <p class="is-size-7" v-if="props.row.coordin_id == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar coordinador</p>
+          <p class="is-size-7" v-if="props.row.has_coordins == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar coordinador</p>
           <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota == null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no evaluado</p>
           <p class="is-size-7" v-if="props.row.group.quota != null"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Puntaje: {{ props.row.group.quota}}</p>
           <p class="is-size-7" v-if="props.row.selected == false && props.row.group.quota != null"><i class="fas fa-times"></i>&nbsp;&nbsp;Proyecto no seleccionado</p>

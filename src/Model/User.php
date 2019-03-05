@@ -41,6 +41,11 @@ class User extends Model
         return $this->hasMany('App\Model\Project');
     }
 
+    public function coordin_projects()
+    {
+        return $this->belongsToMany('App\Model\Project', 'coordin_project', 'user_id', 'project_id');
+    }
+
     // public function setNamesAttribute($value)
     // {
     //     $this->attributes['names'] = $value;

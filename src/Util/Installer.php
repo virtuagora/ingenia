@@ -203,10 +203,8 @@ class Installer
             $table->integer('likes')->default(0);
             $table->string('trace')->nullable();
             $table->text('notes')->nullable(); //observaciones internas
-
-            $table->integer('coordin_id')->unsigned()->nullable();
-            $table->foreign('coordin_id')->references('id')->on('users')->onDelete('set null');
-
+            $table->boolean('has_coordins')->default(false);
+            
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
 
@@ -256,7 +254,6 @@ class Installer
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
             $table->timestamps();
         });
-        
         $this->db->schema()->create('actions', function($table) {
             $table->engine = 'InnoDB';
             $table->string('id')->primary();
@@ -303,7 +300,6 @@ class Installer
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-
         $this->db->schema()->create('receipts', function($table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
@@ -323,6 +319,14 @@ class Installer
             $table->integer('project_id')->unsigned();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamps();
+        });
+        $this->db->schema()->create('coordin_project', function($table) {
+            $table->engine = 'InnoDB';
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('project_id')->unsigned();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

@@ -241,7 +241,10 @@ class ProjectResource extends Resource
             });
         }
         if (isset($options['cor'])) {
-            $query->where('coordin_id', $options['cor']);
+            $query->whereHas('coordins', function ($q) use ($options) {
+                $q->where('user_id', $options['cor']);
+            });
+            // $query->where('coordin_id', $options['cor']);
         }
         if (isset($options['cat'])) {
             $query->where('category_id', $options['cat']);

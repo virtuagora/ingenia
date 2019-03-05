@@ -29,7 +29,7 @@ class ProjectAction
     {
         $subject = $request->getAttribute('subject');
         $proyecto = $this->helper->getEntityFromId(
-            'App:Project', 'pro', $params, ['category']
+            'App:Project', 'pro', $params, ['category', 'coordins']
         );
         if ($this->authorization->checkPermission($subject, 'retProFull', $proyecto)) {
             $proyecto->addVisible(['notes']);
@@ -238,11 +238,10 @@ class ProjectAction
         if (!$this->authorization->checkPermission($subject, 'coordin')) {
             throw new UnauthorizedException();
         }
-        $project = $this->helper->getEntityFromId(
-            'App:Project', 'pro', $params
-        );
+        $project = $this->helper->getEntityFromId('App:Project', 'pro', $params);
         $user = $this->helper->getUserFromSubject($subject);
-        $project->coordin_id = $user->id;
+        $project->coordins()->syncWithoutDetaching([$user->id]);
+        $project->has_coordins = true;
         $project->save();
         return $this->representation->returnMessage($request, $response, [
             'message' => 'Proyecto asignado',
@@ -256,10 +255,12 @@ class ProjectAction
         if (!$this->authorization->checkPermission($subject, 'coordin')) {
             throw new UnauthorizedException();
         }
-        $project = $this->helper->getEntityFromId(
-            'App:Project', 'pro', $params
-        );
-        $project->coordin_id = null;
+        $project = $this->helper->getEntityFromId('App:Project', 'pro', $params);
+        $user = $this->helper->getUserFromSubject($subject);
+        $project->coordins()->detach($user->id);
+        if ($project->coordins()->count() == 0) {
+            $project->has_coordins = false;
+        }
         $project->save();
         return $this->representation->returnMessage($request, $response, [
             'message' => 'Coordinador desvinculado',
