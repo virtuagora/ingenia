@@ -146,8 +146,13 @@
           </tbody>
         </table>
       <h3>
-          <b>Coordinador <i class="fas fa-bullhorn fa-fw"></i>&nbsp;&nbsp;</b><img src="{{avatar_url(project.coordin.subject.img_type, project.coordin.subject.img_hash, 32)}}" class="is-rounded" style="vertical-align: middle;"> {{project.coordin.names}} {{project.coordin.surnames}} <i>({{project.coordin.email}})</i>
+          <b>Coordinadores <i class="fas fa-bullhorn fa-fw"></i></b>
         </h3>
+          {% for coordin in project.coordins %}
+          <p>
+          <img src="{{avatar_url(coordin.subject.img_type, coordin.subject.img_hash, 32)}}" class="is-rounded" style="vertical-align: middle;">&nbsp;&nbsp;&nbsp;{{coordin.names}} {{coordin.surnames}} <i>({{coordin.email}})</i>
+          </p>
+          {% endfor %}
       </div>
       {% if project.organization %}
         <div class="content">
@@ -341,6 +346,7 @@
         </article>
       {% endfor %}
       {% if project.group.parent_organization != null %}
+      <br>
         <div class="content">
           <div class="notification">
             <p>

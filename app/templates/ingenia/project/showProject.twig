@@ -116,7 +116,7 @@
   <router-view :project="{{project}}" 
   is-admin="{{'admin' in subject.roles}}" 
   is-coordinator="{{'coordin' in subject.roles}}" 
-  id-coordinator="{{project.coordin_id}}"
+  :coordinators="{{project.coordins}}"
   notes="{{project.notes}}"
   granted-budget="{{project.granted_budget}}"
   selected="{{project.selected}}" 

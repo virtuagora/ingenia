@@ -395,7 +395,7 @@
         <i class="fas fa-angle-double-right"></i> Presupuesto *
       </label>
       <p>
-        <span class="tag is-warning">Importante</span>&nbsp;&nbsp;Recuerda que el tope es de $22.000.-
+        <span class="tag is-warning">Importante</span>&nbsp;&nbsp;Recuerda que el tope es de $25.000.-
       </p>
       <br>
       <div class="field is-grouped">

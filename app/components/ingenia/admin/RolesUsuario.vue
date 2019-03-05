@@ -33,7 +33,7 @@
           <tbody>
             <tr v-for="coord in coordinators" :key="coord.id">
               <td>
-                <Avatar :user="admin" class="inline-image" size="24" />&nbsp;&nbsp;{{coord.subject.display_name}}</td>
+                <Avatar :user="coord" class="inline-image" size="24" />&nbsp;&nbsp;{{coord.subject.display_name}}</td>
             </tr>
             <tr v-if="coordinators.length == 0">
               <td class="has-text-centered">No hay coordinadores</td>

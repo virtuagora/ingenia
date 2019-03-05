@@ -416,7 +416,7 @@ $app->group('/usuario', function () {
 $app->get('/project/{pro}/print', function ($request, $response, $params) {
     $subject = $request->getAttribute('subject');
     $proyecto = $this->helper->getEntityFromId(
-        'App:Project', 'pro', $params, ['group']
+        'App:Project', 'pro', $params, ['group','coordins']
     );
     if (!$this->authorization->checkPermission($subject, 'coordin', $proyecto)) {
         throw new UnauthorizedException();
@@ -436,7 +436,7 @@ $app->group('/proyecto', function () {
     $this->get('/{pro}', function ($request, $response, $params) {
         $subject = $request->getAttribute('subject');
         $proyecto = $this->helper->getEntityFromId(
-            'App:Project', 'pro', $params, ['category']
+            'App:Project', 'pro', $params, ['category','coordins']
         );
         if ($subject->getType() == 'User') {
             $voted = !is_null(

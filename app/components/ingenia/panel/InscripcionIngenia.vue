@@ -14,9 +14,7 @@
     <div v-if="!showForm && (new Date(deadline)) > (new Date())">
     <b-message>
       Desde el Gabinete Joven y la Secretaría de Juventudes recomendamos tener a mano
-      <a href="mailto:ingenia@santafe.gob.ar">
         <b>el reglamento</b>
-      </a>
       del programa en el momento que se dispongan a completar el presente formulario. Recuerden que pueden contar con nosotros para responder sus dudas y preguntas, así como orientarlos en la tarea de presentar su proyecto. Pueden escribirnos todas las veces que sea necesario a
       <a href="mailto:ingenia@santafe.gob.ar">
         <b>ingenia@santafe.gob.ar</b>
@@ -30,7 +28,7 @@
         <a href="#" class="button is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Actualizar email</a>
         <span class="is-600 is-size-5">
           <i class="fas fa-angle-double-right fa-lg fa-fw"></i> Verificá tu email</span>
-        <br>Si te registraste usando Facebook, es importante que registres un email para ser integrante de un equipo INGENIA
+        <br>Si te registraste usando FACEBOOK, es importante que registres un email para ser integrante de un equipo INGENIA
       </div>
       <div class="notification is-warning" v-show="this.user.pending_tasks.includes('profile')">
         <div class="is-clearfix">

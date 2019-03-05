@@ -48,14 +48,14 @@
                       {{group.previous_editions.length ? group.previous_editions.join(', ') : 'No registra'}}
                     </td>
                   </tr>
-                  <tr v-if="group.email">
+                  <!-- <tr v-if="group.email">
                     <th>Email de contacto</th>
                     <td>{{group.email}}</td>
-                  </tr>
-                  <tr v-if="group.telephone">
+                  </tr> -->
+                  <!-- <tr v-if="group.telephone">
                     <th>Telefono de contacto</th>
                     <td>{{group.telephone}}</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                     <th>Página web</th>
                     <td>{{group.web ? group.web : 'No registra'}}</td>

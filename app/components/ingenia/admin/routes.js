@@ -11,6 +11,7 @@ import DescargarMatriz from './DescargarMatriz'
 import ListaNegraDNI from './ListaNegraDNI'
 import VerificarDNI from './VerificarDNI'
 import RolesUsuario from './RolesUsuario'
+import ResetUsers from './ResetUsers'
 
 
 const basePath = '/administracion'
@@ -67,6 +68,12 @@ const routes = [
         path: 'coordinador/proyectos',
         component: ListadoProyectosCoordinadores,
         name: 'coordinListado',
+        props: true
+      },
+      {
+        path: 'reset-usuario',
+        component: ResetUsers,
+        name: 'resetUsers',
         props: true
       }
     ],

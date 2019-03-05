@@ -36,6 +36,9 @@
             <li>
               <router-link :to="{ name: 'adminListaNegraDNI'}" exact-active-class="is-active">Lista negra de DNIs</router-link>
             </li>
+            <li>
+              <router-link :to="{ name: 'resetUsers'}" exact-active-class="is-active">Reiniciar usuarios</router-link>
+            </li>
           </ul>
           <p class="menu-label" v-if="roles.includes('admin')">
             Configurar

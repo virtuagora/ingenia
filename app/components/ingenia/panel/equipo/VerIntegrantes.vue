@@ -377,6 +377,7 @@ export default {
             type: "is-success",
             actionText: "OK"
           });
+          this.forceUpdateState("userPanel")
           this.getEquipo(this.user.groups[0].id);
         })
         .catch(error => {
@@ -404,6 +405,7 @@ export default {
           });
           this.isLoading = false;
           this.response.ok = true;
+          this.forceUpdateState("userPanel")
           this.getEquipo(this.user.groups[0].id);
         })
         .catch(error => {
@@ -433,6 +435,7 @@ export default {
             type: "is-success",
             actionText: "OK"
           });
+          this.forceUpdateState("userPanel")
           this.getEquipo(this.user.groups[0].id);
         })
         .catch(error => {
@@ -490,6 +493,7 @@ export default {
             actionText: "OK"
           });
           this.response.ok = true;
+          this.forceUpdateState("userPanel")
           this.getEquipo(this.user.groups[0].id);
         })
         .catch(error => {
@@ -520,6 +524,7 @@ export default {
             actionText: "OK"
           });
           this.response.ok = true;
+          this.forceUpdateState("userPanel")
           this.getEquipo(this.user.groups[0].id);
         })
         .catch(error => {

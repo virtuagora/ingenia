@@ -272,7 +272,7 @@ export default {
     "notes",
     "isAdmin",
     "isCoordinator",
-    "idCoordinator",
+    "coordinators",
     "putProjectNote",
     "selected"
   ],

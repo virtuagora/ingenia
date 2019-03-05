@@ -4,164 +4,178 @@
 {% extends 'master.twig' %}
 {% block body %}
   {% include "ingenia/index/header.twig" %}
-  {# <div class="hero is-light is-medium">
-      <div class="hero-body">
-          <div class="container">
-              <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Conocé algunos proyectos</h1>
-              <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
-              <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
-                  <div class="notification has-text-centered">
-                      <i class="fas fa-cog fa-spin fa-lg"></i>
-                      Cargando...
-                  </div>
-              </project-carousel-small>
-              <br>
-              <p class="has-text-centered">
-                  <a href="/proyectos" class=" button is-medium is-black">Visitá el catálogo</a>
-              </p>
-          </div>
-      </div>
-  </div> #}
   <section class="section">
     <div class="container">
       <div class="columns">
         <div class="column is-8">
-          {% if subject.id is null %}
-            <div class="columns">
-              <div class="column is-8 has-text-centered">
-                <h1 class="title is-4 is-600">¡Las inscripciones están abiertas!</h1>
-                <a href="{{path_for('showLogin')}}" class="button is-medium is-primary">
-                  <i class="em em-smile"></i>&nbsp; Creá tu equipo
-                </a>&nbsp;&nbsp;
-                <a href="{{path_for('showLogin')}}" class="button is-medium is-primary is-outlined">
-                  <i class="em em-muscle"></i>&nbsp; Bancá proyectos
-                </a>
+          {% if subject.id %}
+            <div class="box">
+              <h1 class="title is-3">
+                ¡Hola
+                {{subject.name}}!
+              </h1>
+              <br>
+                <status></status>
                 <br>
+                  <a class="button is-medium is-primary is-fullwidth" href="{{path_for('showPanel')}}">
+                    <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
+                </div>
+                {% else %}
+                									                <img src="{{asset('img/slogan2-dark.svg')}}" class="image" style=" width:350px; margin: 0 auto 20px;">
+                <h1 class="subtitle is-4 has-text-centered">
+                  Las inscripciones estan abiertas&nbsp;<i class="em em-raised_hands"></i>
+                </h1>
+                <div class="buttons is-centered">
+                  <a class="button is-medium is-primary" href="{{path_for('showLogin')}}">
+                    <i class="em em-smile"></i>&nbsp; Creá tu equipo
+                  </a>&nbsp;&nbsp;
+                  <a class="button is-medium is-primary is-outlined" href="{{path_for('showLogin')}}">
+                    <i class="em em-muscle"></i>&nbsp; Bancá proyectos
+                  </a>
+                </div>
+                <div class="strike">
+                  <span>Hagas lo que hagas</span>
+                </div>
+                <br>
+                  <div class="buttons is-centered">
+                    <a class="button is-medium is-primary is-inverted" href="{{path_for('showLogin')}}">
+                      <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; Iniciá sesión
+                    </a>
+                  </div>
+                {% endif %}
+                {% if subject.id and false %}
                   <br>
-                    <div class="strike">
-                      <span>Hagas lo que hagas</span>
+                    <div class="notification is-primary">
+                      <div class="content is-small">
+                        {% include 'currentLog.twig' %}
+                      </div>
                     </div>
+                  {% endif %}
+                </div>
+                <div class="column is-3 is-offset-1">
+                  <countdown class="is-primary" date="{{options()['deadline']}}"></countdown>
+                  <div class="message is-primary has-text-centered">
+                    <div class="message-body">
+                      <h1 class="is-3">Si tenes algún problema, o algo no esta funcionando, ¡Contactanos!<br>Podes hacer en
+                          <a href="https://twitter.com/virtuagora">
+                            <i class="fab fa-twitter fa-fw"></i>@Virtuagora</a>
+                          o
+                          <a href="https://facebook.com/virtuagora">
+                            <i class="fab fa-facebook fa-fw"></i>/Virtuagora</a>
+                          para enterarte!
+                        </h1>
+                      </div>
+                    </div>
+									<h1 class="title is-3">
+                    Seguinos en
+                    <a href="https://twitter.com/gabinetejoven/">
+                      <i class="fab fa-twitter fa-fw"></i>
+                    </a>&nbsp;<a href="https://www.facebook.com/GabineteJoven/">
+                      <i class="fab fa-facebook fa-fw"></i>
+                    </a>
+                  </h1>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="hero is-primary">
+              <div class="hero-body">
+                <ul class="steps is-centered is-medium has-content-centered is-dashed">
+                  <li class="steps-segment is-active">
+                    <span class="steps-marker is-white">
+                      <i class="fas fa-user-plus has-text-primary"></i>
+                    </span>
+                    <div class="steps-content">
+                      <p class="heading">Crea tu cuenta</p>
+                    </div>
+                  </li>
+                  <li class="steps-segment">
+                    <span class="steps-marker is-white">
+                      <i class="fas fa-edit has-text-primary"></i>
+                    </span>
+                    <div class="steps-content">
+                      <p class="heading">Completá tu info</p>
+                    </div>
+                  </li>
+                  <li class="steps-segment">
+                    <span class="steps-marker is-white">
+                      <i class="fas fa-users has-text-primary"></i>
+                    </span>
+                    <div class="steps-content">
+                      <p class="heading">Crea o sumate a un equipo</p>
+                    </div>
+                  </li>
+                  <li class="steps-segment">
+                    <span class="steps-marker is-white">
+                      <i class="fas fa-star has-text-primary"></i>
+                    </span>
+                    <div class="steps-content">
+                      <p class="heading">Completa los requisitos</p>
+                    </div>
+                  </li>
+                  <li class="steps-segment">
+                    <span class="steps-marker is-white">
+                      <i class="far fa-laugh-beam has-text-primary fa-lg"></i>
+                    </span>
+                    <div class="steps-content">
+                      <p class="heading">¡Compartí tu proyecto!</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="hero is-light">
+              <div class="hero-body">
+                <div class="container">
+                  <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Conocé algunos proyectos que estan participando</h1>
+                  <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
+                  {# <project-carousel get-projects-url="{{path_for('lisPro20Random')}}">
+                    <div class="notification has-text-centered">
+                      <i class="fas fa-cog fa-spin fa-lg"></i>
+                      Cargando...
+                    </div>
+                  </project-carousel> #}
+                  <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
+                    <div class="notification has-text-centered">
+                      <i class="fas fa-cog fa-spin fa-lg"></i>
+                      Cargando...
+                    </div>
+                  </project-carousel-small>
+                  <br>
+                    <p class="has-text-centered">
+                      <a class=" button is-medium is-black" href="/proyectos">Visitá el catálogo</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+							<div class="section">
+							<div class="container">
+							<a href="/historias">
+          <img src="./assets/img/historia.svg" class="image is-centered" style="width:530px;">
+        </a>
+        <br>
+        <div class="has-text-centered">
+          <h1 class="title is-size-3-desktop is-size-4-touch">¡Publicá las historias de tus proyectos!</h1>
+          <h1 class="subtitle is-5 is-size-6-touch">¡Mostrales a todos los momentos de gloria de tu proyecto!</h1>
+          {% if showCreateStory == true %}
+          <a href="{{path_for('showNuevaHistoria',{'gro': groupId})}}" class="button is-link is-medium is-400"><i class="fas fa-plus fa-fw"></i>&nbsp;Crea una historia</a>
+          <br>
+          <br>
+          {% endif %}
+          <br>
+          <show-stories :limit="4"></show-stories>
+        </div>
+				</div>
+							</div>
+              <section class="section">
+                <div class="container has-text-centered">
+                  <br>
                     <br>
-                      <div class="buttons is-centered">
-                        <a href="{{path_for('showLogin')}}" class="button is-medium is-primary is-inverted">
-                          <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; Iniciá sesión
-                        </a>
-                      </div>
-                    </div>
-                    <div class="column is-4">
                       <br>
-                        <img src="{{asset('img/slogan1-dark.svg')}}" class="image" style=" width:250px; margin: 0 auto;"></div>
-                      </div>
-                      <hr>
-                        <br>
-                        {% endif %}
-                        {% if subject.id %}
-												<div class="box">
-                          <h1 class="title is-3">
-                            ¡Hola
-                            {{subject.name}}!
-                          </h1>
-                          <br>
-                            <status></status>
+                        <img class="image is-hidden-touch" src="{{asset('img/slogan3-dark.svg')}}" style="height: 100px; margin: 0 auto;">
+                          <img class="image is-hidden-desktop" src="{{asset('img/slogan4-dark.svg')}}" style="width: 250px; margin: 0 auto;">
                             <br>
-                              <a href="{{path_for('showPanel')}}" class="button is-medium is-primary is-fullwidth">
-                                <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
-												</div>
-                              {% else %}
-                              <h1 class="is-size-1 is-900 has-text-black has-text-centered">
-                                ¡Bienvenidx!
-                              </h1>
-                            {% endif %}
-                            <br>
-                              <h1 class="subtitle is-3 has-text-centered">
-                                Las inscripciones estan abiertas&nbsp;<i class="em em-raised_hands"></i>
-                              </h1>
-                              <br>
-                                <div class="columns">
-                                  <div class="column {{ subject.id != null ? 'is-hidden'}}">
-                                    <a href="{{path_for('showLogin')}}">
-                                      <div class="has-text-centered is-size-4 is-300">
-                                        <i class="fas fa-sign-in-alt fa-fw fa-2x"></i>
-                                        <br>
-                                          Entrá en Ingenia
-                                        </div>
-                                      </a>
-                                    </div>
-                                    <div class="column">
-                                      <a href="{{path_for('showPanel')}}">
-                                        <div class="has-text-centered is-size-4 is-300">
-                                          <i class="fas fa-compass fa-fw fa-2x"></i>
-                                          <br>
-                                            Accedé a tu panel
-                                          </div>
-                                        </a>
-                                      </div>
-                                      <div class="column">
-                                        <a href="{{path_for('showPanel')}}">
-                                          <div class="has-text-centered is-size-4 is-300">
-                                            <i class="fas fa-users fa-fw fa-2x"></i>
-                                            <br>
-                                              Comenza a armar tú equipo
-                                            </div>
-                                          </a>
-                                        </div>
-                                        <div class="column">
-                                          <a href="{{path_for('showReglamento')}}">
-                                            <div class="has-text-centered is-size-4 is-300">
-                                              <i class="fas fa-file-powerpoint  fa-fw fa-2x"></i>
-                                              <br>
-                                                ¡Publicá tu proyecto!
-                                              </div>
-                                            </a>
-                                          </div>
-                                        </div>
-                                        {% if subject.id and false %}
-                                          <br>
-                                            <div class="notification is-primary">
-                                              <div class="content is-small">
-                                                {% include 'currentLog.twig' %}
-                                              </div>
-                                            </div>
-                                          {% endif %}
-                                          <div class="message is-primary has-text-centered">
-																					<div class="message-body">
-                                            <h1 class="is-3">Si tenes algun problema, o algo no esta funcionando, ¡Contactanos!<br>Podes hacer en
-                                                <a href="https://twitter.com/virtuagora">
-                                                  <i class="fab fa-twitter fa-fw"></i>@Virtuagora</a>
-                                                o
-                                                <a href="https://facebook.com/virtuagora">
-                                                  <i class="fab fa-facebook fa-fw"></i>/Virtuagora</a>
-                                                para enterarte!
-                                              </h1>
-                                            </div>
-																					</div>
-                                          </div>
-                                          <div class="column is-3 is-offset-1">
-                                            <countdown date="{{options()['deadline']}}" class="is-primary"></countdown>
-                                            <h1 class="title is-3">
-                                              Seguinos en
-                                              <a href="https://twitter.com/gabinetejoven/">
-                                                <i class="fab fa-twitter fa-fw"></i>
-                                              </a>&nbsp;<a href="https://www.facebook.com/GabineteJoven/">
-                                                <i class="fab fa-facebook fa-fw"></i>
-                                              </a>
-                                            </h1>
-                                            <a class="twitter-timeline" data-height="600" data-link-color="#9266CC" data-theme="light" href="https://twitter.com/gabinetejoven?ref_src=twsrc%5Etfw">Tweets de gabinetejoven</a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </section>
-                                    <section class="section">
-                                      <div class="container has-text-centered">
-                                        <br>
-                                          <br>
-                                            <br>
-                                              <img src="{{asset('img/slogan3-dark.svg')}}" class="image is-hidden-touch" style="height: 100px; margin: 0 auto;">
-                                                <img src="{{asset('img/slogan4-dark.svg')}}" class="image is-hidden-desktop" style="width: 250px; margin: 0 auto;">
-                                                  <br>
-                                                    <br></section>
-                                                  {% endblock %}
-                                                  {% block javascripts %}
-                                                    <script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
-                                                  {% endblock %}
-                                                
+                              <br></div>
+                            </section>
+                          {% endblock %}
+                        

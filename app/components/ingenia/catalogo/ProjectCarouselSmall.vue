@@ -25,7 +25,7 @@
         <div class="data-project">
           <a href="/proyectos" target="_blank" style="text-decoration:none;">
             <h1 class="title is-5">¡Aún hay más proyectos por ver!</h1>
-            <h1 class="subtitle is-6">¡Visitá el listado con mas de +1700 proyectos!</h1>
+            <h1 class="subtitle is-6">¡Visitá el listado con mucho mas proyectos!</h1>
           </a>
         </div>
       </div>

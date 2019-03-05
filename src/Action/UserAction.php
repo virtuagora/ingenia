@@ -51,7 +51,7 @@ class UserAction
         $resultados->setUri($request->getUri());
         if ($this->authorization->checkPermission($subject, 'coordin')) {
             $resultados->makeVisible([
-                'dni',
+                'dni', 'email','pending_email'
             ]);
         }
         return $this->pagination->renderResponse($response, $resultados);
