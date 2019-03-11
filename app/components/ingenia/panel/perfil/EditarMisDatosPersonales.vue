@@ -15,7 +15,7 @@
     </p>
     <p v-if="user.subject.img_type === 1">
       <i class="fas fa-check has-text-success fa-fw fa-lg"></i>
-      <i class="fab fa-facebook has-text-link fa-fw fa-lg"></i>&nbsp;¡Acordate! Te registraste y te logueas con tu perfil de Facebook:
+      <i class="fab fa-facebook has-text-link fa-fw fa-lg"></i>&nbsp;¡Acordate! Te has registrado y te logueas con tu perfil de Facebook:
       <a
         :href="'https://facebook.com/' + user.subject.img_hash"
         target="_blank"
@@ -73,7 +73,7 @@
     </div>
     <div class="message is-primary">
       <div class="message-body">
-        <i class="fas fa-exclamation-triangle"></i> Es importante que todos los participantes tengan sus nombres y apellidos tal como figura en el Documento de Identidad (DNI).
+        <i class="fas fa-exclamation-triangle"></i> Es importante que coloques tu su nombre(s) y apellido(s) tal como figura en el Documento de Identidad (DNI).
       </div>
     </div>
     <label class="label is-size-5">
