@@ -216,7 +216,7 @@ export default {
       );
     },
     styleWithoutImage: function() {
-      return "background: url(/assets/img/neuronas-ingenia.jpg) center center / cover";
+      return "background: url(/assets/img/background_02.png) center center / cover";
     },
     fillPaginator: function(data) {
       this.paginator.current_page = data.current_page;
