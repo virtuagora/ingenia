@@ -131,7 +131,8 @@ delete-coordinator="{{path_for('delProCor',{'pro': project.id})}}"
 comments-url="{{path_for('getProCom', {'pro': project.id})}}"
 comment-url="{{path_for('runCreProCom',{'pro': project.id})}}"
 reply-url="{{path_for('runCreProRep',{'com': ':com'})}}"
-like-url="{{path_for('runCreComVot',{'com': ':com'})}}">
+like-url="{{path_for('runCreComVot',{'com': ':com'})}}"
+historias-count="{{historiasCount}}">
   {% else %}
   <router-view :project="{{project}}" 
   :is-admin="false" 
@@ -143,7 +144,8 @@ like-url="{{path_for('runCreComVot',{'com': ':com'})}}">
 comments-url="{{path_for('getProCom', {'pro': project.id})}}"
 comment-url="{{path_for('runCreProCom',{'pro': project.id})}}"
 reply-url="{{path_for('runCreProRep',{'com': ':com'})}}"
-like-url="{{path_for('runCreComVot',{'com': ':com'})}}">
+like-url="{{path_for('runCreComVot',{'com': ':com'})}}"
+historias-count="{{historiasCount}}">
   {% endif %}
     <div class="has-text-centered" style="padding: 3rem 0rem;">
       <span class="is-size-4">

@@ -13,7 +13,7 @@
    :assign-coordinator="assignCoordinator"
    :delete-coordinator="deleteCoordinator"
    v-if="isAdmin || isCoordinator"></coordinators>
-  <router-view :put-project-note="putProjectNote" :selected=" selected == '' ? null : selected" :is-admin="isAdmin ? true : false" :is-coordinator="isCoordinator ? true : null" :coordinators="coordinators ? coordinators : []" :notes="notes ? notes : null" :project="project" :send-request-join="sendRequestJoin"></router-view>
+  <router-view :put-project-note="putProjectNote" :selected=" selected == '' ? null : selected" :is-admin="isAdmin ? true : false" :is-coordinator="isCoordinator ? true : null" :coordinators="coordinators ? coordinators : []" :notes="notes ? notes : null" :project="project" :send-request-join="sendRequestJoin" :historias-count="historiasCount"></router-view>
       <hr class="is-marginless">
   <section class="section" id="comentarios">
       <div class="container">
@@ -34,7 +34,7 @@ import Comments from './Comments'
 export default {
   props:['project','isAdmin','notes','grantedBudget','selected','quota','isCoordinator',
   'putProjectNote','coordinators', 'updateReview', 'assignCoordinator','deleteCoordinator',
-  "getGroupMembers", 'sendRequestJoin', 'teamUrl', 'commentsUrl', 'commentUrl','replyUrl','likeUrl'],
+  "getGroupMembers", 'sendRequestJoin', 'teamUrl', 'commentsUrl', 'commentUrl','replyUrl','likeUrl','historiasCount'],
   components:{
     TeamAvatars,
     Coordinators,

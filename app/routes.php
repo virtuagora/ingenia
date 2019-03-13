@@ -448,10 +448,14 @@ $app->group('/proyecto', function () {
             $voted = false;
         }
         $proyecto->addVisible(['category_id']);
+        $historiasCount = $this->db->query('App:Story')
+            ->where('project_id', $proyecto->id)
+            ->count();
         // return $response->withJSON($proyecto->toArray());
         return $this->view->render($response, 'ingenia/project/showProject.twig', [
             'project' => $proyecto,
             'voted' => $voted,
+            'historiasCount' => $historiasCount
         ]);
     })->setName('showProject');
     $this->get('/{pro}/[{path:.*}]', function ($request, $response, $params) {

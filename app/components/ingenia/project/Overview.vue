@@ -55,7 +55,7 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Historias</p>
-              <p class="title">456K</p>
+              <p class="title">{{historiasCount}}</p>
             </div>
           </div>
           <div class="level-item has-text-centered" v-if="project.selected">
@@ -274,7 +274,8 @@ export default {
     "isCoordinator",
     "coordinators",
     "putProjectNote",
-    "selected"
+    "selected",
+    "historiasCount"
   ],
   components: {
     Localidad,
