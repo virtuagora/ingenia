@@ -21,14 +21,18 @@
                     <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
                 </div>
                 {% else %}
-                									                <img src="{{asset('img/slogan2-dark.svg')}}" class="image" style=" width:350px; margin: 0 auto 20px;">
-                <h1 class="subtitle is-4 has-text-centered">
-                  Las inscripciones 2019 están abiertas&nbsp;<i class="em em-raised_hands"></i>
+                									                {# <img src="{{asset('img/slogan2-dark.svg')}}" class="image" style=" width:350px; margin: 0 auto 20px;"> #}
+                <h1 class="title is-2 is-size-4-touch has-text-black has-text-centered">
+                  ¡Las inscripciones 2019 están abiertas!&nbsp; <i class="em em-raised_hands"></i>
                 </h1>
+                <div class="strike">
+                  <span>¡Comenzá participando!</span>
+                </div>
+                <br>
                 <div class="buttons is-centered">
                   <a class="button is-medium is-primary" href="{{path_for('showLogin')}}">
                     <i class="em em-smile"></i>&nbsp; Creá tu equipo
-                  </a>&nbsp;&nbsp;
+                  </a>
                   <a class="button is-medium is-primary is-outlined" href="{{path_for('showLogin')}}">
                     <i class="em em-muscle"></i>&nbsp; Bancá proyectos
                   </a>
@@ -39,7 +43,7 @@
                 <br>
                   <div class="buttons is-centered">
                     <a class="button is-medium is-primary is-inverted" href="{{path_for('showLogin')}}">
-                      <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; Iniciá sesión
+                      <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; ¡Iniciá sesión!
                     </a>
                   </div>
                 {% endif %}
