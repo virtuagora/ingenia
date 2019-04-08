@@ -4,26 +4,28 @@
 {% extends 'master.twig' %}
 {% block body %}
   {% include "ingenia/index/header.twig" %}
-  <section class="section">
-    <div class="container">
-      <div class="columns">
-        <div class="column is-8">
-          {% if subject.id %}
-            <div class="box">
-              <h1 class="title is-3">
-                ¡Hola
-                {{subject.name}}!
-              </h1>
-              <br>
-                <status></status>
+{% if date() < date(options()['deadline'])  %}
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-8">
+            {% if subject.id %}
+              <div class="box">
+                <h1 class="title is-3">
+                  ¡Hola
+                  {{subject.name}}!
+                </h1>
                 <br>
+                  <status></status>
+                  <br>
                   <a class="button is-medium is-primary is-fullwidth" href="{{path_for('showPanel')}}">
                     <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
                 </div>
-                {% else %}
-                									                {# <img src="{{asset('img/slogan2-dark.svg')}}" class="image" style=" width:350px; margin: 0 auto 20px;"> #}
+              {% else %}
+                {# <img src="{{asset('img/slogan2-dark.svg')}}" class="image" style=" width:350px; margin: 0 auto 20px;"> #}
                 <h1 class="title is-2 is-size-4-touch has-text-black has-text-centered">
-                  ¡Las inscripciones 2019 están abiertas!&nbsp; <i class="em em-raised_hands"></i>
+                  ¡Las inscripciones 2019 están abiertas!&nbsp;
+                  <i class="em em-raised_hands"></i>
                 </h1>
                 <div class="strike">
                   <span>¡Comenzá participando!</span>
@@ -41,145 +43,187 @@
                   <span>Hagas lo que hagas</span>
                 </div>
                 <br>
-                  <div class="buttons is-centered">
-                    <a class="button is-medium is-primary is-inverted" href="{{path_for('showLogin')}}">
-                      <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; ¡Iniciá sesión!
+                <div class="buttons is-centered">
+                  <a class="button is-medium is-primary is-inverted" href="{{path_for('showLogin')}}">
+                    <i class="fas fa-sign-in-alt fa-lg fa-fw"></i>&nbsp; ¡Iniciá sesión!
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+            <div class="column is-3 is-offset-1">
+              <countdown class="is-primary" date="{{options()['deadline']}}" date-documents="{{options()['deadline-documents']}}">
+                <div class="has-text-centered">
+                <i class="fas fa-cog fa-spin fa-lg"></i>
+                Cargando...
+                </div>
+              </countdown>
+              <div class="message is-link has-text-centered">
+                <div class="message-body">
+                  <p>
+                    <b>Si tenés algún problema, ¡Contactanos!</b><br>Gabinete joven -
+                    <a href="https://twitter.com/gabinetejoven">
+                      <i class="fab fa-twitter fa-lg"></i>
                     </a>
-                  </div>
-                {% endif %}
-                {% if subject.id and false %}
-                  <br>
-                    <div class="notification is-primary">
-                      <div class="content is-small">
-                        {% include 'currentLog.twig' %}
-                      </div>
-                    </div>
-                  {% endif %}
+                    &nbsp;
+                    <a href="https://instagram.com/gabinetejoven">
+                      <i class="fab fa-instagram fa-lg"></i>
+                    </a>
+                    &nbsp;
+                    <a href="https://facebook.com/gabinetejoven">
+                      <i class="fab fa-facebook fa-lg"></i>
+                    </a>
+                    <br>Virtuágora -
+                    <a href="https://twitter.com/virtuagora">
+                      <i class="fab fa-twitter fa-lg"></i>
+                    </a>
+                    &nbsp;
+                    <a href="https://facebook.com/virtuagora">
+                      <i class="fab fa-facebook fa-lg"></i>
+                    </a>
+                  </p>
                 </div>
-                <div class="column is-3 is-offset-1">
-                  <countdown class="is-primary" date="{{options()['deadline']}}"></countdown>
-                  <div class="message is-link has-text-centered">
-                    <div class="message-body">
-                      <p><b>Si tenes algún problema, ¡Contactanos!</b><br>Gabinete joven - 
-                          <a href="https://twitter.com/gabinetejoven">
-                            <i class="fab fa-twitter fa-lg"></i></a>
-                          &nbsp;
-                          <a href="https://instagram.com/gabinetejoven">
-                            <i class="fab fa-instagram fa-lg"></i></a>
-                          &nbsp;
-                          <a href="https://facebook.com/gabinetejoven">
-                            <i class="fab fa-facebook fa-lg"></i></a>
-                          <br>Virtuágora - 
-                          <a href="https://twitter.com/virtuagora">
-                            <i class="fab fa-twitter fa-lg"></i></a>
-                          &nbsp;
-                          <a href="https://facebook.com/virtuagora">
-                            <i class="fab fa-facebook fa-lg"></i></a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <div class="hero is-primary">
-              <div class="hero-body">
-                <ul class="steps is-centered is-medium has-content-centered is-dashed">
-                  <li class="steps-segment is-active">
-                    <span class="steps-marker is-white">
-                      <i class="fas fa-user-plus has-text-primary"></i>
-                    </span>
-                    <div class="steps-content">
-                      <p class="heading">Crea tu cuenta</p>
-                    </div>
-                  </li>
-                  <li class="steps-segment">
-                    <span class="steps-marker is-white">
-                      <i class="fas fa-edit has-text-primary"></i>
-                    </span>
-                    <div class="steps-content">
-                      <p class="heading">Completá tu info</p>
-                    </div>
-                  </li>
-                  <li class="steps-segment">
-                    <span class="steps-marker is-white">
-                      <i class="fas fa-users has-text-primary"></i>
-                    </span>
-                    <div class="steps-content">
-                      <p class="heading">Crea o sumate a un equipo</p>
-                    </div>
-                  </li>
-                  <li class="steps-segment">
-                    <span class="steps-marker is-white">
-                      <i class="fas fa-star has-text-primary"></i>
-                    </span>
-                    <div class="steps-content">
-                      <p class="heading">Completa los requisitos</p>
-                    </div>
-                  </li>
-                  <li class="steps-segment">
-                    <span class="steps-marker is-white">
-                      <i class="far fa-laugh-beam has-text-primary fa-lg"></i>
-                    </span>
-                    <div class="steps-content">
-                      <p class="heading">¡Compartí tu proyecto!</p>
-                    </div>
-                  </li>
-                </ul>
               </div>
             </div>
-            <div class="hero is-light">
-              <div class="hero-body">
-                <div class="container">
-                  <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Conocé algunos proyectos que estan participando</h1>
-                  <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
-                  {# <project-carousel get-projects-url="{{path_for('lisPro20Random')}}">
-                    <div class="notification has-text-centered">
-                      <i class="fas fa-cog fa-spin fa-lg"></i>
-                      Cargando...
-                    </div>
-                  </project-carousel> #}
-                  <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
-                    <div class="notification has-text-centered">
-                      <i class="fas fa-cog fa-spin fa-lg"></i>
-                      Cargando...
-                    </div>
-                  </project-carousel-small>
-                  <br>
-                    <p class="has-text-centered">
-                      <a class=" button is-medium is-black" href="/proyectos">Visitá el catálogo</a>
-                    </p>
-                  </div>
-                </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+{% if date() > date(options()['deadline']) %}
+      <div class="hero is-white">
+        <div class="hero-body">
+          <countdown class="is-white is-paddingless is-marginless has-text-centered" date="{{options()['deadline']}}" date-documents="{{options()['deadline-documents']}}">
+<div class="has-text-centered">
+  <i class="fas fa-cog fa-spin fa-lg"></i>
+  Cargando...
+</div>
+          </countdown>
+          <br>
+          {% if subject.id %}
+            <h1 class="title is-3 has-text-centered">
+              ¡Hola
+              {{subject.name}}!
+            </h1>
+            <div class="buttons is-centered">
+            <a class="button is-medium is-primary" href="{{path_for('showPanel')}}">
+              <i class="fas fa-hand-point-right"></i>&nbsp;¡Ingresá a tu panel de control!</a>
               </div>
-							<div class="section">
-							<div class="container">
-							<a href="/historias">
-          <img src="./assets/img/historia.svg" class="image is-centered" style="width:530px;">
+          {% else %}
+            <div class="buttons is-centered">
+              <a class="button is-medium is-info" href="{{path_for('showLogin')}}">
+<i class="em em-smile"></i>&nbsp; Iniciá sesión
+              </a>
+              <a class="button is-medium is-info is-outlined" href="{{path_for('showLogin')}}">
+<i class="em em-muscle"></i>&nbsp; Bancá tus proyectos favoritos  
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="hero is-primary">
+        <div class="hero-body">
+          <ul class="steps is-centered is-medium has-content-centered is-dashed">
+            <li class="steps-segment is-active">
+              <span class="steps-marker is-white">
+                <i class="fas fa-user-plus has-text-primary"></i>
+              </span>
+              <div class="steps-content">
+                <p class="heading">Crea tu cuenta</p>
+              </div>
+            </li>
+            <li class="steps-segment">
+              <span class="steps-marker is-white">
+                <i class="fas fa-edit has-text-primary"></i>
+              </span>
+              <div class="steps-content">
+                <p class="heading">Completá tu info</p>
+              </div>
+            </li>
+            <li class="steps-segment">
+              <span class="steps-marker is-white">
+                <i class="fas fa-users has-text-primary"></i>
+              </span>
+              <div class="steps-content">
+                <p class="heading">Crea o sumate a un equipo</p>
+              </div>
+            </li>
+            <li class="steps-segment">
+              <span class="steps-marker is-white">
+                <i class="fas fa-star has-text-primary"></i>
+              </span>
+              <div class="steps-content">
+                <p class="heading">Completa los requisitos</p>
+              </div>
+            </li>
+            <li class="steps-segment">
+              <span class="steps-marker is-white">
+                <i class="far fa-laugh-beam has-text-primary fa-lg"></i>
+              </span>
+              <div class="steps-content">
+                <p class="heading">¡Compartí tu proyecto!</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+    <div class="hero is-light">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title has-text-centered has-text-black is-700 has-text-centered">Estos proyectos están participando</h1>
+          {% if date() > date(options()['deadline']) %}
+          <h1 class="subtitle has-text-centered has-text-black is-5">¿Quienes se llevarán la gloria? ¡Muy pronto se anuciarán los seleccionados!</h1>
+            <project-carousel get-projects-url="{{path_for('lisPro20Random')}}">
+              <div class="notification has-text-centered">
+                <i class="fas fa-cog fa-spin fa-lg"></i>
+                Cargando...
+              </div>
+            </project-carousel>
+          {% else %}
+          <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
+            <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
+              <div class="notification has-text-centered">
+                <i class="fas fa-cog fa-spin fa-lg"></i>
+                Cargando...
+              </div>
+            </project-carousel-small>
+          {% endif %}
+          <br>
+          <p class="has-text-centered">
+            <a class=" button is-medium is-black" href="/proyectos">Visitá el catálogo</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <a href="/historias">
+          <img class="image is-centered" src="./assets/img/historia.svg" style="width:530px;">
         </a>
         <br>
         <div class="has-text-centered">
           <h1 class="title is-size-3-desktop is-size-4-touch">¡Publicá las historias de tus proyectos!</h1>
           <h1 class="subtitle is-5 is-size-6-touch">¡Mostrales a todos los momentos de gloria de tu proyecto!</h1>
           {% if showCreateStory == true %}
-          <a href="{{path_for('showNuevaHistoria',{'gro': groupId})}}" class="button is-link is-medium is-400"><i class="fas fa-plus fa-fw"></i>&nbsp;Crea una historia</a>
-          <br>
-          <br>
+            <a href="{{path_for('showNuevaHistoria',{'gro': groupId})}}" class="button is-link is-medium is-400">
+              <i class="fas fa-plus fa-fw"></i>&nbsp;Crea una historia</a>
+            <br>
+            <br>
           {% endif %}
           <br>
           <show-stories :limit="4"></show-stories>
         </div>
-				</div>
-							</div>
-              <section class="section">
-                <div class="container has-text-centered">
-                  <br>
-                    <br>
-                      <br>
-                        <img class="image is-hidden-touch" src="{{asset('img/slogan3-dark.svg')}}" style="height: 100px; margin: 0 auto;">
-                          <img class="image is-hidden-desktop" src="{{asset('img/slogan4-dark.svg')}}" style="width: 250px; margin: 0 auto;">
-                            <br>
-                              <br></div>
-                            </section>
-                          {% endblock %}
-                        
+      </div>
+    </div>
+    <section class="section">
+      <div class="container has-text-centered">
+        <br>
+        <br>
+        <br>
+        <img class="image is-hidden-touch" src="{{asset('img/slogan3-dark.svg')}}" style="height: 100px; margin: 0 auto;">
+        <img class="image is-hidden-desktop" src="{{asset('img/slogan4-dark.svg')}}" style="width: 250px; margin: 0 auto;">
+        <br>
+        <br>
+      </div>
+    </section>
+  {% endblock %}

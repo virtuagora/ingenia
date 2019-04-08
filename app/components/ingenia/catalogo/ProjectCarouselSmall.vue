@@ -123,7 +123,7 @@ export default {
       if(this.selected != null){
         query.push("sel=" + this.selected);
       }
-      // query.push("page=" + (Math.floor(Math.random() * 115) + 1));
+      query.push("page=" + (Math.floor(Math.random() * 200) + 1));
       // query.push("size=" + 7);
       return this.getProjectsUrl.concat(
         query.length > 0 ? "?" : "",

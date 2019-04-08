@@ -13,7 +13,7 @@
     <br>
     <status></status>
     <br>
-    <countdown :date="deadline" class="is-dark"></countdown>      
+    <countdown :date="deadline" :dateDocuments="deadlineDocuments" class="is-dark"></countdown>      
     <div class="notification is-info" v-if="user.groups[0] !== undefined && user.groups[0].project !== null">
         <i class="fas fa-eye fa-fw"></i> Tu proyecto está publico en la web, podes ingresar haciendo <b><a :href="'/proyecto/' + user.groups[0].project.id">Clic aquí</a></b>
       </div>
@@ -27,9 +27,9 @@ import Countdown from "../utils/Countdown";
 export default {
   components: {
     Status,
-    Countdown
+    Countdown,
   },
-  props: ["id","deadline"],
+  props: ["id","deadline", "deadlineDocuments"],
   data() {
     return {
       user: {}

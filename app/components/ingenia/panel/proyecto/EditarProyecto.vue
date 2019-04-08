@@ -3,13 +3,22 @@
   <div v-if="user.groups[0]">
     <div class="tabs">
       <ul>
-        <li :class="{'is-active': $route.name == 'userVerProyecto'}" v-if="user.groups[0].project !== null">
+        <li
+          :class="{'is-active': $route.name == 'userVerProyecto'}"
+          v-if="user.groups[0].project !== null"
+        >
           <router-link :to="{ name: 'userVerProyecto'}">Ver proyecto</router-link>
         </li>
-        <li :class="{'is-active': $route.name == 'userEditarProyecto'}" v-if="allowResponsables && user.groups[0].project !== null">
+        <li
+          :class="{'is-active': $route.name == 'userEditarProyecto'}"
+          v-if="allowResponsables && user.groups[0].project !== null && !isFormClosed(deadline)"
+        >
           <router-link :to="{ name: 'userEditarProyecto'}">Editar proyecto</router-link>
         </li>
-        <li :class="{'is-active': $route.name == 'userSubirImagen'}" v-if="allowResponsables && user.groups[0].project !== null">
+        <li
+          :class="{'is-active': $route.name == 'userSubirImagen'}"
+          v-if="allowResponsables && user.groups[0].project !== null"
+        >
           <router-link :to="{ name: 'userSubirImagen'}">Subir imagen del proyecto</router-link>
         </li>
       </ul>
@@ -22,21 +31,36 @@
       Ingresá aquí todos los datos requeridos sobre el proyecto.
       <br>¡Estos datos serán visibles para todos los que visiten el punto de encuentro del proyecto! Podes editarlo cuantas veces necesites, hasta el cierre de la convocatoria.
     </b-message>
+
     <section v-if="!editMode || (editMode && fetchResponse.replied && fetchResponse.ok)">
-      <div class="notification is-link">
-        <h1 class="title is-2 is-700">
-          <i class="far fa-edit fa-fw"></i> Sobre el
-          <u>PROYECTO</u>
-        </h1>
-      </div>
-      <form-proyecto ref="formProyecto" :project.sync="project"></form-proyecto>
-      <br>
-      <div class="notification is-success" v-show="response.ok">
-        <i class="fas fa-check fa-fw"></i> Datos enviados y guardados con éxito
-      </div>
-      <button @click="submit" v-show="!response.ok" class="button is-large is-primary is-fullwidth" :class="{'is-loading': isLoading}">
-        <i class="fas fa-save"></i>&nbsp;&nbsp;Guardar</button>
-      <b-loading :active.sync="isLoading"></b-loading>
+          <section v-if="!isCallClosed">
+            <div class="notification is-link">
+              <h1 class="title is-2 is-700">
+                <i class="far fa-edit fa-fw"></i> Sobre el
+                <u>PROYECTO</u>
+              </h1>
+            </div>
+            <form-proyecto ref="formProyecto" :project.sync="project"></form-proyecto>
+            <br>
+            <div class="notification is-success" v-show="response.ok">
+              <i class="fas fa-check fa-fw"></i> Datos enviados y guardados con éxito
+            </div>
+            <button
+              @click="submit"
+              v-show="!response.ok"
+              class="button is-large is-primary is-fullwidth"
+              :class="{'is-loading': isLoading}"
+            >
+              <i class="fas fa-save"></i>&nbsp;&nbsp;Guardar
+            </button>
+          <b-loading :active.sync="isLoading"></b-loading>
+          </section>
+          <section v-else>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+    >La convocatoria ha cerrado. Ya no puede cargar un proyecto en ingenia.</b-message>
+          </section>
     </section>
     <section v-if="editMode && fetchResponse.replied && !fetchResponse.ok">
       <div class="notification is-danger">
@@ -51,9 +75,10 @@
       <img src="/assets/img/ingenia-logo.svg" class="image is-centered" style="max-width: 250px;">
     </div>
     <br>
-    <b-message class="has-text-centered" type="is-warning">
-      La convocatoria ha cerrado. Ya no puede cargar un proyecto en ingenia.
-    </b-message>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+    >La convocatoria ha cerrado. Ya no puede cargar o editar un proyecto en ingenia.</b-message>
     <!-- <router-link :to="{ name: 'userOtrasOpciones'}" class="button is-dark is-400">Eliminar el equipo del registro</router-link> -->
   </div>
 </template>
@@ -62,7 +87,7 @@
 import FormProyecto from "../../utils/FormProyecto";
 
 export default {
-  props: ["projectUrl", "saveProjectUrl", "editProjectUrl"],
+  props: ["projectUrl", "deadline", "saveProjectUrl", "editProjectUrl"],
   components: {
     FormProyecto
   },
@@ -205,6 +230,9 @@ export default {
     }
   },
   computed: {
+    isCallClosed: function() {
+      return new Date(this.deadline) < new Date();
+    },
     urlPost: function() {
       if (this.editMode) {
         return this.editProjectUrl.replace(
@@ -257,7 +285,7 @@ export default {
       if (
         vm.user.groups[0] !== undefined &&
         (vm.user.groups[0].pivot.relation === "responsable" ||
-        vm.user.groups[0].pivot.relation === "co-responsable")
+          vm.user.groups[0].pivot.relation === "co-responsable")
       ) {
         console.log("Authorized");
       } else {

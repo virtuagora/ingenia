@@ -192,7 +192,7 @@
       <div class="hero-body has-text-centered">
         <div class="columns">
           <div class="column is-6 is-offset-3" v-if="user !== null && user.groups[0] == undefined">
-            <div class="has-text-centered">
+            <section class="has-text-centered" v-if="!isFormClosed(deadlineDocuments)">
               <h3 class="is-size-3 is-600">
                 <span v-if="user !== null">¡{{user.names}}!</span> ¿Querés colaborar con el equipo?
               </h3>
@@ -244,7 +244,13 @@
                 <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Inicia sesión para solicitar
               </a>
               <b-loading :active.sync="isLoading"></b-loading>
-            </div>
+            </section>
+            <section v-else>
+              <h3 class="is-size-4 is-600">
+                <span v-if="user !== null">¡{{user.names}}!</span>, no pierdas la oportunidad de dejarles un aguante
+              </h3>
+              <p>¡Dejales un comentario o bancalos!</p>
+            </section>
           </div>
           <div class="column is-6 is-offset-3" v-if="user === null">
             <div class="has-text-centered">
@@ -268,6 +274,7 @@ import LatestStories from "./LatestStories";
 export default {
   props: [
     "project",
+    "deadlineDocuments",
     "sendRequestJoin",
     "notes",
     "isAdmin",

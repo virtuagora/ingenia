@@ -10,17 +10,24 @@
         <li>Se elimina el proyecto, borrando toda información asociada con al mismo, como comentarios, cantidad de bancadas, y demas, se eliminan.</li>
         </ul>  
     </div>
-    <b-message>
-      <b>Atención:</b> Al borrar todo, su sesión se va a cerrar. Deberá volver a loguearse.
-    </b-message>
-    <a @click="showDelete = true" class="button is-warning is-fullwidth is-medium" v-show="!showDelete"><i class="fas fa-trash fa-fw"></i>&nbsp;Eliminar participación</a>
-    <a @click="deleteNAOW" class="button is-danger is-fullwidth is-medium" :class="{'is-loading': this.isLoading}" v-show="showDelete"><i class="fas fa-exclamation-triangle fa-fw"></i>&nbsp;<i class="fas fa-trash fa-fw"></i>&nbsp;¿Confirma que quiere eliminar TODO?</a>
+    <section v-if="!isFormClosed(deadline)">
+      <b-message>
+        <b>Atención:</b> Al borrar todo, su sesión se va a cerrar. Deberá volver a loguearse.
+      </b-message>
+      <a @click="showDelete = true" class="button is-warning is-fullwidth is-medium" v-show="!showDelete"><i class="fas fa-trash fa-fw"></i>&nbsp;Eliminar participación</a>
+      <a @click="deleteNAOW" class="button is-danger is-fullwidth is-medium" :class="{'is-loading': this.isLoading}" v-show="showDelete"><i class="fas fa-exclamation-triangle fa-fw"></i>&nbsp;<i class="fas fa-trash fa-fw"></i>&nbsp;¿Confirma que quiere eliminar TODO?</a>
+    </section>
+     <b-message
+      class="has-text-centered"
+      type="is-warning"
+      v-else
+    >La convocatoria ha cerrado, ya no podes borrar tu proyecto. Si tenes algún problema, contactate con Gabinete Joven para que te asesoren.</b-message>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['deleteGroupUrl'],
+  props: ['deleteGroupUrl','deadline'],
   data(){
     return {
       showDelete: false,

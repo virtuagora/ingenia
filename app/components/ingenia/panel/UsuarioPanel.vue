@@ -112,7 +112,7 @@
         </aside>
       </div>
       <div class="column is-7 is-offset-1">
-        <router-view :id="id" :deadline="deadline" :user-url="userUrl" :save-user-profile-url="saveUserProfileUrl" :save-user-dni-url="saveUserDniUrl" :save-pending-email="savePendingEmail" :save-user-public-profile-url="saveUserPublicProfileUrl" :team-url="teamUrl" :save-team-url="saveTeamUrl" :edit-team-url="editTeamUrl" :send-invitation-url="sendInvitationUrl" :team-users-url="teamUsersUrl" :team-invitations-url="teamInvitationsUrl" :save-agreement-url="saveAgreementUrl" :project-url="projectUrl" :save-project-url="saveProjectUrl" :edit-project-url="editProjectUrl" :delete-group-url="deleteGroupUrl" :save-image-url="saveImageUrl" :save-letter-url="saveLetterUrl" :get-group-members="getGroupMembers" :accept-group-invitation="acceptGroupInvitation" :accept-group-request="acceptGroupRequest" :remove-group-user="removeGroupUser" :remove-group-invitation="removeGroupInvitation" :assign-group-second="assignGroupSecond" :delete-group-second="deleteGroupSecond"></router-view>
+        <router-view :id="id" :deadline="deadline" :deadline-documents="deadlineDocuments" :user-url="userUrl" :save-user-profile-url="saveUserProfileUrl" :save-user-dni-url="saveUserDniUrl" :save-pending-email="savePendingEmail" :save-user-public-profile-url="saveUserPublicProfileUrl" :team-url="teamUrl" :save-team-url="saveTeamUrl" :edit-team-url="editTeamUrl" :send-invitation-url="sendInvitationUrl" :team-users-url="teamUsersUrl" :team-invitations-url="teamInvitationsUrl" :save-agreement-url="saveAgreementUrl" :project-url="projectUrl" :save-project-url="saveProjectUrl" :edit-project-url="editProjectUrl" :delete-group-url="deleteGroupUrl" :save-image-url="saveImageUrl" :save-letter-url="saveLetterUrl" :get-group-members="getGroupMembers" :accept-group-invitation="acceptGroupInvitation" :accept-group-request="acceptGroupRequest" :remove-group-user="removeGroupUser" :remove-group-invitation="removeGroupInvitation" :assign-group-second="assignGroupSecond" :delete-group-second="deleteGroupSecond"></router-view>
       </div>
     </div>
   </section>
@@ -123,6 +123,7 @@ export default {
   props: [
     "id",
     "deadline",
+    "deadlineDocuments",
     "userUrl",
     "saveUserProfileUrl",
     "saveUserDniUrl",

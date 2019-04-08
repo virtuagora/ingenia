@@ -48,6 +48,9 @@
               <router-link :to="{ name: 'adminFechaCierre'}" exact-active-class="is-active">Fecha de cierre</router-link>
             </li>
             <li>
+              <router-link :to="{ name: 'adminFechaLimiteRequerimientos'}" exact-active-class="is-active">Fecha limite p/ Docs.</router-link>
+            </li>
+            <li>
               <router-link :to="{ name: 'adminRolesUsuario'}" exact-active-class="is-active">Roles de Usuarios</router-link>
             </li>
           </ul>

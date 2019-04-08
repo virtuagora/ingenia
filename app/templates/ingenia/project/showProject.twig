@@ -113,7 +113,8 @@
     </div>
   </div>
   {% if 'admin' in subject.roles or 'coordin' in subject.roles %}
-  <router-view :project="{{project}}" 
+  <router-view :project="{{project}}"
+  deadline-documents="{{options()['deadline-documents']}}" 
   is-admin="{{'admin' in subject.roles}}" 
   is-coordinator="{{'coordin' in subject.roles}}" 
   :coordinators="{{project.coordins}}"
@@ -134,7 +135,8 @@ reply-url="{{path_for('runCreProRep',{'com': ':com'})}}"
 like-url="{{path_for('runCreComVot',{'com': ':com'})}}"
 historias-count="{{historiasCount}}">
   {% else %}
-  <router-view :project="{{project}}" 
+  <router-view :project="{{project}}"
+deadline-documents="{{options()['deadline-documents']}}"
   :is-admin="false" 
   :is-coordinator="false" 
   :id-coordinator="null"

@@ -3,6 +3,7 @@
 :id="id" 
 :user-url="userUrl"
 :deadline="deadline"
+:deadline-documents="deadlineDocuments"
 :save-user-profile-url="saveUserProfileUrl"
 :save-user-dni-url="saveUserDniUrl" 
 :save-user-public-profile-url="saveUserPublicProfileUrl"
@@ -34,6 +35,7 @@ export default {
     "id",
 	"userUrl",
   "deadline",
+  "deadlineDocuments",
 	"saveUserProfileUrl",
 	"saveUserDniUrl",
 	"saveUserPublicProfileUrl",

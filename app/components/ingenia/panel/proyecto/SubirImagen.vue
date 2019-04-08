@@ -3,7 +3,7 @@
             <div class="tabs">
   <ul>
     <li :class="{'is-active': $route.name == 'userVerProyecto'}" v-if="user.groups[0].project !== null"><router-link :to="{ name: 'userVerProyecto'}">Ver proyecto</router-link></li>
-    <li :class="{'is-active': $route.name == 'userEditarProyecto'}" v-if="allowResponsables && user.groups[0].project !== null"><router-link :to="{ name: 'userEditarProyecto'}">Editar proyecto</router-link></li>
+    <li :class="{'is-active': $route.name == 'userEditarProyecto'}" v-if="allowResponsables && user.groups[0].project !== null"><router-link :to="{ name: 'userEditarProyecto'} && !isFormClosed(deadline)">Editar proyecto</router-link></li>
     <li :class="{'is-active': $route.name == 'userSubirImagen'}" v-if="allowResponsables && user.groups[0].project !== null"><router-link :to="{ name: 'userSubirImagen'}">Subir imagen del proyecto</router-link></li>
   </ul>
 </div>

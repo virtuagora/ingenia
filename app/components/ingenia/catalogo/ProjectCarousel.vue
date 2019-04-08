@@ -108,7 +108,7 @@ export default {
       // if (this.localidadSelected !== null) {
       //   query.push("loc=" + this.localidadSelected.id);
       // }
-      // query.push("page=" + (Math.floor(Math.random() * 115) + 1));
+      query.push("page=" + (Math.floor(Math.random() * 200) + 1));
       query.push("size=" + 20);
       return this.getProjectsUrl.concat(
         query.length > 0 ? "?" : "",

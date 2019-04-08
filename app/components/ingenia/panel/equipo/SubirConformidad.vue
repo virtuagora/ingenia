@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="subtitle is-3">Subir carta de conformidad</h1>
-    <div v-show="!pendiente">
       <b-message>Uno de los requisitos para que tu proyecto sea admitido en INGENIA es que los integrantes de tu equipo firme la carta de conformidad. Una vez que termines de armar el equipo, todos deben firmar la carta. Una vez listo, subí un archivo donde se vea la carta de conformidad firmada por todos los integrantes.
         <br>Tamaño del archivo: 3MB. Se aceptan .JPG, .JPEG, .PDF, .DOC o .DOCX
       </b-message>
+    <div v-if="!isFormClosed(deadlineDocuments)">
       <div class="notification" v-show="verifying">
         <i class="fas fa-cog fa-spin"></i>&nbsp;Revisando si enviaste la carta de conformidad . . .
       </div>
@@ -40,13 +40,18 @@
         </div>
       </form>
     </div>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+      v-else
+    >El tiempo limite para completar la documentación ha cerrado. Si tenes algún requerimiento que quedo pendiente, contactate con Gabinete Joven para que te asesoren.</b-message>
     <b-loading :is-full-page="false" :active.sync="isLoading"></b-loading>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["saveAgreementUrl"],
+  props: ["saveAgreementUrl", "deadlineDocuments"],
   data() {
     return {
       pendiente: false,

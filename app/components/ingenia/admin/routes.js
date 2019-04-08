@@ -5,6 +5,7 @@ import http from '../../http'
 import AdminPanel from './AdminPanel'
 import Overview from './Overview'
 import FechaCierre from './FechaCierre'
+import FechaCierreRequerimientos from './FechaCierreRequerimientos'
 import ListadoProyectos from './ListadoProyectos'
 import ListadoProyectosCoordinadores from './ListadoProyectosCoordinadores'
 import DescargarMatriz from './DescargarMatriz'
@@ -32,6 +33,12 @@ const routes = [
         path: 'fecha-cierre',
         component: FechaCierre,
         name: 'adminFechaCierre',
+        props: true
+      },
+      {
+        path: 'fecha-limite-requerimientos',
+        component: FechaCierreRequerimientos,
+        name: 'adminFechaLimiteRequerimientos',
         props: true
       },
       {

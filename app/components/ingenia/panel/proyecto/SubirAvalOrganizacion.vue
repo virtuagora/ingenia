@@ -4,7 +4,7 @@
     <p>De acuerdo a los datos ingresados, el proyecto se realiza en coordinación con otra institución y/o organización, debera adjuntar la carta aval.</p>
     <p>Como requerimiento, debe subir la carta aval firmada por la institución u organización</p>
     <br>
-    <div v-show="!pendiente">
+    <div v-if="!isFormClosed(deadlineDocuments)">
       <b-message>
         En el siguiente campo subí un archivo donde se vea la carta de aval firmada por la organización.
         <br>Tamaño del archivo: 3MB. Se aceptan .JPG, .JPEG, .PDF, .DOC o .DOCX
@@ -44,13 +44,18 @@
         </div>
       </form>
     </div>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+      v-else
+    >El tiempo limite para completar la documentación ha cerrado. Si tenes algún requerimiento que quedo pendiente, contactate con Gabinete Joven para que te asesoren.</b-message>
     <b-loading :is-full-page="false" :active.sync="isLoading"></b-loading>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["saveLetterUrl"],
+  props: ["saveLetterUrl", "deadlineDocuments"],
   data() {
     return {
       pendiente: false,

@@ -398,6 +398,12 @@ class Installer
                 'group' => 'varios',
                 'autoload' => true,
             ], [
+                'key' => 'deadline-documents',
+                'value' => '2019-6-20 23:59:59',
+                'type' => 'date',
+                'group' => 'varios',
+                'autoload' => true,
+            ], [
                 'key' => 'stat-votes',
                 'value' => '0',
                 'type' => 'integer',

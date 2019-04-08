@@ -20,11 +20,17 @@
     <p>Para asignar al co-responsable, hace clic sobre el boton con el escudo
       <i class="fas fa-shield-alt"></i>. No te preocupes. Podes cambiarlo cuando quieras.
     </p>
+    <br>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+      v-if="isFormClosed(deadlineDocuments)"
+    >El tiempo limite para completar la documentación ha cerrado. Si tenes algún requerimiento que quedo pendiente, contactate con Gabinete Joven para que te asesoren.</b-message>
     <table class="table is-fullwidth text-middle">
       <thead>
         <tr>
           <th>Nombre y apellido</th>
-          <th class="has-text-centered">Acciones</th>
+          <th v-if="!isFormClosed(deadlineDocuments)" class="has-text-centered">Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -48,13 +54,13 @@
               <b-tooltip label="Quitar co-responsable" type="is-dark">
                 <a
                   @click="removeSecondInCharge(member.id)"
-                  v-if="user.groups[0].pivot.relation === 'responsable'"
+                  v-if="user.groups[0].pivot.relation === 'responsable' && !isFormClosed(deadlineDocuments)"
                   class="tag is-delete"
                 ></a>
               </b-tooltip>
             </div>
           </td>
-          <td>
+          <td v-if="!isFormClosed(deadlineDocuments)">
             <p class="is-size-7"
                   v-if="!group.second_in_charge && member.pivot.relation !== 'responsable' && user.groups[0].pivot.relation === 'responsable'"
                 >
@@ -124,7 +130,7 @@
         <tr>
           <th>Email</th>
           <th class="has-text-centered" width="150px">Estado</th>
-          <th class="has-text-centered" width="60px">Acciones</th>
+          <th v-if="!isFormClosed(deadlineDocuments)" class="has-text-centered" width="60px">Acciones</th>
         </tr>
       </thead>
       <tbody v-if="cantSolicitudes > 0">
@@ -138,7 +144,7 @@
           <td class="has-text-centered">
             <i class="fas fa-clock fa-fw"></i>&nbsp;Solicitado
           </td>
-          <td class="has-text-centered">
+          <td v-if="!isFormClosed(deadlineDocuments)" class="has-text-centered">
             <button
               @click="openAcceptRequest(invitation.id, invitation.comment)"
               class="button is-outlined is-small is-success"
@@ -276,6 +282,7 @@ export default {
   props: [
     "teamUrl",
     "deadline",
+    "deadlineDocuments",
     "getGroupMembers",
     "assignGroupSecond",
     "deleteGroupSecond",

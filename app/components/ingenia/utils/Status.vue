@@ -200,7 +200,7 @@
         </li>
       </ul>
       <div class="notification is-info is-clearfix" v-if="invitacionesPendientes.length > 0">
-          <a href="/panel/perfil/invitaciones" class="button is-dark is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Ver invitaciones y solicitudes</a>
+          <router-link to="/panel/perfil/invitaciones" class="button is-dark is-dark is-pulled-right" style="margin-left:20px;margin-bottom:10px;">Ver invitaciones y solicitudes</router-link>
           <span class="is-600 is-size-5">
             <i class="fas fa-angle-double-right fa-lg fa-fw"></i> ¡Tenes invitaciones pendientes!</span>
           <p> 

@@ -1,8 +1,12 @@
 <template>
   <section>
-    <h1 class="subtitle is-3">Cambiar fecha de cierre de la convocatoria</h1>
-    <p>Aquí pueden modificar la fecha de cierre de la inscripción de los proyectos.<br>Una vez que se pasa esta fecha, se ocultan las opciones de carga de datos personales, cartas, etc.</p>
+    <h1 class="subtitle is-3">Cambiar fecha <u>de cierre</u> de proyectos</h1>
+    <p>Aquí pueden modificar la fecha de cierre de la inscripción de los proyectos.
+      <br>Una vez que se pasa esta fecha, los equipos si no subieron su proyecto, ya no podrán hacerlo.</p>
     <br>
+    <b-message type="is-warning">
+      <b>NOTA: Cuidar que esta fecha sea posterior o igual a la fecha limite para la documentación y los requerimientos. Para  cambiarlo, haga <router-link :to="{name:'adminFechaLimiteRequerimientos'}">clic aquí</router-link> </b>  
+    </b-message>
     <b-message type="is-warning">
       Nota: Al modificar este dato, tu sesión se cerrará, tendras que volver a loguearte.
     </b-message>

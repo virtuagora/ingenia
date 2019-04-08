@@ -8,6 +8,7 @@
       Ingresá el correo electrónico del integrante a invitar. Un email le llegará a su correo electrónico. Una vez que se registre, el participante quedará vinculado a tu proyecto.
       <br><b>Asegurate que sea el mail con el que inicia sesión. ¿El integrante ya ingresó usando FACEBOOK? En vez de invitarlo, decile que se una al equipo mandando una solicitud, ¡entrando en la página del proyecto y enviandola!</b>
     </b-message>
+    <section v-if="!isFormClosed(deadlineDocuments)">
     <h1 class="subtitle is-5 has-text-link">Quedan {{ 25 - invitations.length }} de invitaciones para enviar (por email) o solicitudes de participar.</h1>
     <div class="field is-grouped">
       <div class="control">
@@ -41,13 +42,19 @@
     <div class="notification is-success" v-show="response.ok">
       <i class="fas fa-check fa-fw"></i> Invitación enviada con éxito a {{emailSent}}.
     </div>
+    </section>
+    <b-message
+      class="has-text-centered"
+      type="is-warning"
+      v-else
+    >El tiempo limite para completar la documentación ha cerrado. Si tenes algún requerimiento que quedo pendiente, contactate con Gabinete Joven para que te asesoren.</b-message>
     <b-loading :active.sync="isLoading"></b-loading>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["sendInvitationUrl",'teamUrl'],
+  props: ["sendInvitationUrl",'teamUrl','deadlineDocuments'],
   data() {
     return {
       isLoading: false,
