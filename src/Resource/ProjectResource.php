@@ -4,6 +4,7 @@ namespace App\Resource;
 
 use App\Util\Exception\AppException;
 use App\Util\Paginator;
+use Carbon\Carbon;
 
 class ProjectResource extends Resource
 {
@@ -299,11 +300,16 @@ class ProjectResource extends Resource
         return $this->persist($project, $group, $data);
     }
 
-    // TODO comprobar deadline
     public function persist($project, $group, $data)
     {
         $v = $this->validation->fromSchema($this->retrieveSchema());
         $v->assert($data);
+
+        $deadline = Carbon::parse($this->options->getAutoloaded()['deadline-documents']);
+        $today = Carbon::now();
+        if ($today->gt($deadline)) {
+            throw new AppException('La convocatoria está cerrada');
+        }
 
         $localidad = $this->db->query('App:Locality')->findOrFail($data['locality_id']);
         $categoria = $this->db->query('App:Category')->findOrFail($data['category_id']);

@@ -284,6 +284,12 @@ class GroupResource extends Resource
     
     public function acceptInvitation($subject, $invitation)
     {
+        $deadline = Carbon::parse($this->options->getAutoloaded()['deadline-documents']);
+        $today = Carbon::now();
+        if ($today->gt($deadline)) {
+            throw new AppException('La convocatoria está cerrada');
+        }
+
         $user = $this->helper->getUserFromSubject($subject, ['groups']);
         // $invitation = $this->db->query('App:Invitation')->where([
         //     'id' => $invId,
@@ -419,6 +425,12 @@ class GroupResource extends Resource
 
     public function acceptRequest($subject, $invitation)
     {
+        $deadline = Carbon::parse($this->options->getAutoloaded()['deadline-documents']);
+        $today = Carbon::now();
+        if ($today->gt($deadline)) {
+            throw new AppException('La convocatoria está cerrada');
+        }
+
         $user = $invitation->user;
         if (count($user->groups)) {
             throw new AppException('User already has a group');
@@ -439,6 +451,12 @@ class GroupResource extends Resource
 
     public function updateLetter($subject, $group, $file)
     {
+        $deadline = Carbon::parse($this->options->getAutoloaded()['deadline-documents']);
+        $today = Carbon::now();
+        if ($today->gt($deadline)) {
+            throw new AppException('La convocatoria está cerrada');
+        }
+
         if (is_null($group->project->organization)) {
             throw new AppException('El proyecto no se realiza con una organización');
         }
@@ -489,6 +507,12 @@ class GroupResource extends Resource
     
     public function updateAgreement($subject, $group, $file)
     {
+        $deadline = Carbon::parse($this->options->getAutoloaded()['deadline-documents']);
+        $today = Carbon::now();
+        if ($today->gt($deadline)) {
+            throw new AppException('La convocatoria está cerrada');
+        }
+
         if ($file->getError() === UPLOAD_ERR_INI_SIZE || $file->getError() === UPLOAD_ERR_FORM_SIZE) {
             throw new AppException('El archivo excede el límite de tamaño permitido');
         } elseif ($file->getError() !== UPLOAD_ERR_OK) {
