@@ -445,6 +445,27 @@ class ProjectAction
         return $response->withRedirect($request->getHeaderLine('HTTP_REFERER'));
     }
 
+    public function postAdminReceiptUpload($request, $response, $params)
+    {
+        $subject = $request->getAttribute('subject');
+        $project = $this->helper->getEntityFromId(
+            'App:Project', 'pro', $params, ['group']
+        );
+        if (!$this->authorization->checkPermission($subject, 'coordin', $project)) {
+            throw new UnauthorizedException();
+        }
+        if (!$project->selected) {
+            throw new UnauthorizedException();
+        }
+        if (empty($request->getUploadedFiles()['archivo'])) {
+            throw new AppException('No se envió un archivo');
+        }
+        $data = $request->getParsedBody();
+        $archivo = $request->getUploadedFiles()['archivo'];
+        $this->projectResource->createReceipt($subject, $project, $data, $archivo);
+        return $response->withRedirect($request->getHeaderLine('HTTP_REFERER'));
+    }
+
      public function postSendReceipts($request, $response, $params)
     {
         $subject = $request->getAttribute('subject');
