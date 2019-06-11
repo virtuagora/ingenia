@@ -13,7 +13,7 @@
   <div class="container">
     <div class="section">
       <div class="is-pulled-right has-text-right">
-        <div class="buttons is-right">
+        <div class="buttons is-right no-print">
           <form action="/admin/project/{{project.id}}/receipts/approve" method="POST">
             <button type="submit" class="button is-success is-outlined" style="margin: 0 5px;">
               <i class="fas fa-check"></i>&nbsp;Aprobar</button>
@@ -31,7 +31,7 @@
         <p><i class="fas fa-check"></i>&nbsp;Rendición de gastos APROBADA</p>
         {% endif %}
         <br>
-      <a href="/administracion/proyectos" class="button is-small is-info"><i class="fas fa-reply"></i>&nbsp;Volver</a>
+      <a href="/administracion/proyectos" class="button is-small is-info no-print"><i class="fas fa-reply"></i>&nbsp;Volver</a>
       </div>
       <img src="/assets/img/ingenia2018.svg" class=" image" style="width:180px;">
       <br>
@@ -71,6 +71,11 @@
           {% endif %}
         </tbody>
       </table>
+      <div class="no-print">
+        <admin-subir-recibos 
+          form-url="{{path_for('postAdminReceiptUpload',{'pro':project.id})}}">
+        </admin-subir-recibos>
+      </div>
     </div>
   </div>
 {% endblock %}

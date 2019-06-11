@@ -50,7 +50,7 @@
             <th>Apellido y Nombre</th>
             <th>Email</th>
             <th width="90" class="has-text-centered">DNI</th>
-            <th width="50" class="has-text-centered">Tipo</th>
+            <th width="100" class="has-text-centered">Login</th>
             <th width="250" class="has-text-centered">
               <i class="fas fa-redo-alt"></i> Resetear
             </th>
@@ -71,16 +71,14 @@
         </b-tooltip>
             </td>
             <td class="has-text-centered">{{user.dni}}</td>
-            <td class="has-text-centered" v-if="user.subject.img_type === 0">
-              <i class="fa fa-envelope fa-lg fa-fw"></i>
-            </td>
-            <td class="has-text-centered" v-else>
-              <i class="fab fa-facebook fa-lg fa-fw"></i>
+            <td class="has-text-centered">
+              <i class="fa fa-envelope fa-lg fa-fw" v-if="user.password"></i>
+              <i class="fab fa-facebook fa-lg fa-fw" v-if="user.facebook"></i>
             </td>
             <td class="has-text-centered">
-              <a @click="openResetEmail(user)" class="button is-small" v-if="user.subject.img_type === 0">
+              <a @click="openResetEmail(user)" class="button is-small">
                 <i class="fas fa-redo-alt"></i>&nbsp;Email</a>
-              <a @click="openResetPassword(user)" class="button is-small" v-if="user.subject.img_type === 0">
+              <a @click="openResetPassword(user)" class="button is-small">
                 <i class="fas fa-redo-alt"></i>&nbsp;Password</a>
             </td>
           </tr>

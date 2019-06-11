@@ -135,8 +135,6 @@
     <b-table
       :data="projects"
       ref="table"
-      paginated
-      per-page="100"
     >
       <template slot-scope="props">
         <b-table-column field="id" label="#" width="40" numeric>{{ props.row.id }}</b-table-column>

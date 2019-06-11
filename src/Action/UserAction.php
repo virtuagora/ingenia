@@ -51,10 +51,21 @@ class UserAction
         $resultados->setUri($request->getUri());
         if ($this->authorization->checkPermission($subject, 'coordin')) {
             $resultados->makeVisible([
-                'dni', 'email','pending_email'
+                'dni', 'email','pending_email','password','facebook'
             ]);
         }
-        return $this->pagination->renderResponse($response, $resultados);
+        $resultadosCopy = $resultados->toArray();
+        if ($this->authorization->checkPermission($subject, 'coordin')) {
+                foreach ($resultadosCopy as &$usr) {
+                    if($usr['password']) {
+                        $usr['password'] = true;
+                    }
+                }
+        }
+        $data = $resultados->metadata();
+        $data['data'] = $resultadosCopy;
+        return $response->withJSON($data);
+        // return $this->pagination->renderResponse($response, $resultados);
     }
 
     // GET /user/{usr}

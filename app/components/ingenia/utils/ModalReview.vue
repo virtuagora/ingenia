@@ -40,11 +40,11 @@
             </div>
             <div class="field-body">
                <b-field>
-        <b-radio-button v-model="isSelected" :native-value="true" type="is-primary">
+        <b-radio-button v-model="isSelected" :disabled="points === 0" :native-value="true" type="is-primary">
           <span>
             <i class="fas fa-check"></i> Si</span>
         </b-radio-button>
-        <b-radio-button v-model="isSelected " :native-value="false" type="is-primary">
+        <b-radio-button v-model="isSelected" :disabled="points === 0" :native-value="false" type="is-primary">
           <span>
             <i class="fas fa-times"></i> No</span>
         </b-radio-button>
@@ -65,6 +65,7 @@
     <footer class="modal-card-foot">
       <button class="button is-link" type="button" @click="submit()">Guardar</button>
       <button class="button is-dark" type="button" @click="$parent.close()">Close</button>
+      <button class="button is-dark is-outlined is-pulled-right" type="button" @click="borrarEvaluacion()"><i class="fas fa-trash"></i>&nbsp;Borrar evaluacion</button>
     </footer>
   </div>
 </template>
@@ -82,7 +83,7 @@ export default {
       isLoading: false,
       theBudget: this.budget != null ? Number(this.budget) : null,
       isSelected: this.selected ? true : false,
-      points: this.quota
+      points: this.quota || 0
     };
   },
   methods: {
@@ -126,6 +127,27 @@ export default {
           });
           return false;
         });
+    },
+    borrarEvaluacion(){
+      this.isLoading = true;
+      this.$http.post(this.url, this.payloadNoEvaluado)
+          .then(response => {
+            this.$parent.close()
+            this.$snackbar.open({
+              message: "Evaluación guardada",
+              type: "is-success",
+              actionText: "Ok!"
+            });
+            location.reload()
+          })
+          .catch(error => {
+            console.error(error.message);
+            this.$snackbar.open({
+              message: "Error inesperado",
+              type: "is-danger",
+              actionText: "Cerrar"
+            });
+          });
     }
   },
   computed: {
@@ -135,6 +157,18 @@ export default {
         monto: this.isOptional(this.theBudget),
         seleccionado: this.isOptional(this.isSelected)
       }
+    },
+    payloadNoEvaluado: function(){
+      return {
+        puntaje: null,
+        monto: 0,
+        seleccionado: false
+      }
+    }
+  },
+  watch: {
+    points: function(newVal){
+      if(newVal === 0) this.isSelected = false
     }
   }
 };

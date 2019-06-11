@@ -10,7 +10,9 @@ import { VueMasonryPlugin } from 'vue-masonry';
 
 Validator.localize('es', es);
 
-Vue.use(VeeValidate);
+Vue.use(VeeValidate,{
+  locale: 'es'
+});
 Vue.use(VueMasonryPlugin);
 
 // VIRTUAGORA 2.0 COMPONENTS
@@ -50,6 +52,7 @@ import NavbarProject from './ingenia/project/NavbarProject'
 import PrintProject from './ingenia/project/PrintProject'
 import Status from "./ingenia/utils/Status";
 import Countdown from "./ingenia/utils/Countdown";
+import AdminSubirRecibos from "./ingenia/utils/AdminSubirRecibos";
 
 import VerProyectoButtonHeroIndex from "./ingenia/utils/VerProyectoButtonHeroIndex";
 import VerInvitacionesButtonHeroIndex from "./ingenia/utils/VerInvitacionesButtonHeroIndex";
@@ -181,6 +184,7 @@ window.vm = new Vue({ // eslint-disable-line no-new
     VerProyectoButtonHeroIndex,
     VerInvitacionesButtonHeroIndex,
     VerProyectoTabIndex,
+    AdminSubirRecibos,
     PrintProject,
     ProjectCarouselSmall
   },
