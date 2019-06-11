@@ -197,23 +197,24 @@ class AdminAction
             }
         } elseif ($opt == 'equipos') {
             $grupos = $this->db->query('App:Group', [
-            'users.locality.department',
+                'users.locality.department', 'project'
             ])->get();
             $writer->addRow([
-            'ID del equipo', 'Nombre del equipo', 'Cargo en equipo',
+            'ID proyecto', 'Nombre del equipo', 'Cargo en equipo',
             'DNI', 'Nombre/s', 'Apellidos/s',
             'Región',
             'Departamento',
             'Localidad',
             'Barrio', 'Dirección',
             'Fecha de nacimiento', 'Edad',
-            'Género', 'Teléfono', 'Email', 'Facebook'
+            'Género', 'Teléfono', 'Email', 'Facebook',
+            'Proyecto seleccionado'
             ]);
             foreach ($grupos as $gro) {
                 foreach ($gro->users as $usr) {
                     $cumple = Carbon::parse($usr->birthday);
                     $writer->addRowWithStyle([
-                    $gro->id, $gro->name, $usr->pivot->relation,
+                    $gro->project->id, $gro->name, $usr->pivot->relation,
                     $usr->dni, $usr->names, $usr->surnames,
                     $usr->locality->department->region_id,
                     $usr->locality->department->name,
@@ -221,6 +222,7 @@ class AdminAction
                     $usr->neighbourhood, $usr->address,
                     $cumple->toDateString(), $cumple->age,
                     $usr->gender, $usr->telephone, $usr->email, $usr->facebook,
+                    $gro->project->selected ? 'SI' : 'NO'
                     ], $defStyle);
                 }
             }
