@@ -147,53 +147,82 @@ class AdminAction
             'users', 'locality.department', 'project.locality.department'
             ])->get();
             $writer->addRow([
-            'ID', 'Nombre del equipo', 'Acerca del equipo', 'Región',
-            'Departamento', 'Localidad',
-            'Año de conformación', 'Participación en ediciones anteriores',
-            'Email', 'Teléfono', 'Web', 'Facebook',
-            'Organización que pertenece el equipo',
-            'Nombre del proyecto', 'Resumen', 'Fundamentación', 'Temática',
-            'Trabajo ya ejecutado', 'Región del proyecto',
-            'Departamento del proyecto', 'Localidad del proyecto',
-            'Barrios', 'Monto total solicitado',
-            'Organización con la que realizará las actividades',
+            'ID', 'Nombre equipo', 'Info equipo',
+            'Región equipo', 'Departamento equipo', 'Localidad equipo',
+            'Año de conformación', 'Ediciones anteriores participando',
+            'Email equipo', 'Teléfono equipo', 'Web equipo', 'Facebook equipo',
+            'Organización que pertenece el equipo', 'Temas trabajo organización',
+            // 'Región organización', 'Departamento organización', 'Localidad organización',
+            'Email organización', 'Telófono organización',
+            'Facebook organización', 'Web organización',
+            'Nombre del proyecto', 'Resumen', 'Fundamentación',
+            'Temática', 'Trabajo ya ejecutado',
+            'Región proyecto', 'Departamento proyecto',
+            'Localidad proyecto', 'Barrios',
+            'Objetivos', 'Calendario actividades', 'Presupuesto', 'Monto solicitado',
+            'Organización que colabora', 'Temas de trabajo org colaboradora',
+            // 'Región org colaboradora', 'Departamento org colaboradora', 'Localidad org colaboradora',
+            'Email org colaboradora', 'Teléfono org colaboradora',
+            'Facebook org colaboradora', 'Web org colaboradora', 
             'Cantidad de integrantes', '¿Equipo completo?', '¿Responsable asignado?',
             '¿DNI validados de todo el equipo?', '¿Cartas cargadas?',
-            '¿Cargó imagen?', 'Puntaje', 'Rendición enviada', 'Rendición aprobada', 'Observaciones',
-            'Condición',
+            '¿Cargó imagen?', 'Puntaje', 'Rendición enviada', 'Rendición aprobada',
+            'Observaciones', 'Condición', 'Monto otorgado'
             ]);
             foreach ($grupos as $gro) {
-                if ($gro->project) {
+                if (isset($gro->project)) {
                     $pro = $gro->project;
                 } else {
-                    $pro = (object) [
-                    'name' => null, 'abstract' => null, 'foundation' => null, 'category' => null,
-                    'previous_work' => null, 'locality' => (object) [
-                    'name' => null, 'custom' => null, 'department' => (object) [
-                    'name' => null,
-                    'region_id' => null,
-                    ],
-                    ],
-                    'neighbourhoods' => [], 'total_budget' => null, 'organization' => null,
-                    'has_image' => null, 'notes' => null,'budget_sent' => null,'budget_approved' => null, 'selected' => null,
-                    ];
+                    continue;
                 }
-                $writer->addRowWithStyle([
-                $gro->id, $gro->name, $gro->description, $gro->locality->department->region_id,
-                $gro->locality->department->name, $gro->locality->custom? $gro->locality_other: $gro->locality->name,
-                $gro->year, implode(', ', $gro->previous_editions),
-                $gro->email, $gro->telephone, $gro->web, $gro->facebook,
-                $gro->parent_organization? $gro->parent_organization['name']: null,
-                $pro->name, $pro->abstract, $pro->foundation, $pro->category? $pro->category->name: null,
-                $pro->previous_work, $pro->locality->department->region_id,
-                $pro->locality->department->name, $pro->locality->custom? $pro->locality_other: $pro->locality->name,
-                implode(', ', $pro->neighbourhoods), $pro->total_budget,
-                $pro->organization? $pro->organization['name']: null,
-                $gro->users->count(), $gro->full_team? 'SI': 'NO', $gro->second_in_charge? 'SI': 'NO',
-                $gro->verified_team? 'SI': 'NO', ($gro->uploaded_agreement && $gro->uploaded_letter)? 'SI': 'NO',
-                $pro->has_image? 'SI': 'NO', $gro->quota, $pro->budget_sent? 'SI': 'NO', $pro->budget_approved? 'SI': 'NO', $pro->notes,
-                $pro->selected? 'Seleccionado': null,
-                ], $defStyle);
+                $insert = [
+                    $gro->id, $gro->name, $gro->description,
+                    $gro->locality->department->region_id, $gro->locality->department->name, $gro->locality->custom? $gro->locality_other: $gro->locality->name,
+                    $gro->year, implode(', ', $gro->previous_editions),
+                    $gro->email, $gro->telephone, $gro->web, $gro->facebook,
+                ];
+                if (isset($gro->parent_organization)) {
+                    $temp = [
+                        $gro->parent_organization['name'],
+                        implode(', ', $gro->parent_organization['topics']),
+                        $gro->parent_organization['email'] ?? null,
+                        $gro->parent_organization['telephone'] ?? null,
+                        $gro->parent_organization['facebook'] ?? null,
+                        $gro->parent_organization['web'] ?? null,
+                    ];
+                } else {
+                    $temp = [null, null, null, null, null, null];
+                }
+                $insert = array_merge($insert, $temp);
+                $temp = [
+                    $pro->name, $pro->abstract, $pro->foundation,
+                    $pro->category? $pro->category->name: null, $pro->previous_work,
+                    $pro->locality->department->region_id, $pro->locality->department->name,
+                    $pro->locality->custom? $pro->locality_other: $pro->locality->name, implode(', ', $pro->neighbourhoods),
+                    json_encode($pro->goals), json_encode($pro->schedule), json_encode($pro->budget), $pro->total_budget,
+                ];
+                $insert = array_merge($insert, $temp);
+                if (isset($pro->organization)) {
+                    $temp = [
+                        $pro->organization['name'],
+                        implode(', ', $pro->organization['topics']),
+                        $pro->organization['email'] ?? null,
+                        $pro->organization['telephone'] ?? null,
+                        $pro->organization['facebook'] ?? null,
+                        $pro->organization['web'] ?? null,
+                    ];
+                } else {
+                    $temp = [null, null, null, null, null, null];
+                }
+                $insert = array_merge($insert, $temp);
+                $temp = [
+                    $gro->users->count(), $gro->full_team? 'SI': 'NO', $gro->second_in_charge? 'SI': 'NO',
+                    $gro->verified_team? 'SI': 'NO', ($gro->uploaded_agreement && $gro->uploaded_letter)? 'SI': 'NO',
+                    $pro->has_image? 'SI': 'NO', $gro->quota, $pro->budget_sent? 'SI': 'NO', $pro->budget_approved? 'SI': 'NO',
+                    $pro->notes, $pro->selected? 'Seleccionado': ($gro->quota? 'Rechazado': 'No evaluado'), $pro->granted_budget,
+                ];
+                $insert = array_merge($insert, $temp);
+                $writer->addRowWithStyle($insert, $defStyle);
             }
         } elseif ($opt == 'equipos') {
             $grupos = $this->db->query('App:Group', [
@@ -211,6 +240,9 @@ class AdminAction
             'Proyecto seleccionado'
             ]);
             foreach ($grupos as $gro) {
+                if (is_null($gro->project)) {
+                    continue;
+                }
                 foreach ($gro->users as $usr) {
                     $cumple = Carbon::parse($usr->birthday);
                     $writer->addRowWithStyle([
