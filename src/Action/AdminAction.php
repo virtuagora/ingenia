@@ -199,7 +199,7 @@ class AdminAction
                     $pro->category? $pro->category->name: null, $pro->previous_work,
                     $pro->locality->department->region_id, $pro->locality->department->name,
                     $pro->locality->custom? $pro->locality_other: $pro->locality->name, implode(', ', $pro->neighbourhoods),
-                    json_encode($pro->goals), json_encode($pro->schedule), json_encode($pro->budget), $pro->total_budget,
+                    substr(json_encode($pro->goals), 0, 32000), substr(json_encode($pro->schedule), 0, 32000), substr(json_encode($pro->budget), 0, 32000), $pro->total_budget,
                 ];
                 $insert = array_merge($insert, $temp);
                 if (isset($pro->organization)) {
