@@ -82,7 +82,6 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title has-text-centered has-text-black is-700 has-text-centered">¡Proyectos Seleccionados!</h1>
-      {% if date() > date(options()['deadline']) %}
         <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí sus grandes ideas y acompañalos!</h1>
         <project-carousel-small :only-one="false" :selected="true" get-projects-url="{{path_for('lisPro')}}">
           <div class="notification has-text-centered">
@@ -90,15 +89,7 @@
             Cargando...
           </div>
         </project-carousel-small>
-      {% else %}
-        <h1 class="subtitle has-text-centered has-text-black is-5">¡Informate, bancalos, descubrí grandes ideas y acompañalos!</h1>
-        <project-carousel-small get-projects-url="{{path_for('lisPro20Random')}}">
-          <div class="notification has-text-centered">
-            <i class="fas fa-cog fa-spin fa-lg"></i>
-            Cargando...
-          </div>
-        </project-carousel-small>
-      {% endif %}
+      
       <br>
       <p class="has-text-centered">
         <a class=" button is-medium is-black" href="/proyectos">Visitá el catálogo</a>
