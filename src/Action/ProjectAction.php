@@ -496,6 +496,7 @@ class ProjectAction
             throw new UnauthorizedException();
         }
         $project->budget_approved = true;
+        $project->budget_sent = true;
         $project->save();
         return $response->withRedirect($request->getHeaderLine('HTTP_REFERER'));
 

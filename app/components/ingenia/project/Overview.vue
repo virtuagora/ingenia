@@ -2,37 +2,51 @@
   <section>
     <section class="section">
       <div class="container">
-         <div class="media" v-if="project.selected">
-              <div class="media-left is-hidden-touch">
-                <img
-                  src="/assets/img/trophy.svg"
-                  class="logo-header image is-centered"
-                  style="width:75px"
-                >
-              </div>
-              <div class="media-content has-text-centered-touch" style="overflow: visible">
-                <img
-                  src="/assets/img/trophy.svg"
-                  class="logo-header image is-centered is-hidden-desktop"
-                  style="width:85px; margin-bottom:25px;"
-                >
-                <h1 class="title is-size-2-desktop is-size-3-touch is-600">¡Proyecto seleccionado!</h1>
-                <h1
-                  class="subtitle is-5 is-size-6-touch"
-                >Este proyecto ha sido selecciondo como beneficiario del programa Ingenia, ¡Felicidades equipo!</h1>
-              </div>
-            </div>
-             <!-- <div class="media" v-else>
-              <div class="media-left is-hidden-touch">
-                <img src="/assets/img/friendship.svg" class="logo-header image is-centered" style="width:85px">
-              </div>
-              <div class="media-content has-text-centered-touch" style="overflow: visible">
-                <img src="/assets/img/friendship.svg" class="logo-header image is-centered is-hidden-desktop" style="width:85px; margin-bottom:25px;">
-                <h1 class="title is-size-2-desktop is-size-3-touch is-600">Proyecto participante</h1>
-                <h1 class="subtitle is-5 is-size-6-touch">Gracias por participar de la convocatoria de la 9na edición de Ingenia. ¡Nos vemos en la próxima!</h1>
-              </div>
-            </div>-->
-            <hr v-if="project.selected">
+        <div class="columns is-centered">
+          <div class="column is-10">
+        <div class="media" v-if="project.selected">
+          <div class="media-left is-hidden-touch">
+            <img
+              src="/assets/img/trophy.svg"
+              class="logo-header image is-centered"
+              style="width:75px"
+            />
+          </div>
+          <div class="media-content has-text-centered-touch" style="overflow: visible">
+            <img
+              src="/assets/img/trophy.svg"
+              class="logo-header image is-centered is-hidden-desktop"
+              style="width:85px; margin-bottom:25px;"
+            />
+            <h1 class="title is-size-2-desktop is-size-3-touch is-600">¡Proyecto seleccionado!</h1>
+            <h1
+              class="subtitle is-5 is-size-6-touch"
+            >Este proyecto ha sido selecciondo como beneficiario del programa Ingenia, ¡Felicidades equipo!</h1>
+          </div>
+        </div>
+        <div class="media" v-else>
+          <div class="media-left is-hidden-touch">
+            <img
+              src="/assets/img/friendship.svg"
+              class="logo-header image is-centered"
+              style="width:75px"
+            />
+          </div>
+          <div class="media-content has-text-centered-touch" style="overflow: visible">
+            <img
+              src="/assets/img/friendship.svg"
+              class="logo-header image is-centered is-hidden-desktop"
+              style="width:85px; margin-bottom:25px;"
+            />
+            <h1 class="title is-size-2-desktop is-size-3-touch is-600">Proyecto participante</h1>
+            <h1
+              class="subtitle is-5 is-size-6-touch"
+            >Gracias por participar de la convocatoria de la 10ma edición de Ingenia.</h1>
+          </div>
+        </div>
+          </div>
+        </div>
+        <hr />
         <nav class="level">
           <div class="level-item has-text-centered">
             <div>
@@ -61,14 +75,16 @@
           <div class="level-item has-text-centered" v-if="project.selected">
             <div>
               <p class="heading">Seleccionado</p>
-              <p class="title has-text-primary"><i class="fa fa-trophy"></i> SI</p>
+              <p class="title has-text-primary">
+                <i class="fa fa-trophy"></i> SI
+              </p>
             </div>
           </div>
         </nav>
-        <hr>
+        <hr />
         <div class="columns">
           <div class="column is-10 is-offset-1">
-            <br v-if="project.selected && user">
+            <br v-if="project.selected && user" />
             <article class="message" v-if="isAdmin || isCoordinator">
               <div class="message-body">
                 <a
@@ -113,27 +129,30 @@
                 </div>
               </div>
             </article>
-            <hr v-if="project.selected && user && (isAdmin || isCoordinator)">
-             <div class="box is-paddingless is-pulled-right is-hidden-touch" style="margin: 0 0 10px 10px; width: 35%">
-              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt>
+            <hr v-if="project.selected && user && (isAdmin || isCoordinator)" />
+            <div
+              class="box is-paddingless is-pulled-right is-hidden-touch"
+              style="margin: 0 0 10px 10px; width: 35%"
+            >
+              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt />
             </div>
-             <div class="box is-paddingless is-hidden-desktop">
-              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt>
+            <div class="box is-paddingless is-hidden-desktop">
+              <img :src="imageUrl" class="image" style="margin: 0 auto; border-radius:5px" alt />
             </div>
             <h3 class="is-size-3">
               <b>Descripción del proyecto</b>
             </h3>
             <p class="nl2br">{{project.abstract}}</p>
-            <br>
+            <br />
             <div class="buttons">
               <router-link
-              :to="{ name: 'projectImplementation'}"
-              class="button is-primary is-outlined is-medium"
-            >Conocé más del proyecto</router-link>
-            <router-link
-              :to="{ name: 'projectTeam'}"
-              class="button is-primary is-outlined is-medium"
-            >Conocé al equipo</router-link>
+                :to="{ name: 'projectImplementation'}"
+                class="button is-primary is-outlined is-medium"
+              >Conocé más del proyecto</router-link>
+              <router-link
+                :to="{ name: 'projectTeam'}"
+                class="button is-primary is-outlined is-medium"
+              >Conocé al equipo</router-link>
             </div>
             <div class="columns">
               <div class="column">
@@ -152,7 +171,7 @@
                 <p>{{project.neighbourhoods.join(', ')}}</p>
               </div>
             </div>
-            <br>
+            <br />
             <div class="notification is-primary">
               <div class="columns">
                 <div class="column is-hidden-mobile">
@@ -179,7 +198,11 @@
                 </div>
               </div>
             </div>
-            <latest-stories :isAdmin="isAdmin" :isCoordinator="isCoordinator" :project-id="project.id"></latest-stories>
+            <latest-stories
+              :isAdmin="isAdmin"
+              :isCoordinator="isCoordinator"
+              :project-id="project.id"
+            ></latest-stories>
           </div>
         </div>
       </div>
@@ -197,14 +220,14 @@
                 <span v-if="user !== null">¡{{user.names}}!</span> ¿Querés colaborar con el equipo?
               </h3>
               <p>¡Enviales una solicitud para ser parte!</p>
-              <br>
+              <br />
               <div v-if="user !== null && user.pending_tasks.length > 0">
                 <div class="notification is-warning">
                   <p>
                     <i class="fa fa-exclamation-circle fa-fw"></i>
                     <b>IMPORTANTE:</b> Antes debes completar todos tus datos personales para ser parte de un equipo INGENIA. Seguí los pasos indicados en tu panel de usuario.
                   </p>
-                  <br>
+                  <br />
                   <a href="/panel" class="button is-dark is-outlined is-medium">Ir al panel</a>
                 </div>
               </div>
@@ -256,7 +279,7 @@
             <div class="has-text-centered">
               <h3 class="is-size-3 is-600">Entrá en Ingenia+Virtuágora para poder participar</h3>
               <p>Vas a poder bancar los proyectos y dejar comentarios, hasta podrias llegar a ser parte de un equipo!</p>
-              <br>
+              <br />
               <a href="/panel" class="button is-warning is-medium">
                 <i class="fas fa-sign-in-alt fa-fw"></i>&nbsp;Iniciar sesión
               </a>

@@ -167,8 +167,9 @@
           <p class="is-size-7" v-if="props.row.group.full_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Aun no cumple el cupo mínimo</p>
           <p class="is-size-7" v-if="props.row.group.second_in_charge == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta asignar co-responsable</p>
           <p class="is-size-7" v-if="props.row.group.verified_team == false"><i class="fas fa-times"></i>&nbsp;&nbsp;Faltan DNIs por verificar</p>
-          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta hacer la rendición</p>
-          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 1 && props.row.budget_approved == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta aprobar la rendición</p>
+          <p class="is-size-7" v-if="props.row.selected == true && props.row.budget_sent == 0"><i class="fas fa-times"></i>&nbsp;&nbsp;Falta que envien la rendición</p>
+          <p class="is-size-7 has-text-danger is-700" v-if="props.row.selected == true && props.row.budget_sent == 1 && props.row.budget_approved == 0"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp;Falta APROBAR la rendición</p>
+          <p class="is-size-7 has-text-success is-700" v-if="props.row.selected == true && props.row.budget_sent == 1 && props.row.budget_approved == 1"><i class="fas fa-check"></i>&nbsp;&nbsp;Rendicion aprobada</p>
         </b-table-column>
         <b-table-column label="Acciones">
           <p class="is-size-7"><a :href="'/project/'+props.row.id+'/print'" target="_blank">
