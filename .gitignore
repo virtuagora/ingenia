@@ -2,7 +2,7 @@
 /var/*
 /node_modules/*
 /.sass-cache/*
-composer.phar
+# composer.phar
 /node_modules/
 /.vscode/*
 app/settings.php
