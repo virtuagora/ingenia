@@ -46,7 +46,8 @@ class TwigExtension extends Twig_Extension
 
     public function asset($name)
     {
-        return $this->baseUrl().'/assets/'.$name;
+        // return $this->baseUrl().'/assets/'.$name;
+        return '/assets/'.$name;
     }
 
     // TODO analizar si agregar parametro $absolute
