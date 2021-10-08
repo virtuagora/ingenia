@@ -46,8 +46,8 @@ class TwigExtension extends Twig_Extension
 
     public function asset($name)
     {
-        // return $this->baseUrl().'/assets/'.$name;
-        return '/assets/'.$name;
+        return $this->baseUrl().'/assets/'.$name;
+        // return $'/assets/'.$name;
     }
 
     // TODO analizar si agregar parametro $absolute
@@ -64,8 +64,8 @@ class TwigExtension extends Twig_Extension
         if (method_exists($this->uri, 'getBaseUrl')) {
             return $this->uri->getBaseUrl();
         }
-
-        return rtrim(str_ireplace('index.php', '', $this->request->getUri()->getBaseUrl()), '/');
+        // return rtrim(str_ireplace('index.php', '', $this->request->getUri()->getBaseUrl()), '/');
+        return rtrim(str_ireplace(':80', '', str_ireplace('index.php', '', $this->request->getUri()->getBaseUrl())), '/');
     }
 
     public function isCurrentPath($name)
