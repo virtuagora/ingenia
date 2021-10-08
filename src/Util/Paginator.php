@@ -29,7 +29,7 @@ class Paginator
 
     public function setUri($uri)
     {
-        $this->uri = $uri; //->withQuery(http_build_query($uri));
+        $this->uri = str_ireplace(':80','',$uri); //->withQuery(http_build_query($uri));
     }
 
     public function items()
